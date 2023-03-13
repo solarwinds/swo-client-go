@@ -1,10 +1,15 @@
 # Solarwinds Observability Client for Golang (swo-client-go)
 
 The Solarwinds Observability Client is a Go client library for accessing the [Solarwinds Observability Api][].
+The resources that are currently supported are:
 
-Currently, **swo-client-go requires Go version 1.18 or greater**.  
+* Alerts
+* Dashboards
+* Notification Services
+
 ## Installation ##
 
+Currently, **swo-client-go requires Go version 1.18 or greater**.
 swo-client-go is compatible with modern Go releases in module mode, with Go installed:
 
 ```bash
@@ -24,11 +29,10 @@ and run `go get` without parameters.
 Finally, to use the top-of-trunk version of this repo, use the following command:
 
 ```bash
-go get github.com/solarwindscloud/swo-client-go/v1@master
+go get github.com/solarwindscloud/swo-client-go/v1@main
 ```
 
 ## Usage ##
-
 ```go
 // with go modules enabled (GO111MODULE=on or outside GOPATH)
 import "github.com/solarwindscloud/swo-client-go/v1"
@@ -54,7 +58,7 @@ NOTE: The [context](https://godoc.org/context) package, can be used to pass canc
 For more sample code snippets, head over to the [example](https://github.com/solarwindscloud/swo-client-go/tree/master/example) directory.
 
 ### Authentication ###
-The swo-client-go library handles Bearer token authentication by default using a valid auth token that must be provided to the client. The caller can provide a custom transport to the client which will allow for additional authentication methods or middleware if needed:
+The `swo-client-go` library handles Bearer token authentication by default using a valid auth token that must be provided to the client. The caller can provide a custom transport to the client which will allow for additional authentication methods or middleware if needed:
 
 ```go
 func main() {
@@ -71,14 +75,15 @@ func main() {
 ```
 
 ### Creating and Updating Resources ###
-All structs for SWO resources use pointer values for all non-repeated fields. This allows distinguishing between unset fields and those set to a zero-value. A helper function is available (swoClient.Ptr()) to easily create these pointers for common data types (e.g. string, bool, and int values). For example:
+All structs for SWO resources use pointer values for all non-repeated fields. This allows distinguishing between unset fields and those set to a zero-value. A helper function is available `swoClient.Ptr()` to help create these pointers for common data types (e.g. string, bool, and int values). For example:
 
 ```go
 // create a new private dashboard named "foo"
 dashboard := &swoClient.Dashboard{
-	Name:    swoClient.Ptr("my new dashboard"),
-	IsPrivate: swoClient.Ptr(true),
+  Name:      swoClient.Ptr("my new dashboard"),
+  IsPrivate: swoClient.Ptr(true),
 }
+
 resp, err := client.DashboardService().Create(ctx, dashboard)
 ```
 
@@ -95,14 +100,8 @@ TBD
 In general, swo-client-go follows [semver](https://semver.org/) as closely as possible for tagging releases of the package.
 
 ## License ##
-This library is distributed under the MIT-style license found in the [LICENSE](./LICENSE)
+This library is distributed under the Apache-style license found in the [LICENSE](./LICENSE)
 file.
-
-The SWO client enables access to:
-
-* Alerts
-* Dashboards
-* Notification Services
 
 ### Example usage
 See the ./example directory for working examples of using the api.
