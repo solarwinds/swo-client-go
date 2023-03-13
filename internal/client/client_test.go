@@ -87,7 +87,7 @@ func testObjects(t *testing.T, obj1 any, obj2 any) bool {
 
 // Test whether the marshaling of v produces JSON that corresponds
 // to the want string.
-func testJSONMarshal(t *testing.T, v interface{}, want string) {
+func testJSONMarshal(t *testing.T, v any, want string) {
 	t.Helper()
 	// Unmarshal the wanted JSON, to verify its correctness, and marshal it back
 	// to sort the keys.

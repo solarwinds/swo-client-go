@@ -34,7 +34,7 @@ func Ptr[T any](v T) *T {
 }
 
 func ConvertObject[T any](from any) (*T, error) {
-	b, err := json.Marshal(&from)
+	b, err := json.Marshal(from)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func ConvertObject[T any](from any) (*T, error) {
 		return nil, err
 	}
 
-	return &result, err
+	return &result, nil
 }
 
 // A debugging function which dumps the HTTP response to stdout.

@@ -108,7 +108,9 @@ func (service *NotificationsService) Delete(ctx context.Context, id string) erro
 		},
 		func(resp *deleteNotificationResponse) error {
 			if !resp.DeleteNotificationServiceConfiguration.Success {
-				return mutateError("delete notification failed", resp.DeleteNotificationServiceConfiguration.Code, resp.DeleteNotificationServiceConfiguration.Message)
+				return mutateError("delete notification failed",
+					resp.DeleteNotificationServiceConfiguration.Code,
+					resp.DeleteNotificationServiceConfiguration.Message)
 			}
 			return nil
 		})
