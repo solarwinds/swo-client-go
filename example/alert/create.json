@@ -1,0 +1,72 @@
+{
+  "name": "swo-client-go [CREATE_ALERT]",
+  "description": "Test swo-client-go...",
+  "severity": "CRITICAL",
+  "enabled": true,
+  "actions": [
+  {
+      "type": "email",
+      "configurationIds": [
+          "416"
+      ]
+  }
+  ],
+  "triggerResetActions": false,
+  "condition": [
+    {
+        "id": 0,
+        "type": "binaryOperator",
+        "operator": ">",
+        "operandIds": [
+            1,
+            4
+        ]
+    },
+    {
+        "id": 1,
+        "type": "aggregationOperator",
+        "operator": "AVG",
+        "operandIds": [
+            2,
+            3
+        ]
+    },
+    {
+        "id": 2,
+        "type": "metricField",
+        "fieldName": "synthetics.https.response.time",
+        "entityFilter": {
+            "type": "Website",
+            "ids": [
+                "e-1521946194448543744",
+                "e-1521947552186691584"
+            ]
+        },
+        "metricFilter": {
+            "operation": "AND",
+            "children": [
+                {
+                    "operation": "IN",
+                    "propertyName": "probe.city",
+                    "propertyValues": [
+                        "Tokyo",
+                        "Sao Paulo"
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "type": "constantValue",
+        "dataType": "string",
+        "value": "5m"
+    },
+    {
+        "id": 4,
+        "type": "constantValue",
+        "dataType": "number",
+        "value": "3000"
+    }
+  ]
+}

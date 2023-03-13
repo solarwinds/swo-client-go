@@ -1,0 +1,24 @@
+*.dll
+*.exe
+.DS_Store
+bin/
+internal/dev/
+dist/
+modules-dev/
+/pkg/
+.vagrant/
+*.backup
+*.log
+*.bak
+*~
+.*.swp
+.idea
+*.iml
+*.test
+*.iml
+
+
+# Test exclusions
+
+# Keep windows files with windows line endings
+*.winfile eol=crlf

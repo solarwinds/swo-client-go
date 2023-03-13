@@ -1,0 +1,17 @@
+{
+  "title": "swo-client-go [CREATE_NOTIFICATION]",
+  "description": "Testing notification client.",
+  "type": "email",
+  "settings": {
+    "addresses": [
+      {
+        "id": null,
+        "email": "test1@host.com"
+      },
+      {
+        "id": null,
+        "email": "test2@host.com"
+      }
+    ]
+  }
+}

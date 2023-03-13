@@ -1,0 +1,127 @@
+{
+  "name": "swo-client-go [CREATE_DASHBOARD]",
+  "description": null,
+  "isPrivate": true,
+  "categoryId": null,
+  "widgets": [
+    {
+      "id": "18c3da92-a742-44ff-89a2-83aa5d9b8dbe",
+      "title": null,
+      "type": "TimeSeries",
+      "properties": {
+        "chart": {
+          "formatOptions": {
+            "minUnitSize": -2,
+            "precision": 3,
+            "unit": "ms"
+          },
+          "max": "auto",
+          "showLegend": true,
+          "type": "LineChart",
+          "yAxisFormatOverrides": {
+            "conversionFactor": 1,
+            "precision": 3
+          },
+          "yAxisLabel": ""
+        },
+        "dataSource": {
+          "properties": {
+            "series": [
+              {
+                "aggregationFunction": "AVG",
+                "bucketGrouping": [],
+                "formatOptions": {
+                  "minUnitSize": -2,
+                  "precision": 3,
+                  "unit": "ms"
+                },
+                "groupBy": [
+                  "probe.region"
+                ],
+                "limit": {
+                  "isAscending": false,
+                  "value": 50
+                },
+                "metric": "synthetics.https.response.time",
+                "type": "metric"
+              },
+              {
+                "aggregationFunction": "AVG",
+                "bucketGrouping": [],
+                "formatOptions": {
+                  "precision": 3,
+                  "unit": "%"
+                },
+                "groupBy": [
+                  "probe.region"
+                ],
+                "limit": {
+                  "isAscending": false,
+                  "value": 50
+                },
+                "metric": "synthetics.error_rate",
+                "type": "metric"
+              }
+            ]
+          },
+          "type": "timeSeries"
+        },
+        "subtitle": "Widget with a TimeSeries chart.",
+        "title": "TimeSeries Widget"
+      }
+    },
+    {
+      "id": "122eb96b-198f-46fa-82b7-b9ca9c876aa1",
+      "title": null,
+      "type": "Kpi",
+      "properties": {
+        "dataSource": {
+          "properties": {
+            "includePercentageChange": true,
+            "isHigherBetter": false,
+            "series": [
+              {
+                "aggregationFunction": "AVG",
+                "bucketGrouping": [],
+                "formatOptions": {
+                  "minUnitSize": -2,
+                  "precision": 3,
+                  "unit": "ms"
+                },
+                "groupBy": [],
+                "limit": {
+                  "isAscending": false,
+                  "value": 50
+                },
+                "metric": "synthetics.https.response.time",
+                "type": "metric"
+              }
+            ]
+          },
+          "type": "kpi"
+        },
+        "linkLabel": "Linky",
+        "linkUrl": "https://www.solarwinds.com",
+        "subtitle": "Widget with a Kpi display.",
+        "title": "Kpi Widget",
+        "unit": "ms"
+      }
+    }
+  ],
+  "layout": [
+    {
+      "id": "18c3da92-a742-44ff-89a2-83aa5d9b8dbe",
+      "x": 4,
+      "y": 0,
+      "width": 4,
+      "height": 2
+    },
+    {
+      "id": "122eb96b-198f-46fa-82b7-b9ca9c876aa1",
+      "x": 0,
+      "y": 0,
+      "width": 4,
+      "height": 2
+    }
+  ]
+}
