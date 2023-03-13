@@ -29,12 +29,11 @@ func TestService_CreateDashboard(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
 
-	isPrivate := true
 	id := uuid.NewString()
 
 	input := CreateDashboardInput{
 		Name:       dashboardsMockData.fieldName,
-		IsPrivate:  &isPrivate,
+		IsPrivate:  Ptr(true),
 		CategoryId: &dashboardsMockData.fieldCategoryId,
 		Layout: []LayoutInput{
 			{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},
@@ -99,8 +98,6 @@ func TestService_ReadDashboard(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
 
-	isPrivate := true
-
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		gqlInput, err := getGraphQLInput[__getDashboardByIdInput](r)
 		if err != nil {
@@ -112,7 +109,7 @@ func TestService_ReadDashboard(t *testing.T) {
 				ById: &getDashboardByIdDashboardsDashboardQueriesByIdDashboard{
 					Id:        gqlInput.Id,
 					Name:      dashboardsMockData.fieldName,
-					IsPrivate: &isPrivate,
+					IsPrivate: Ptr(true),
 					UpdatedAt: dashboardsMockData.fieldUpdatedAt,
 					CreatedAt: dashboardsMockData.fieldUpdatedAt,
 					Category: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory{
@@ -142,7 +139,7 @@ func TestService_ReadDashboard(t *testing.T) {
 	want := &ReadDashboardResult{
 		Id:        id,
 		Name:      dashboardsMockData.fieldName,
-		IsPrivate: &isPrivate,
+		IsPrivate: Ptr(true),
 		UpdatedAt: dashboardsMockData.fieldUpdatedAt,
 		CreatedAt: dashboardsMockData.fieldUpdatedAt,
 		Category: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory{
@@ -169,12 +166,10 @@ func TestService_UpdateDashboard(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
 
-	isPrivate := false
-
 	input := UpdateDashboardInput{
 		Id:         "123",
 		Name:       dashboardsMockData.fieldName,
-		IsPrivate:  &isPrivate,
+		IsPrivate:  Ptr(true),
 		CategoryId: &dashboardsMockData.fieldCategoryId,
 		Layout: []LayoutInput{
 			{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},
