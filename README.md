@@ -62,15 +62,15 @@ The `swo-client-go` library handles Bearer token authentication by default using
 
 ```go
 func main() {
-	// A custom transport can be used for various needs like specialized server authentication.
-	transport := dev.NewUserSessionTransport(sessionId, csrfToken)
-	ctx := context.Background()
+  // A custom transport can be used for various needs like specialized server authentication.
+  transport := dev.NewUserSessionTransport(sessionId, csrfToken)
+  ctx := context.Background()
 
-	client := swoClient.NewClient(apiToken,
-		swoClient.TransportOption(transport),
-	)
+  client := swoClient.NewClient(apiToken,
+    swoClient.TransportOption(transport),
+  )
 
-	dashboard, err := client.DashboardService().Read(ctx, "123")
+  dashboard, err := client.DashboardService().Read(ctx, "123")
 }
 ```
 
@@ -78,13 +78,13 @@ func main() {
 All structs for SWO resources use pointer values for all non-repeated fields. This allows distinguishing between unset fields and those set to a zero-value. A helper function is available `swoClient.Ptr()` to help create these pointers for common data types (e.g. string, bool, and int values). For example:
 
 ```go
-// create a new private dashboard named "foo"
-dashboard := &swoClient.Dashboard{
-  Name:      swoClient.Ptr("my new dashboard"),
+// create a new private dashboard named "My New Dashboard"
+input := &swoClient.CreateDashboardInput{
+  Name:      swoClient.Ptr("My New Dashboard"),
   IsPrivate: swoClient.Ptr(true),
 }
 
-resp, err := client.DashboardService().Create(ctx, dashboard)
+dashboard, err := client.DashboardService().Create(ctx, input)
 ```
 
 ### Testing code that uses `swo-client-go`
@@ -117,7 +117,7 @@ Please report bugs and request enhancements in the [Issues area](https://github.
 
 1. Clone the repository
 1. Enter the repository directory
-1. Build the provider using the Go `install` command:
+1. Build the client using the Go `install` command:
 
 ```shell
 go install
