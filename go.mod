@@ -1,4 +1,4 @@
-module github.com/solarwindscloud/terraform-provider-swo
+module github.com/solarwindscloud/swo-client-go
 
 go 1.18
 

@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/solarwindscloud/terraform-provider-swo/example"
-	swoClient "github.com/solarwindscloud/terraform-provider-swo/internal/client"
+	"github.com/solarwindscloud/swo-client-go/example"
+	swo "github.com/solarwindscloud/swo-client-go/pkg/client"
 )
 
 const (
@@ -24,13 +24,13 @@ func main() {
 	Update(ctx, client, read.Id)
 }
 
-func Create(ctx context.Context, client *swoClient.Client) *swoClient.CreateAlertDefinitionResult {
+func Create(ctx context.Context, client *swo.Client) *swo.CreateAlertDefinitionResult {
 	inputJson, err := ioutil.ReadFile(createFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var input swoClient.AlertDefinitionInput
+	var input swo.AlertDefinitionInput
 	if err = json.Unmarshal(inputJson, &input); err != nil {
 		log.Fatal(err)
 	}
@@ -43,7 +43,7 @@ func Create(ctx context.Context, client *swoClient.Client) *swoClient.CreateAler
 	return result
 }
 
-func Read(ctx context.Context, client *swoClient.Client, id string) *swoClient.ReadAlertDefinitionResult {
+func Read(ctx context.Context, client *swo.Client, id string) *swo.ReadAlertDefinitionResult {
 	result, err := client.AlertsService().Read(ctx, id)
 	if err != nil {
 		log.Fatal(err)
@@ -52,13 +52,13 @@ func Read(ctx context.Context, client *swoClient.Client, id string) *swoClient.R
 	return result
 }
 
-func Update(ctx context.Context, client *swoClient.Client, id string) *swoClient.UpdateAlertDefinitionResult {
+func Update(ctx context.Context, client *swo.Client, id string) *swo.UpdateAlertDefinitionResult {
 	inputJson, err := ioutil.ReadFile(createFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var input swoClient.AlertDefinitionInput
+	var input swo.AlertDefinitionInput
 	if err = json.Unmarshal(inputJson, &input); err != nil {
 		log.Fatal(err)
 	}
@@ -73,7 +73,7 @@ func Update(ctx context.Context, client *swoClient.Client, id string) *swoClient
 	return result
 }
 
-func Delete(ctx context.Context, client *swoClient.Client, id string) {
+func Delete(ctx context.Context, client *swo.Client, id string) {
 	if err := client.AlertsService().Delete(ctx, id); err != nil {
 		log.Fatal(err)
 	}

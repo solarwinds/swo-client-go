@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/solarwindscloud/terraform-provider-swo/example"
-	swoClient "github.com/solarwindscloud/terraform-provider-swo/internal/client"
+	"github.com/solarwindscloud/swo-client-go/example"
+	swo "github.com/solarwindscloud/swo-client-go/pkg/client"
 )
 
 const (
@@ -24,13 +24,13 @@ func main() {
 	Update(ctx, client, *read)
 }
 
-func Create(ctx context.Context, client *swoClient.Client) *swoClient.CreateNotificationResult {
+func Create(ctx context.Context, client *swo.Client) *swo.CreateNotificationResult {
 	inputJson, err := ioutil.ReadFile(createFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var input swoClient.CreateNotificationInput
+	var input swo.CreateNotificationInput
 	if err = json.Unmarshal(inputJson, &input); err != nil {
 		log.Fatal(err)
 	}
@@ -43,7 +43,7 @@ func Create(ctx context.Context, client *swoClient.Client) *swoClient.CreateNoti
 	return result
 }
 
-func Read(ctx context.Context, client *swoClient.Client, id string, notificationType string) *swoClient.ReadNotificationResult {
+func Read(ctx context.Context, client *swo.Client, id string, notificationType string) *swo.ReadNotificationResult {
 	result, err := client.NotificationsService().Read(ctx, id, notificationType)
 	if err != nil {
 		log.Fatal(err)
@@ -52,13 +52,13 @@ func Read(ctx context.Context, client *swoClient.Client, id string, notification
 	return result
 }
 
-func Update(ctx context.Context, client *swoClient.Client, notification swoClient.ReadNotificationResult) {
-	input, err := swoClient.ConvertObject[swoClient.UpdateNotificationInput](notification)
+func Update(ctx context.Context, client *swo.Client, notification swo.ReadNotificationResult) {
+	input, err := swo.ConvertObject[swo.UpdateNotificationInput](notification)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	input.Title = swoClient.Ptr(*input.Title + "->[UPDATE_NOTIFICATION]")
+	input.Title = swo.Ptr(*input.Title + "->[UPDATE_NOTIFICATION]")
 
 	_, err = client.NotificationsService().Update(ctx, *input)
 	if err != nil {
@@ -66,7 +66,7 @@ func Update(ctx context.Context, client *swoClient.Client, notification swoClien
 	}
 }
 
-func Delete(ctx context.Context, client *swoClient.Client, id string) {
+func Delete(ctx context.Context, client *swo.Client, id string) {
 	if err := client.NotificationsService().Delete(ctx, id); err != nil {
 		log.Fatal(err)
 	}

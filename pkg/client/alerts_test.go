@@ -7,7 +7,7 @@ import (
 
 var (
 	mockAlertId              = "43a1743c-91ca-43ee-a37e-df01902d2dc4"
-	mockAlertName            = "swo-client-go_test-alert"
+	mockAlertName            = "swo-client-go [test-alert]"
 	mockAlertDescription     = "testing alert creation from swo-client-go"
 	mockAlertDefinitionInput = func(name string, description string) AlertDefinitionInput {
 		operatorGt := ">"
@@ -73,7 +73,7 @@ var (
 
 		return &getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition{
 			Id:                id,
-			Name:              "terraform-provider-swo-test-alert",
+			Name:              "swo-client-go [test-alert]",
 			Description:       &description,
 			Enabled:           false,
 			OrganizationId:    "140638900734749696",

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	swoClient "github.com/solarwindscloud/terraform-provider-swo/internal/client"
+	swo "github.com/solarwindscloud/swo-client-go/pkg/client"
 )
 
 var (
@@ -13,13 +13,15 @@ var (
 	baseUrlVar  = "SWO_BASE_URL"
 )
 
-func Setup() (context.Context, *swoClient.Client) {
+func Setup() (context.Context, *swo.Client) {
 	baseUrl := getEnvVar(baseUrlVar)
 	apiToken := getEnvVar(apiTokenVar)
+
 	ctx := context.Background()
-	client := swoClient.NewClient(apiToken,
-		swoClient.BaseUrlOption(baseUrl),
-		swoClient.DebugOption(true),
+
+	client := swo.NewClient(apiToken,
+		swo.BaseUrlOption(baseUrl),
+		swo.DebugOption(true),
 	)
 
 	if client == nil {

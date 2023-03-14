@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/solarwindscloud/terraform-provider-swo/example"
-	swoClient "github.com/solarwindscloud/terraform-provider-swo/internal/client"
+	"github.com/solarwindscloud/swo-client-go/example"
+	swo "github.com/solarwindscloud/swo-client-go/pkg/client"
 )
 
 const (
@@ -24,13 +24,13 @@ func main() {
 	Update(ctx, client, *read)
 }
 
-func Create(ctx context.Context, client *swoClient.Client) *swoClient.CreateDashboardResult {
+func Create(ctx context.Context, client *swo.Client) *swo.CreateDashboardResult {
 	inputJson, err := ioutil.ReadFile(createFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var input swoClient.CreateDashboardInput
+	var input swo.CreateDashboardInput
 	if err = json.Unmarshal(inputJson, &input); err != nil {
 		log.Fatal(err)
 	}
@@ -43,7 +43,7 @@ func Create(ctx context.Context, client *swoClient.Client) *swoClient.CreateDash
 	return result
 }
 
-func Read(ctx context.Context, client *swoClient.Client, id string) *swoClient.ReadDashboardResult {
+func Read(ctx context.Context, client *swo.Client, id string) *swo.ReadDashboardResult {
 	result, err := client.DashboardsService().Read(ctx, id)
 	if err != nil {
 		log.Fatal(err)
@@ -52,8 +52,8 @@ func Read(ctx context.Context, client *swoClient.Client, id string) *swoClient.R
 	return result
 }
 
-func Update(ctx context.Context, client *swoClient.Client, dashboard swoClient.ReadDashboardResult) *swoClient.UpdateDashboardResult {
-	input, err := swoClient.ConvertObject[swoClient.UpdateDashboardInput](dashboard)
+func Update(ctx context.Context, client *swo.Client, dashboard swo.ReadDashboardResult) *swo.UpdateDashboardResult {
+	input, err := swo.ConvertObject[swo.UpdateDashboardInput](dashboard)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,7 +68,7 @@ func Update(ctx context.Context, client *swoClient.Client, dashboard swoClient.R
 	return result
 }
 
-func Delete(ctx context.Context, client *swoClient.Client, id string) {
+func Delete(ctx context.Context, client *swo.Client, id string) {
 	if err := client.DashboardsService().Delete(ctx, id); err != nil {
 		log.Fatal(err)
 	}
