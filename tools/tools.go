@@ -3,6 +3,6 @@
 package tools
 
 import (
-	// Documentation generation
+	// GraphQL code generation tool
 	_ "github.com/Khan/genqlient"
 )

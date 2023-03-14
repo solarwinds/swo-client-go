@@ -1,6 +1,7 @@
-# Solarwinds Observability Client for Golang (swo-client-go)
+# Solarwinds Observability Client for Golang
+## swo-client-go ##
 
-The Solarwinds Observability Client is a Go client library for accessing the [Solarwinds Observability Api][].
+The Solarwinds Observability Client is a Go client library for accessing the [Solarwinds Observability Api]().
 The resources that are currently supported are:
 
 * Alerts
@@ -8,7 +9,6 @@ The resources that are currently supported are:
 * Notification Services
 
 ## Installation ##
-
 Currently, **swo-client-go requires Go version 1.18 or greater**.
 swo-client-go is compatible with modern Go releases in module mode, with Go installed:
 
@@ -58,16 +58,16 @@ NOTE: The [context](https://godoc.org/context) package, can be used to pass canc
 For more sample code snippets, head over to the [example](https://github.com/solarwindscloud/swo-client-go/tree/master/example) directory.
 
 ### Authentication ###
-The `swo-client-go` library handles Bearer token authentication by default using a valid auth token that must be provided to the client. The caller can provide a custom transport to the client which will allow for additional authentication methods or middleware if needed:
+The `swo-client-go` library handles Bearer token authentication by default using a valid api token **(SWOKEN)** that must be provided to the client. The caller can provide a custom transport to the client which will allow for additional authentication methods or middleware if needed:
 
 ```go
 func main() {
   // A custom transport can be used for various needs like specialized server authentication.
-  transport := dev.NewUserSessionTransport(sessionId, csrfToken)
+  transport := NewUserSessionTransport(sessionId, csrfToken)
   ctx := context.Background()
 
-  client := swoClient.NewClient(apiToken,
-    swoClient.TransportOption(transport),
+  client := swo.NewClient(apiToken,
+    swo.TransportOption(transport),
   )
 
   dashboard, err := client.DashboardService().Read(ctx, "123")
@@ -75,26 +75,17 @@ func main() {
 ```
 
 ### Creating and Updating Resources ###
-All structs for SWO resources use pointer values for all non-repeated fields. This allows distinguishing between unset fields and those set to a zero-value. A helper function is available `swoClient.Ptr()` to help create these pointers for common data types (e.g. string, bool, and int values). For example:
+All structs for SWO resources use pointer values for all non-repeated fields. This allows distinguishing between unset fields and those set to a zero-value. A helper function is available `Ptr()` to help create these pointers for common data types (e.g. string, bool, and int values). For example:
 
 ```go
 // create a new private dashboard named "My New Dashboard"
-input := &swoClient.CreateDashboardInput{
-  Name:      swoClient.Ptr("My New Dashboard"),
-  IsPrivate: swoClient.Ptr(true),
+input := &CreateDashboardInput{
+  Name:      swo.Ptr("My New Dashboard"),
+  IsPrivate: swo.Ptr(true),
 }
 
 dashboard, err := client.DashboardService().Create(ctx, input)
 ```
-
-### Testing code that uses `swo-client-go`
-TBD
-
-### Integration Tests ###
-TBD
-
-## Contributing ##
-TBD
 
 ## Versioning ##
 In general, swo-client-go follows [semver](https://semver.org/) as closely as possible for tagging releases of the package.
@@ -110,11 +101,9 @@ See the ./example directory for working examples of using the api.
 Please report bugs and request enhancements in the [Issues area](https://github.com/solarwindscloud/swo-client-go/issues) of this repo.
 
 ## Requirements
-
 - [Go](https://golang.org/doc/install) >= 1.18
 
 ## Building The Client
-
 1. Clone the repository
 1. Enter the repository directory
 1. Build the client using the Go `install` command:
@@ -124,4 +113,13 @@ go install
 ```
 
 ## Developing the Client
-TBD
+The SWO api is a GraphQL endpoint that allows for simple extensions to the the client library. There are a few steps required to generate code from new schemas, queries, and mutations. The tool that performs the code generation is called [genqlient](github.com/Khan/genqlient) and is part of the tools in this project.
+
+To add new queries and mutations simply add your GQL to the ./graphql/ folder in this project. There are a few existing services there as an example. The GQL is separated by service in the same way the client api is. If adding support for a new service to the project you must also include the new files in the `./graphql/genqlient.yaml` configuration so the genqlient tool knows to generate code for them.
+
+Once you are ready to generate new code simply run the tool against the `./graphql/` folder.
+```shell
+cd graphql
+go run github.com/Khan/genqlient
+```
+The resulting Go code is output to the `./pkg/client/genqlient_generated.go` file and can now be used for development.
