@@ -66,8 +66,10 @@ jobs:
             curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
               | sh -s -- -b $(go env GOPATH)/bin v${GOLANGCI_LINT_VERSION}
             golangci-lint run
-      - store_artifacts:
+      - store_test_results:
           path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results 
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
