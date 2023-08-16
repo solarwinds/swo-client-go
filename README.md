@@ -58,12 +58,12 @@ NOTE: The [context](https://godoc.org/context) package, can be used to pass canc
 For more sample code snippets, head over to the [example](https://github.com/solarwindscloud/swo-client-go/tree/master/example) directory.
 
 ### Authentication ###
-The `swo-client-go` library handles Bearer token authentication by default using a valid api token **(SWOKEN)** that must be provided to the client. The caller can provide a custom transport to the client which will allow for additional authentication methods or middleware if needed:
+The `swo-client-go` library handles Bearer token authentication by default using a valid api token that must be provided to the client. The caller can provide a custom transport to the client which will allow for additional authentication methods or middleware if needed:
 
 ```go
 func main() {
   // A custom transport can be used for various needs like specialized server authentication.
-  transport := NewUserSessionTransport(sessionId, csrfToken)
+  transport := NewCustomTransport(myOptions)
   ctx := context.Background()
 
   client := swo.NewClient(apiToken,
