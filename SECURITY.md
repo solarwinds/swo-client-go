@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, please email security@solarwinds.com. Details on our security and disclosure policies can be found at https://www.solarwinds.com/information-security.
+To report a vulnerability, please email security@solarwinds.com. Details about our security and disclosure policies can be found at https://www.solarwinds.com/information-security.
