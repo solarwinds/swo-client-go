@@ -20,7 +20,7 @@ jobs:
           go-version: ${{ matrix.go }}
       - name: Verify Modules
         run: go mod verify
-      - uses: golangci/golangci-lint-action@v3
+      - uses: golangci/golangci-lint-action@v2
         with:
           version: v1.54
       - name: Test
