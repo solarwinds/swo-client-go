@@ -5,7 +5,7 @@ operations:
 - alerts.graphql
 - dashboards.graphql
 - notifications.graphql
-generated: ../internal/client/genqlient_generated.go
+generated: ../pkg/client/genqlient_generated.go
 optional: pointer
 bindings:
   DateTime:
