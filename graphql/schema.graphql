@@ -408,9 +408,6 @@ type AlertConditionNodeEntityFilter {
 }
 
 input AlertConditionNodeEntityFilterInput {
-  """**DEPRECATED:** Use the `types` field instead"""
-  type: String!
-
   """Filter by Entity types"""
   types: [String!]
 
