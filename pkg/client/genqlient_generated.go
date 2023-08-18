@@ -63,8 +63,6 @@ const (
 )
 
 type AlertConditionNodeEntityFilterInput struct {
-	// **DEPRECATED:** Use the `types` field instead
-	Type string `json:"type"`
 	// Filter by Entity types
 	Types []string `json:"types"`
 	// Filter by Entity IDs
@@ -74,9 +72,6 @@ type AlertConditionNodeEntityFilterInput struct {
 	// Filter by Entity fields - multiple fields are joined by `AND`
 	Fields []AlertConditionMatchFieldRuleInput `json:"fields"`
 }
-
-// GetType returns AlertConditionNodeEntityFilterInput.Type, and is useful for accessing the field via an interface.
-func (v *AlertConditionNodeEntityFilterInput) GetType() string { return v.Type }
 
 // GetTypes returns AlertConditionNodeEntityFilterInput.Types, and is useful for accessing the field via an interface.
 func (v *AlertConditionNodeEntityFilterInput) GetTypes() []string { return v.Types }
@@ -2367,14 +2362,8 @@ func (v *updateNotificationUpdateNotificationServiceConfigurationUpdateNotificat
 	return v.Description
 }
 
-func createAlertDefinition(
-	ctx context.Context,
-	client graphql.Client,
-	definition AlertDefinitionInput,
-) (*createAlertDefinitionResponse, error) {
-	req := &graphql.Request{
-		OpName: "createAlertDefinition",
-		Query: `
+// The query or mutation executed by createAlertDefinition.
+const createAlertDefinition_Operation = `
 mutation createAlertDefinition ($definition: AlertDefinitionInput!) {
 	alertMutations {
 		createAlertDefinition(definition: $definition) {
@@ -2414,7 +2403,16 @@ mutation createAlertDefinition ($definition: AlertDefinitionInput!) {
 		}
 	}
 }
-`,
+`
+
+func createAlertDefinition(
+	ctx context.Context,
+	client graphql.Client,
+	definition AlertDefinitionInput,
+) (*createAlertDefinitionResponse, error) {
+	req := &graphql.Request{
+		OpName: "createAlertDefinition",
+		Query:  createAlertDefinition_Operation,
 		Variables: &__createAlertDefinitionInput{
 			Definition: definition,
 		},
@@ -2433,14 +2431,8 @@ mutation createAlertDefinition ($definition: AlertDefinitionInput!) {
 	return &data, err
 }
 
-func createDashboard(
-	ctx context.Context,
-	client graphql.Client,
-	input CreateDashboardInput,
-) (*createDashboardResponse, error) {
-	req := &graphql.Request{
-		OpName: "createDashboard",
-		Query: `
+// The query or mutation executed by createDashboard.
+const createDashboard_Operation = `
 mutation createDashboard ($input: CreateDashboardInput!) {
 	createDashboard(input: $input) {
 		code
@@ -2483,7 +2475,16 @@ mutation createDashboard ($input: CreateDashboardInput!) {
 		}
 	}
 }
-`,
+`
+
+func createDashboard(
+	ctx context.Context,
+	client graphql.Client,
+	input CreateDashboardInput,
+) (*createDashboardResponse, error) {
+	req := &graphql.Request{
+		OpName: "createDashboard",
+		Query:  createDashboard_Operation,
 		Variables: &__createDashboardInput{
 			Input: input,
 		},
@@ -2502,14 +2503,8 @@ mutation createDashboard ($input: CreateDashboardInput!) {
 	return &data, err
 }
 
-func createNotification(
-	ctx context.Context,
-	client graphql.Client,
-	configuration CreateNotificationServiceConfigurationInput,
-) (*createNotificationResponse, error) {
-	req := &graphql.Request{
-		OpName: "createNotification",
-		Query: `
+// The query or mutation executed by createNotification.
+const createNotification_Operation = `
 mutation createNotification ($configuration: createNotificationServiceConfigurationInput!) {
 	createNotificationServiceConfiguration(configuration: $configuration) {
 		code
@@ -2526,7 +2521,16 @@ mutation createNotification ($configuration: createNotificationServiceConfigurat
 		}
 	}
 }
-`,
+`
+
+func createNotification(
+	ctx context.Context,
+	client graphql.Client,
+	configuration CreateNotificationServiceConfigurationInput,
+) (*createNotificationResponse, error) {
+	req := &graphql.Request{
+		OpName: "createNotification",
+		Query:  createNotification_Operation,
 		Variables: &__createNotificationInput{
 			Configuration: configuration,
 		},
@@ -2545,6 +2549,15 @@ mutation createNotification ($configuration: createNotificationServiceConfigurat
 	return &data, err
 }
 
+// The query or mutation executed by deleteAlertDefinition.
+const deleteAlertDefinition_Operation = `
+mutation deleteAlertDefinition ($deleteAlertDefinitionId: ID!) {
+	alertMutations {
+		deleteAlertDefinition(id: $deleteAlertDefinitionId)
+	}
+}
+`
+
 func deleteAlertDefinition(
 	ctx context.Context,
 	client graphql.Client,
@@ -2552,13 +2565,7 @@ func deleteAlertDefinition(
 ) (*deleteAlertDefinitionResponse, error) {
 	req := &graphql.Request{
 		OpName: "deleteAlertDefinition",
-		Query: `
-mutation deleteAlertDefinition ($deleteAlertDefinitionId: ID!) {
-	alertMutations {
-		deleteAlertDefinition(id: $deleteAlertDefinitionId)
-	}
-}
-`,
+		Query:  deleteAlertDefinition_Operation,
 		Variables: &__deleteAlertDefinitionInput{
 			DeleteAlertDefinitionId: deleteAlertDefinitionId,
 		},
@@ -2577,14 +2584,8 @@ mutation deleteAlertDefinition ($deleteAlertDefinitionId: ID!) {
 	return &data, err
 }
 
-func deleteDashboard(
-	ctx context.Context,
-	client graphql.Client,
-	input DeleteDashboardInput,
-) (*deleteDashboardResponse, error) {
-	req := &graphql.Request{
-		OpName: "deleteDashboard",
-		Query: `
+// The query or mutation executed by deleteDashboard.
+const deleteDashboard_Operation = `
 mutation deleteDashboard ($input: DeleteDashboardInput!) {
 	deleteDashboard(input: $input) {
 		code
@@ -2592,7 +2593,16 @@ mutation deleteDashboard ($input: DeleteDashboardInput!) {
 		message
 	}
 }
-`,
+`
+
+func deleteDashboard(
+	ctx context.Context,
+	client graphql.Client,
+	input DeleteDashboardInput,
+) (*deleteDashboardResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteDashboard",
+		Query:  deleteDashboard_Operation,
 		Variables: &__deleteDashboardInput{
 			Input: input,
 		},
@@ -2611,14 +2621,8 @@ mutation deleteDashboard ($input: DeleteDashboardInput!) {
 	return &data, err
 }
 
-func deleteNotification(
-	ctx context.Context,
-	client graphql.Client,
-	input DeleteNotificationServiceConfigurationInput,
-) (*deleteNotificationResponse, error) {
-	req := &graphql.Request{
-		OpName: "deleteNotification",
-		Query: `
+// The query or mutation executed by deleteNotification.
+const deleteNotification_Operation = `
 mutation deleteNotification ($input: DeleteNotificationServiceConfigurationInput!) {
 	deleteNotificationServiceConfiguration(input: $input) {
 		success
@@ -2626,7 +2630,16 @@ mutation deleteNotification ($input: DeleteNotificationServiceConfigurationInput
 		message
 	}
 }
-`,
+`
+
+func deleteNotification(
+	ctx context.Context,
+	client graphql.Client,
+	input DeleteNotificationServiceConfigurationInput,
+) (*deleteNotificationResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteNotification",
+		Query:  deleteNotification_Operation,
 		Variables: &__deleteNotificationInput{
 			Input: input,
 		},
@@ -2645,16 +2658,8 @@ mutation deleteNotification ($input: DeleteNotificationServiceConfigurationInput
 	return &data, err
 }
 
-func getAlertDefinitions(
-	ctx context.Context,
-	client graphql.Client,
-	filter AlertFilterInput,
-	paging *PagingInput,
-	sortBy *SortInput,
-) (*getAlertDefinitionsResponse, error) {
-	req := &graphql.Request{
-		OpName: "getAlertDefinitions",
-		Query: `
+// The query or mutation executed by getAlertDefinitions.
+const getAlertDefinitions_Operation = `
 query getAlertDefinitions ($filter: AlertFilterInput!, $paging: PagingInput, $sortBy: SortInput) {
 	alertQueries {
 		alertDefinitions(filter: $filter, paging: $paging, sortBy: $sortBy) {
@@ -2696,7 +2701,18 @@ query getAlertDefinitions ($filter: AlertFilterInput!, $paging: PagingInput, $so
 		}
 	}
 }
-`,
+`
+
+func getAlertDefinitions(
+	ctx context.Context,
+	client graphql.Client,
+	filter AlertFilterInput,
+	paging *PagingInput,
+	sortBy *SortInput,
+) (*getAlertDefinitionsResponse, error) {
+	req := &graphql.Request{
+		OpName: "getAlertDefinitions",
+		Query:  getAlertDefinitions_Operation,
 		Variables: &__getAlertDefinitionsInput{
 			Filter: filter,
 			Paging: paging,
@@ -2717,14 +2733,8 @@ query getAlertDefinitions ($filter: AlertFilterInput!, $paging: PagingInput, $so
 	return &data, err
 }
 
-func getDashboardById(
-	ctx context.Context,
-	client graphql.Client,
-	id string,
-) (*getDashboardByIdResponse, error) {
-	req := &graphql.Request{
-		OpName: "getDashboardById",
-		Query: `
+// The query or mutation executed by getDashboardById.
+const getDashboardById_Operation = `
 query getDashboardById ($id: ID!) {
 	dashboards {
 		byId(id: $id) {
@@ -2764,7 +2774,16 @@ query getDashboardById ($id: ID!) {
 		}
 	}
 }
-`,
+`
+
+func getDashboardById(
+	ctx context.Context,
+	client graphql.Client,
+	id string,
+) (*getDashboardByIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "getDashboardById",
+		Query:  getDashboardById_Operation,
 		Variables: &__getDashboardByIdInput{
 			Id: id,
 		},
@@ -2783,15 +2802,8 @@ query getDashboardById ($id: ID!) {
 	return &data, err
 }
 
-func getNotification(
-	ctx context.Context,
-	client graphql.Client,
-	configurationId string,
-	configurationType string,
-) (*getNotificationResponse, error) {
-	req := &graphql.Request{
-		OpName: "getNotification",
-		Query: `
+// The query or mutation executed by getNotification.
+const getNotification_Operation = `
 query getNotification ($configurationId: String!, $configurationType: String!) {
 	user {
 		currentOrganization {
@@ -2807,7 +2819,17 @@ query getNotification ($configurationId: String!, $configurationType: String!) {
 		}
 	}
 }
-`,
+`
+
+func getNotification(
+	ctx context.Context,
+	client graphql.Client,
+	configurationId string,
+	configurationType string,
+) (*getNotificationResponse, error) {
+	req := &graphql.Request{
+		OpName: "getNotification",
+		Query:  getNotification_Operation,
 		Variables: &__getNotificationInput{
 			ConfigurationId:   configurationId,
 			ConfigurationType: configurationType,
@@ -2827,15 +2849,8 @@ query getNotification ($configurationId: String!, $configurationType: String!) {
 	return &data, err
 }
 
-func updateAlertDefinition(
-	ctx context.Context,
-	client graphql.Client,
-	definition AlertDefinitionInput,
-	updateAlertDefinitionId string,
-) (*updateAlertDefinitionResponse, error) {
-	req := &graphql.Request{
-		OpName: "updateAlertDefinition",
-		Query: `
+// The query or mutation executed by updateAlertDefinition.
+const updateAlertDefinition_Operation = `
 mutation updateAlertDefinition ($definition: AlertDefinitionInput!, $updateAlertDefinitionId: ID!) {
 	alertMutations {
 		updateAlertDefinition(definition: $definition, id: $updateAlertDefinitionId) {
@@ -2875,7 +2890,17 @@ mutation updateAlertDefinition ($definition: AlertDefinitionInput!, $updateAlert
 		}
 	}
 }
-`,
+`
+
+func updateAlertDefinition(
+	ctx context.Context,
+	client graphql.Client,
+	definition AlertDefinitionInput,
+	updateAlertDefinitionId string,
+) (*updateAlertDefinitionResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateAlertDefinition",
+		Query:  updateAlertDefinition_Operation,
 		Variables: &__updateAlertDefinitionInput{
 			Definition:              definition,
 			UpdateAlertDefinitionId: updateAlertDefinitionId,
@@ -2895,14 +2920,8 @@ mutation updateAlertDefinition ($definition: AlertDefinitionInput!, $updateAlert
 	return &data, err
 }
 
-func updateDashboard(
-	ctx context.Context,
-	client graphql.Client,
-	input UpdateDashboardInput,
-) (*updateDashboardResponse, error) {
-	req := &graphql.Request{
-		OpName: "updateDashboard",
-		Query: `
+// The query or mutation executed by updateDashboard.
+const updateDashboard_Operation = `
 mutation updateDashboard ($input: UpdateDashboardInput!) {
 	updateDashboard(input: $input) {
 		code
@@ -2930,7 +2949,16 @@ mutation updateDashboard ($input: UpdateDashboardInput!) {
 		}
 	}
 }
-`,
+`
+
+func updateDashboard(
+	ctx context.Context,
+	client graphql.Client,
+	input UpdateDashboardInput,
+) (*updateDashboardResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateDashboard",
+		Query:  updateDashboard_Operation,
 		Variables: &__updateDashboardInput{
 			Input: input,
 		},
@@ -2949,14 +2977,8 @@ mutation updateDashboard ($input: UpdateDashboardInput!) {
 	return &data, err
 }
 
-func updateNotification(
-	ctx context.Context,
-	client graphql.Client,
-	configuration UpdateNotificationServiceConfigurationInput,
-) (*updateNotificationResponse, error) {
-	req := &graphql.Request{
-		OpName: "updateNotification",
-		Query: `
+// The query or mutation executed by updateNotification.
+const updateNotification_Operation = `
 mutation updateNotification ($configuration: UpdateNotificationServiceConfigurationInput!) {
 	updateNotificationServiceConfiguration(input: $configuration) {
 		code
@@ -2973,7 +2995,16 @@ mutation updateNotification ($configuration: UpdateNotificationServiceConfigurat
 		}
 	}
 }
-`,
+`
+
+func updateNotification(
+	ctx context.Context,
+	client graphql.Client,
+	configuration UpdateNotificationServiceConfigurationInput,
+) (*updateNotificationResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateNotification",
+		Query:  updateNotification_Operation,
 		Variables: &__updateNotificationInput{
 			Configuration: configuration,
 		},

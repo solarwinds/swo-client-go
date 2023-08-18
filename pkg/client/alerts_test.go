@@ -14,7 +14,7 @@ var (
 		operatorMax := "MAX"
 
 		alertExpression := AlertFilterExpressionInput{Operation: FilterOperationEq}
-		entityFilter := AlertConditionNodeEntityFilterInput{Type: "DeviceVolume"}
+		entityFilter := AlertConditionNodeEntityFilterInput{Types: []string{"DeviceVolume"}}
 
 		dataTypeString := "string"
 		dataTypeNumber := "number"
