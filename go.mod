@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/Khan/genqlient v0.6.0
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.3.1
 	github.com/sirupsen/logrus v1.9.3
 )
 
