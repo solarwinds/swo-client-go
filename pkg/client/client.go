@@ -29,6 +29,7 @@ type ServiceAccessor interface {
 	AlertsService() AlertsCommunicator
 	DashboardsService() DashboardsCommunicator
 	NotificationsService() NotificationsCommunicator
+	WebsiteService() WebsiteCommunicator
 }
 
 // Client implements ServiceAccessor
@@ -47,6 +48,7 @@ type Client struct {
 	alertsService        AlertsCommunicator
 	dashboardsService    DashboardsCommunicator
 	notificationsService NotificationsCommunicator
+	websiteService       WebsiteCommunicator
 }
 
 // Each service derives from the service type.
@@ -133,6 +135,11 @@ func (c *Client) DashboardsService() DashboardsCommunicator {
 // A subset of the API that deals with Notifications.
 func (c *Client) NotificationsService() NotificationsCommunicator {
 	return c.notificationsService
+}
+
+// A subset of the API that deals with Websites.
+func (c *Client) WebsiteService() WebsiteCommunicator {
+	return c.websiteService
 }
 
 // Returns the string that will be placed in the User-Agent header. It ensures

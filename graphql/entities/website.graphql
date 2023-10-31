@@ -1,0 +1,152 @@
+query getWebsiteById($id: ID!) {
+  entities {
+    byId(id: $id) {
+      ... on Website {
+        ...WebsiteEntityBasicMetadata
+      }
+    }
+  }
+}
+
+fragment WebsiteEntityBasicMetadata on Website {
+  id
+  type
+  name
+  url
+  displayName
+  createdTime
+  updatedTime
+  lastSeenTime
+  maxUnknownPeriodMinutes
+  isUnknown
+  # related
+  extensions
+  # services
+  features
+  lockReleaseTime
+  monitoring {
+    options {
+      isAvailabilityActive
+      isRumActive
+    }
+  }
+}
+
+mutation createWebsiteMutation($input: CreateWebsiteInput!) {
+  dem {
+    createWebsite(input: $input) {
+      id
+    }
+  }
+}
+
+mutation updateWebsiteMutation($input: PublicUpdateWebsiteInput!) {
+  dem {
+    updateWebsite(input: $input) {
+      id
+    }
+  }
+}
+
+mutation deleteWebsiteMutation($input: DeleteWebsiteInput!) {
+  dem {
+    deleteWebsite(input: $input) {
+      ... on DeleteWebsiteSuccess {
+        id
+      }
+    }
+  }
+}
+
+# {
+#     "operationName": "updateWebsiteMutation",
+#     "variables": {
+#         "input": {
+#             "id": "e-1653524651233509376",
+#             "name": "RobS Test (changed)",
+#             "url": "google.com",
+#             "availabilityCheckSettings": {
+#                 "testIntervalInSeconds": 300,
+#                 "protocols": [
+#                     "HTTP",
+#                     "HTTPS"
+#                 ],
+#                 "testFrom": {
+#                     "type": "REGION",
+#                     "values": [
+#                         "NA",
+#                         "AS",
+#                         "EU",
+#                         "SA",
+#                         "OC"
+#                     ]
+#                 },
+#                 "ssl": {
+#                     "enabled": true,
+#                     "daysPriorToExpiration": 30,
+#                     "ignoreIntermediateCertificates": false
+#                 },
+#                 "customHeaders": [
+#                     {
+#                         "name": "User-Agent",
+#                         "value": "solarwinds/1.0 (www.solarwinds.com/solarwinds-observability)"
+#                     },
+#                     {
+#                         "name": "Accept",
+#                         "value": "application/json"
+#                     }
+#                 ]
+#             },
+#             "rum": {
+#                 "apdexTimeInSeconds": 3,
+#                 "spa": true
+#             }
+#         }
+#     },
+# }
+
+# {
+#     "operationName": "createWebsiteMutation",
+#     "variables": {
+#         "input": {
+#             "name": "RobS Test",
+#             "url": "google.com",
+#             "availabilityCheckSettings": {
+#                 "testIntervalInSeconds": 300,
+#                 "protocols": [
+#                     "HTTP",
+#                     "HTTPS"
+#                 ],
+#                 "testFrom": {
+#                     "type": "REGION",
+#                     "values": [
+#                         "NA",
+#                         "AS",
+#                         "EU",
+#                         "SA",
+#                         "OC"
+#                     ]
+#                 },
+#                 "ssl": {
+#                     "enabled": true,
+#                     "daysPriorToExpiration": 30,
+#                     "ignoreIntermediateCertificates": false
+#                 },
+#                 "customHeaders": [
+#                     {
+#                         "name": "User-Agent",
+#                         "value": "solarwinds/1.0 (www.solarwinds.com/solarwinds-observability)"
+#                     },
+#                     {
+#                         "name": "Accept",
+#                         "value": "application/json"
+#                     }
+#                 ]
+#             },
+#             "rum": {
+#                 "spa": true,
+#                 "apdexTimeInSeconds": 3
+#             }
+#         }
+#     },
+# }
