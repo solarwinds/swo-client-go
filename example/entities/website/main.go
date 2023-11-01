@@ -72,7 +72,7 @@ func Update(ctx context.Context, client *swo.Client, id string) {
 }
 
 func Delete(ctx context.Context, client *swo.Client, id string) {
-	if err := client.AlertsService().Delete(ctx, id); err != nil {
+	if err := client.WebsiteService().Delete(ctx, id); err != nil {
 		log.Fatal(err)
 	}
 }
