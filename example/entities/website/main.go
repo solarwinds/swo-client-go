@@ -30,12 +30,12 @@ func Create(ctx context.Context, client *swo.Client) *swo.CreateWebsiteResult {
 		log.Fatal(err)
 	}
 
-	var input swo.CreateWebsiteInput
-	if err = json.Unmarshal(inputJson, &input); err != nil {
+	var website swo.CreateWebsiteInput
+	if err = json.Unmarshal(inputJson, &website); err != nil {
 		log.Fatal(err)
 	}
 
-	result, err := client.WebsiteService().Create(ctx, input)
+	result, err := client.WebsiteService().Create(ctx, website)
 	if err != nil {
 		log.Fatal(err)
 	}
