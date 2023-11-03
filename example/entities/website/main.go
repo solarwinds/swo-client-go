@@ -17,11 +17,11 @@ const (
 func main() {
 	ctx, client := example.Setup()
 
-	create := Create(ctx, client)
-	defer Delete(ctx, client, create.Id)
+	website := Create(ctx, client)
+	defer Delete(ctx, client, website.Id)
 
-	Read(ctx, client, create.Id)
-	Update(ctx, client, create.Id)
+	Read(ctx, client, website.Id)
+	Update(ctx, client, website.Id)
 }
 
 func GetCreateInput() swo.CreateWebsiteInput {
