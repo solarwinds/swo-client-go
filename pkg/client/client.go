@@ -118,6 +118,9 @@ func initServices(c *Client) error {
 	if c.notificationsService = NewNotificationsService(c); c.notificationsService == nil {
 		return serviceInitError("NotificationsService")
 	}
+	if c.websiteService = NewWebsiteService(c); c.websiteService == nil {
+		return serviceInitError("WebsiteService")
+	}
 
 	return nil
 }

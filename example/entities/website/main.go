@@ -24,7 +24,7 @@ func main() {
 	Update(ctx, client, create.Id)
 }
 
-func Create(ctx context.Context, client *swo.Client) *swo.CreateWebsiteResult {
+func GetCreateInput() swo.CreateWebsiteInput {
 	inputJson, err := ioutil.ReadFile(createFile)
 	if err != nil {
 		log.Fatal(err)
@@ -34,6 +34,12 @@ func Create(ctx context.Context, client *swo.Client) *swo.CreateWebsiteResult {
 	if err = json.Unmarshal(inputJson, &website); err != nil {
 		log.Fatal(err)
 	}
+
+	return website
+}
+
+func Create(ctx context.Context, client *swo.Client) *swo.CreateWebsiteResult {
+	website := GetCreateInput()
 
 	result, err := client.WebsiteService().Create(ctx, website)
 	if err != nil {
@@ -58,7 +64,7 @@ func Update(ctx context.Context, client *swo.Client, id string) {
 		log.Fatal(err)
 	}
 
-	var input swo.PublicUpdateWebsiteInput
+	var input swo.UpdateWebsiteInput
 	if err = json.Unmarshal(inputJson, &input); err != nil {
 		log.Fatal(err)
 	}

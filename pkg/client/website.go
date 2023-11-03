@@ -14,7 +14,7 @@ type ReadWebsiteResult = getWebsiteByIdResponse
 type WebsiteCommunicator interface {
 	Create(context.Context, CreateWebsiteInput) (*CreateWebsiteResult, error)
 	Read(context.Context, string) (*ReadWebsiteResult, error)
-	Update(context.Context, PublicUpdateWebsiteInput) error
+	Update(context.Context, UpdateWebsiteInput) error
 	Delete(context.Context, string) error
 }
 
@@ -57,7 +57,7 @@ func (as *WebsiteService) Read(ctx context.Context, id string) (*ReadWebsiteResu
 }
 
 // Updates the website with input for the given id.
-func (as *WebsiteService) Update(ctx context.Context, input PublicUpdateWebsiteInput) error {
+func (as *WebsiteService) Update(ctx context.Context, input UpdateWebsiteInput) error {
 	log.Printf("update website request. id=%s", input.Id)
 
 	if _, err := updateWebsiteMutation(ctx, as.client.gql, input); err != nil {

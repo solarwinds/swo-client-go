@@ -24,6 +24,26 @@ func (v *AlertActionInput) GetType() string { return v.Type }
 // GetConfigurationIds returns AlertActionInput.ConfigurationIds, and is useful for accessing the field via an interface.
 func (v *AlertActionInput) GetConfigurationIds() []string { return v.ConfigurationIds }
 
+// Part of Alert definition condition metadata. Alert definition condition data source defines what kind of data is used
+// for condition evaluations.
+type AlertConditionDataSource string
+
+const (
+	AlertConditionDataSourceMetric  AlertConditionDataSource = "METRIC"
+	AlertConditionDataSourceLog     AlertConditionDataSource = "LOG"
+	AlertConditionDataSourceEvent   AlertConditionDataSource = "EVENT"
+	AlertConditionDataSourceUnknown AlertConditionDataSource = "UNKNOWN"
+)
+
+// Part of Alert definition condition metadata. Alert definition condition data type defines additional narrowing down
+// of the data source (e.g. `events` could be further limited to `anomaly-events`).
+type AlertConditionDataType string
+
+const (
+	AlertConditionDataTypeAnomaly    AlertConditionDataType = "ANOMALY"
+	AlertConditionDataTypeKubernetes AlertConditionDataType = "KUBERNETES"
+)
+
 type AlertConditionMatchFieldRuleInput struct {
 	// Field name to apply filtering rule on
 	FieldName string `json:"fieldName"`
@@ -64,6 +84,23 @@ const (
 	AlertConditionMatchRuleTypeMatches  AlertConditionMatchRuleType = "MATCHES"
 )
 
+// Filtering input based on Alert definition condition metadata.
+// See documentation for individual types for details.
+type AlertConditionMetadataInput struct {
+	Scopes     []AlertConditionScope    `json:"scopes"`
+	DataSource AlertConditionDataSource `json:"dataSource"`
+	DataTypes  []AlertConditionDataType `json:"dataTypes"`
+}
+
+// GetScopes returns AlertConditionMetadataInput.Scopes, and is useful for accessing the field via an interface.
+func (v *AlertConditionMetadataInput) GetScopes() []AlertConditionScope { return v.Scopes }
+
+// GetDataSource returns AlertConditionMetadataInput.DataSource, and is useful for accessing the field via an interface.
+func (v *AlertConditionMetadataInput) GetDataSource() AlertConditionDataSource { return v.DataSource }
+
+// GetDataTypes returns AlertConditionMetadataInput.DataTypes, and is useful for accessing the field via an interface.
+func (v *AlertConditionMetadataInput) GetDataTypes() []AlertConditionDataType { return v.DataTypes }
+
 type AlertConditionNodeEntityFilterInput struct {
 	// Filter by Entity types
 	Types []string `json:"types"`
@@ -95,22 +132,25 @@ type AlertConditionNodeInput struct {
 	Id int `json:"id"`
 	// Node (operator) type. Supported values:
 	// - `aggregationOperator` (child of `binaryOperator`)
-	// - `binaryOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `binaryOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
 	// - `constantValue` (root, or child of `aggregationOperator`, `binaryOperator`)
-	// - `logicalOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `logicalOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
+	// - `attributeField` (child of `binaryOperator`)
 	// - `metricField` (child of `binaryOperator`, `aggregationOperator`)
 	// - `queryField` (child of `aggregationOperator`)
-	// - `unaryOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `unaryOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
+	// - `relationshipOperator` (root, or child of `logicalOperator`, `unaryOperator`)
 	Type string `json:"type"`
 	// Operator for combining operands. Supported values:
 	// - For aggregationOperator: `COUNT`, `MIN`, `MAX`, `AVG`, `SUM`, `LAST`
-	// - For binaryOperator: `=`, `!=`, `>`, `<`, `>=`, `<=`
+	// - For binaryOperator: `=`, `!=`, `>`, `<`, `>=`, `<=`, `IN`
 	// - For logicalOperator: `AND`, `OR`
 	// - For unaryOperator: `!`
+	// - For relationshipOperator: null
 	Operator *string `json:"operator"`
 	// Ordered list of child condition nodes IDs.
 	OperandIds []int `json:"operandIds"`
-	// Entity filter for `metricField` and `queryField` nodes. When defined (not null), node is scoped to entity.
+	// Entity filter for `metricField`, `queryField` and 'scopeField' nodes. When defined (not null), node is scoped to entity.
 	EntityFilter *AlertConditionNodeEntityFilterInput `json:"entityFilter"`
 	// Measurement filter for metric tags
 	MetricFilter *AlertFilterExpressionInput `json:"metricFilter"`
@@ -120,13 +160,14 @@ type AlertConditionNodeInput struct {
 	DataType *string `json:"dataType"`
 	// String representation of value for `constantValue` nodes.
 	Value *string `json:"value"`
-	// *DEPRECATED:* Field is deprecated, `source` is now defined by `namespace`.
-	// Source specification for `queryField` nodes.
-	Source *string `json:"source"`
+	// String representation of values for `constantValue` nodes in case of 'IN' operator
+	Values []string `json:"values"`
 	// Query specification for `queryField` nodes.
 	Query *string `json:"query"`
 	// Events/logs namespace (in Chainsaw) for `queryField` nodes.
 	Namespace *string `json:"namespace"`
+	// Group by specific metric tag(s).
+	GroupByMetricTag []string `json:"groupByMetricTag"`
 }
 
 // GetId returns AlertConditionNodeInput.Id, and is useful for accessing the field via an interface.
@@ -160,8 +201,8 @@ func (v *AlertConditionNodeInput) GetDataType() *string { return v.DataType }
 // GetValue returns AlertConditionNodeInput.Value, and is useful for accessing the field via an interface.
 func (v *AlertConditionNodeInput) GetValue() *string { return v.Value }
 
-// GetSource returns AlertConditionNodeInput.Source, and is useful for accessing the field via an interface.
-func (v *AlertConditionNodeInput) GetSource() *string { return v.Source }
+// GetValues returns AlertConditionNodeInput.Values, and is useful for accessing the field via an interface.
+func (v *AlertConditionNodeInput) GetValues() []string { return v.Values }
 
 // GetQuery returns AlertConditionNodeInput.Query, and is useful for accessing the field via an interface.
 func (v *AlertConditionNodeInput) GetQuery() *string { return v.Query }
@@ -169,11 +210,31 @@ func (v *AlertConditionNodeInput) GetQuery() *string { return v.Query }
 // GetNamespace returns AlertConditionNodeInput.Namespace, and is useful for accessing the field via an interface.
 func (v *AlertConditionNodeInput) GetNamespace() *string { return v.Namespace }
 
+// GetGroupByMetricTag returns AlertConditionNodeInput.GroupByMetricTag, and is useful for accessing the field via an interface.
+func (v *AlertConditionNodeInput) GetGroupByMetricTag() []string { return v.GroupByMetricTag }
+
+// Part of Alert definition condition metadata. Alert definition condition scope defines what is the condition scoped to.
+// See documentation for individual possibilities for details. Some combinations are allowed, such as `[ENTITY, TAG]`.
+type AlertConditionScope string
+
+const (
+	// Alert definition condition is evaluated separately for individual entities.
+	AlertConditionScopeEntity AlertConditionScope = "ENTITY"
+	// Alert definition condition is evaluated separately for individual values of a selected metric tag.
+	AlertConditionScopeTag AlertConditionScope = "TAG"
+	// Alert definition condition is evaluated once for the entire system (for all entities it can be applied to).
+	AlertConditionScopeWholeSystem AlertConditionScope = "WHOLE_SYSTEM"
+	// Alert definition condition is evaluated separately for individual combinations of parent-child entities.
+	AlertConditionScopeEntityRelationship AlertConditionScope = "ENTITY_RELATIONSHIP"
+)
+
 type AlertDefinitionInput struct {
 	// Alert definition name
 	Name string `json:"name"`
 	// Alert definition description
 	Description *string `json:"description"`
+	// Alert runbook link
+	RunbookLink *string `json:"runbookLink"`
 	// Alert definition severity
 	Severity AlertSeverity `json:"severity"`
 	// Enabled whether Alert definition shall be evaluated
@@ -194,6 +255,9 @@ func (v *AlertDefinitionInput) GetName() string { return v.Name }
 // GetDescription returns AlertDefinitionInput.Description, and is useful for accessing the field via an interface.
 func (v *AlertDefinitionInput) GetDescription() *string { return v.Description }
 
+// GetRunbookLink returns AlertDefinitionInput.RunbookLink, and is useful for accessing the field via an interface.
+func (v *AlertDefinitionInput) GetRunbookLink() *string { return v.RunbookLink }
+
 // GetSeverity returns AlertDefinitionInput.Severity, and is useful for accessing the field via an interface.
 func (v *AlertDefinitionInput) GetSeverity() AlertSeverity { return v.Severity }
 
@@ -209,11 +273,11 @@ func (v *AlertDefinitionInput) GetActions() []AlertActionInput { return v.Action
 // GetTriggerResetActions returns AlertDefinitionInput.TriggerResetActions, and is useful for accessing the field via an interface.
 func (v *AlertDefinitionInput) GetTriggerResetActions() *bool { return v.TriggerResetActions }
 
-// Input type for filtering
+// Generic filtering input.
 type AlertFilterExpressionInput struct {
 	// Name of the property to filter on.
 	PropertyName *string `json:"propertyName"`
-	// Value of the property for operations that expect single value such as EQ, NE, GT, ...
+	// Value of the property for operations that expect single value, such as EQ, NE, GT, ...
 	PropertyValue *string `json:"propertyValue"`
 	// Values of the property for operations expecting multiple values, such as IN.
 	PropertyValues []*string `json:"propertyValues"`
@@ -253,7 +317,7 @@ type AlertFilterInput struct {
 	// By trigger status
 	Triggered *bool `json:"triggered"`
 	// By list of Entity IDs
-	Entities []string `json:"entities"`
+	EntityIds []string `json:"entityIds"`
 	// By list of Entity types
 	EntityTypes []string `json:"entityTypes"`
 	// By alert filter expression
@@ -261,7 +325,10 @@ type AlertFilterInput struct {
 	// By action configuration ID
 	ActionConfigurationId *string `json:"actionConfigurationId"`
 	// By list of condition types
+	// @deprecated(reason: "Filter by `conditionMetadata` instead.")
 	ConditionTypes []ConditionType `json:"conditionTypes"`
+	// By specific properties of the alert definition
+	ConditionMetadata []AlertConditionMetadataInput `json:"conditionMetadata"`
 	// By swi-query expression
 	Query *string `json:"query"`
 }
@@ -284,8 +351,8 @@ func (v *AlertFilterInput) GetEnabled() *bool { return v.Enabled }
 // GetTriggered returns AlertFilterInput.Triggered, and is useful for accessing the field via an interface.
 func (v *AlertFilterInput) GetTriggered() *bool { return v.Triggered }
 
-// GetEntities returns AlertFilterInput.Entities, and is useful for accessing the field via an interface.
-func (v *AlertFilterInput) GetEntities() []string { return v.Entities }
+// GetEntityIds returns AlertFilterInput.EntityIds, and is useful for accessing the field via an interface.
+func (v *AlertFilterInput) GetEntityIds() []string { return v.EntityIds }
 
 // GetEntityTypes returns AlertFilterInput.EntityTypes, and is useful for accessing the field via an interface.
 func (v *AlertFilterInput) GetEntityTypes() []string { return v.EntityTypes }
@@ -299,10 +366,15 @@ func (v *AlertFilterInput) GetActionConfigurationId() *string { return v.ActionC
 // GetConditionTypes returns AlertFilterInput.ConditionTypes, and is useful for accessing the field via an interface.
 func (v *AlertFilterInput) GetConditionTypes() []ConditionType { return v.ConditionTypes }
 
+// GetConditionMetadata returns AlertFilterInput.ConditionMetadata, and is useful for accessing the field via an interface.
+func (v *AlertFilterInput) GetConditionMetadata() []AlertConditionMetadataInput {
+	return v.ConditionMetadata
+}
+
 // GetQuery returns AlertFilterInput.Query, and is useful for accessing the field via an interface.
 func (v *AlertFilterInput) GetQuery() *string { return v.Query }
 
-// Alert Definition severities
+// Alert definition severities.
 type AlertSeverity string
 
 const (
@@ -321,9 +393,7 @@ type AvailabilityCheckSettingsInput struct {
 	// Likewise, if the `operator` is CONTAINS and the `value` is not found on the page, the
 	// availability test will fail.
 	//
-	// If set to null, the string checking functionality will be disabled.
-	//
-	// If omitted, the previous configuration (if any) will stay in effect.
+	// If omitted or set to null, the string checking functionality will be disabled.
 	CheckForString *CheckForStringInput `json:"checkForString"`
 	// Configure how often availability tests should be performed.
 	//
@@ -334,9 +404,7 @@ type AvailabilityCheckSettingsInput struct {
 	Protocols []WebsiteProtocol `json:"protocols"`
 	// Configure cloud platforms of the synthetic availability test probes.
 	//
-	// If set to null, no particular cloud platform will be enforced.
-	//
-	// If omitted, the previous configuration (if any) will stay in effect.
+	// If omitted or set to null, no particular cloud platform will be enforced.
 	PlatformOptions *ProbePlatformOptionsInput `json:"platformOptions"`
 	// Configure locations of the synthetic availability test probes.
 	//
@@ -358,16 +426,12 @@ type AvailabilityCheckSettingsInput struct {
 	// Configure monitoring of SSL/TLS certificates validity. This option is relevant for HTTPS
 	// protocol only.
 	//
-	// If set to null, SSL monitoring will be disabled and its previous configuration discarded.
-	//
-	// If omitted, the previous configuration (if any) will stay in effect.
+	// If omitted or set to null, SSL monitoring will be disabled and its previous configuration discarded.
 	Ssl *SslMonitoringInput `json:"ssl"`
 	// Configure custom request headers to be sent with each availability test. It is possible to
 	// provide multiple headers with the same name.
 	//
-	// If set to null or an empty array, no custom headers will be sent.
-	//
-	// If omitted, the previous configuration (if any) will stay in effect.
+	// If omitted, set to null or set to an empty array, no custom headers will be sent.
 	CustomHeaders []CustomHeaderInput `json:"customHeaders"`
 }
 
@@ -428,18 +492,21 @@ type ConditionType string
 const (
 	ConditionTypeEntityMetric     ConditionType = "ENTITY_METRIC"
 	ConditionTypeStandaloneMetric ConditionType = "STANDALONE_METRIC"
+	ConditionTypeEntityLogQuery   ConditionType = "ENTITY_LOG_QUERY"
 	ConditionTypeLogQuery         ConditionType = "LOG_QUERY"
 	ConditionTypeAnomalyEvents    ConditionType = "ANOMALY_EVENTS"
+	ConditionTypeKubernetesEvents ConditionType = "KUBERNETES_EVENTS"
 	ConditionTypeUnknown          ConditionType = "UNKNOWN"
 )
 
 type CreateDashboardInput struct {
-	Name        string        `json:"name"`
-	Description *string       `json:"description"`
-	IsPrivate   *bool         `json:"isPrivate"`
-	CategoryId  *string       `json:"categoryId"`
-	Widgets     []WidgetInput `json:"widgets"`
-	Layout      []LayoutInput `json:"layout"`
+	Name        string         `json:"name"`
+	Description *string        `json:"description"`
+	IsPrivate   *bool          `json:"isPrivate"`
+	Mode        *DashboardMode `json:"mode"`
+	CategoryId  *string        `json:"categoryId"`
+	Widgets     []WidgetInput  `json:"widgets"`
+	Layout      []LayoutInput  `json:"layout"`
 }
 
 // GetName returns CreateDashboardInput.Name, and is useful for accessing the field via an interface.
@@ -450,6 +517,9 @@ func (v *CreateDashboardInput) GetDescription() *string { return v.Description }
 
 // GetIsPrivate returns CreateDashboardInput.IsPrivate, and is useful for accessing the field via an interface.
 func (v *CreateDashboardInput) GetIsPrivate() *bool { return v.IsPrivate }
+
+// GetMode returns CreateDashboardInput.Mode, and is useful for accessing the field via an interface.
+func (v *CreateDashboardInput) GetMode() *DashboardMode { return v.Mode }
 
 // GetCategoryId returns CreateDashboardInput.CategoryId, and is useful for accessing the field via an interface.
 func (v *CreateDashboardInput) GetCategoryId() *string { return v.CategoryId }
@@ -489,9 +559,14 @@ type CreateWebsiteInput struct {
 	Url string `json:"url"`
 	// Use this field to configure availability tests for the website.
 	//
-	// If it is omitted or set to null, the resulting Website entity will have no availability tests
-	// configured.
+	// You are required to configure at least availability monitoring or real user monitoring
+	// to be able to create website.
 	AvailabilityCheckSettings *AvailabilityCheckSettingsInput `json:"availabilityCheckSettings"`
+	// Use this field to configure real user monitoring (RUM) for the website.
+	//
+	// You are required to configure at least availability monitoring or real user monitoring
+	// to be able to create website.
+	Rum *RumMonitoringInput `json:"rum"`
 }
 
 // GetName returns CreateWebsiteInput.Name, and is useful for accessing the field via an interface.
@@ -505,6 +580,9 @@ func (v *CreateWebsiteInput) GetAvailabilityCheckSettings() *AvailabilityCheckSe
 	return v.AvailabilityCheckSettings
 }
 
+// GetRum returns CreateWebsiteInput.Rum, and is useful for accessing the field via an interface.
+func (v *CreateWebsiteInput) GetRum() *RumMonitoringInput { return v.Rum }
+
 type CustomHeaderInput struct {
 	// Name of a request header. Must contain only characters allowed by RFC: a-z, A-Z, 0-9, - and _.
 	Name string `json:"name"`
@@ -517,6 +595,13 @@ func (v *CustomHeaderInput) GetName() string { return v.Name }
 
 // GetValue returns CustomHeaderInput.Value, and is useful for accessing the field via an interface.
 func (v *CustomHeaderInput) GetValue() string { return v.Value }
+
+type DashboardMode string
+
+const (
+	DashboardModeStandard DashboardMode = "Standard"
+	DashboardModeAnalysis DashboardMode = "Analysis"
+)
 
 type DeleteDashboardInput struct {
 	Id string `json:"id"`
@@ -660,34 +745,16 @@ func (v *ProbePlatformOptionsInput) GetProbePlatforms() []ProbePlatform { return
 // GetTestFromAll returns ProbePlatformOptionsInput.TestFromAll, and is useful for accessing the field via an interface.
 func (v *ProbePlatformOptionsInput) GetTestFromAll() *bool { return v.TestFromAll }
 
-type PublicUpdateWebsiteInput struct {
-	// The id of the website to be updated.
-	Id string `json:"id"`
-	// Name of the website. Must be unique within organization. Must not contain any control characters,
-	// any whitespace other than regular space, any leading, trailing or consecutive whitespace.
-	Name string `json:"name"`
-	// URL of the website. Must be a valid URL with no leading or trailing whitespace. Must not contain
-	// invalid port number (>65535).
-	Url string `json:"url"`
-	// Use this field to configure availability tests for the website.
-	//
-	// If it is omitted or set to null, the resulting Website entity will have no availability tests configured.
-	AvailabilityCheckSettings *AvailabilityCheckSettingsInput `json:"availabilityCheckSettings"`
+type RumMonitoringInput struct {
+	ApdexTimeInSeconds *int  `json:"apdexTimeInSeconds"`
+	Spa                *bool `json:"spa"`
 }
 
-// GetId returns PublicUpdateWebsiteInput.Id, and is useful for accessing the field via an interface.
-func (v *PublicUpdateWebsiteInput) GetId() string { return v.Id }
+// GetApdexTimeInSeconds returns RumMonitoringInput.ApdexTimeInSeconds, and is useful for accessing the field via an interface.
+func (v *RumMonitoringInput) GetApdexTimeInSeconds() *int { return v.ApdexTimeInSeconds }
 
-// GetName returns PublicUpdateWebsiteInput.Name, and is useful for accessing the field via an interface.
-func (v *PublicUpdateWebsiteInput) GetName() string { return v.Name }
-
-// GetUrl returns PublicUpdateWebsiteInput.Url, and is useful for accessing the field via an interface.
-func (v *PublicUpdateWebsiteInput) GetUrl() string { return v.Url }
-
-// GetAvailabilityCheckSettings returns PublicUpdateWebsiteInput.AvailabilityCheckSettings, and is useful for accessing the field via an interface.
-func (v *PublicUpdateWebsiteInput) GetAvailabilityCheckSettings() *AvailabilityCheckSettingsInput {
-	return v.AvailabilityCheckSettings
-}
+// GetSpa returns RumMonitoringInput.Spa, and is useful for accessing the field via an interface.
+func (v *RumMonitoringInput) GetSpa() *bool { return v.Spa }
 
 // Sort direction for query result sorting
 type SortDirection string
@@ -800,111 +867,43 @@ func (v *UpdateNotificationServiceConfigurationInput) GetDescription() *string {
 // GetSettings returns UpdateNotificationServiceConfigurationInput.Settings, and is useful for accessing the field via an interface.
 func (v *UpdateNotificationServiceConfigurationInput) GetSettings() *any { return v.Settings }
 
-// WebsiteEntityBasicMetadata includes the GraphQL fields of Website requested by the fragment WebsiteEntityBasicMetadata.
-// The GraphQL type's documentation follows.
-//
-// Website entity
-type WebsiteEntityBasicMetadata struct {
-	// Unique identifier of an entity
+type UpdateWebsiteInput struct {
+	// The id of the website to be updated.
 	Id string `json:"id"`
-	// Entity type.
-	Type string `json:"type"`
-	// Entity name
-	Name *string `json:"name"`
-	Url  string  `json:"url"`
-	// Entity display name / alias. This value is equal to `name` unless it's explicitly overriden.
-	DisplayName *string `json:"displayName"`
-	// Date and time of entity creation in UTC.
-	CreatedTime *string `json:"createdTime"`
-	// Date and time of last entity update in UTC.
-	UpdatedTime *string `json:"updatedTime"`
-	// Date and time when the entity has last received telemetry in UTC.
-	LastSeenTime *string `json:"lastSeenTime"`
-	// How long the entity may not be receiving updates/telemetry before it should be considered "unknown".
-	// The platform may stop doing certain things with the entity when it is in unknown state.
-	MaxUnknownPeriodMinutes *int `json:"maxUnknownPeriodMinutes"`
-	// Flag telling if given entity is in unknown state.
-	// Entity gets to unknown state if it doesn't receive eny telemetry for more than 'maxUnknownPeriodMinutes'.
-	IsUnknown *bool `json:"isUnknown"`
-	// List of entity extensions that are currently set on given entity
-	Extensions []string `json:"extensions"`
-	// Collection of website features e.g. [Synthetic, RUM]
-	Features        []string                                               `json:"features"`
-	LockReleaseTime *time.Time                                             `json:"lockReleaseTime"`
-	Monitoring      *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoring `json:"monitoring"`
+	// Name of the website. Must be unique within organization. Must not contain any control characters,
+	// any whitespace other than regular space, any leading, trailing or consecutive whitespace.
+	Name string `json:"name"`
+	// URL of the website. Must be a valid URL with no leading or trailing whitespace. Must not contain
+	// invalid port number (>65535).
+	Url string `json:"url"`
+	// Use this field to configure availability tests for the website.
+	//
+	// You are required to configure either availability monitoring or real user monitoring
+	// to be able to create website.
+	AvailabilityCheckSettings *AvailabilityCheckSettingsInput `json:"availabilityCheckSettings"`
+	// Use this field to configure real user monitoring (RUM) for the website.
+	//
+	// You are required to have at least availability monitoring or real user monitoring
+	// configured on a website website.
+	Rum *RumMonitoringInput `json:"rum"`
 }
 
-// GetId returns WebsiteEntityBasicMetadata.Id, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetId() string { return v.Id }
+// GetId returns UpdateWebsiteInput.Id, and is useful for accessing the field via an interface.
+func (v *UpdateWebsiteInput) GetId() string { return v.Id }
 
-// GetType returns WebsiteEntityBasicMetadata.Type, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetType() string { return v.Type }
+// GetName returns UpdateWebsiteInput.Name, and is useful for accessing the field via an interface.
+func (v *UpdateWebsiteInput) GetName() string { return v.Name }
 
-// GetName returns WebsiteEntityBasicMetadata.Name, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetName() *string { return v.Name }
+// GetUrl returns UpdateWebsiteInput.Url, and is useful for accessing the field via an interface.
+func (v *UpdateWebsiteInput) GetUrl() string { return v.Url }
 
-// GetUrl returns WebsiteEntityBasicMetadata.Url, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetUrl() string { return v.Url }
-
-// GetDisplayName returns WebsiteEntityBasicMetadata.DisplayName, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetDisplayName() *string { return v.DisplayName }
-
-// GetCreatedTime returns WebsiteEntityBasicMetadata.CreatedTime, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetCreatedTime() *string { return v.CreatedTime }
-
-// GetUpdatedTime returns WebsiteEntityBasicMetadata.UpdatedTime, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetUpdatedTime() *string { return v.UpdatedTime }
-
-// GetLastSeenTime returns WebsiteEntityBasicMetadata.LastSeenTime, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetLastSeenTime() *string { return v.LastSeenTime }
-
-// GetMaxUnknownPeriodMinutes returns WebsiteEntityBasicMetadata.MaxUnknownPeriodMinutes, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetMaxUnknownPeriodMinutes() *int {
-	return v.MaxUnknownPeriodMinutes
+// GetAvailabilityCheckSettings returns UpdateWebsiteInput.AvailabilityCheckSettings, and is useful for accessing the field via an interface.
+func (v *UpdateWebsiteInput) GetAvailabilityCheckSettings() *AvailabilityCheckSettingsInput {
+	return v.AvailabilityCheckSettings
 }
 
-// GetIsUnknown returns WebsiteEntityBasicMetadata.IsUnknown, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetIsUnknown() *bool { return v.IsUnknown }
-
-// GetExtensions returns WebsiteEntityBasicMetadata.Extensions, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetExtensions() []string { return v.Extensions }
-
-// GetFeatures returns WebsiteEntityBasicMetadata.Features, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetFeatures() []string { return v.Features }
-
-// GetLockReleaseTime returns WebsiteEntityBasicMetadata.LockReleaseTime, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetLockReleaseTime() *time.Time { return v.LockReleaseTime }
-
-// GetMonitoring returns WebsiteEntityBasicMetadata.Monitoring, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadata) GetMonitoring() *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoring {
-	return v.Monitoring
-}
-
-// WebsiteEntityBasicMetadataMonitoringWebsiteMonitoring includes the requested fields of the GraphQL type WebsiteMonitoring.
-type WebsiteEntityBasicMetadataMonitoringWebsiteMonitoring struct {
-	Options *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoringOptions `json:"options"`
-}
-
-// GetOptions returns WebsiteEntityBasicMetadataMonitoringWebsiteMonitoring.Options, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoring) GetOptions() *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoringOptions {
-	return v.Options
-}
-
-// WebsiteEntityBasicMetadataMonitoringWebsiteMonitoringOptions includes the requested fields of the GraphQL type MonitoringOptions.
-type WebsiteEntityBasicMetadataMonitoringWebsiteMonitoringOptions struct {
-	IsAvailabilityActive *bool `json:"isAvailabilityActive"`
-	IsRumActive          *bool `json:"isRumActive"`
-}
-
-// GetIsAvailabilityActive returns WebsiteEntityBasicMetadataMonitoringWebsiteMonitoringOptions.IsAvailabilityActive, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoringOptions) GetIsAvailabilityActive() *bool {
-	return v.IsAvailabilityActive
-}
-
-// GetIsRumActive returns WebsiteEntityBasicMetadataMonitoringWebsiteMonitoringOptions.IsRumActive, and is useful for accessing the field via an interface.
-func (v *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoringOptions) GetIsRumActive() *bool {
-	return v.IsRumActive
-}
+// GetRum returns UpdateWebsiteInput.Rum, and is useful for accessing the field via an interface.
+func (v *UpdateWebsiteInput) GetRum() *RumMonitoringInput { return v.Rum }
 
 type WebsiteProtocol string
 
@@ -1080,16 +1079,15 @@ func (v *__updateNotificationInput) GetConfiguration() UpdateNotificationService
 
 // __updateWebsiteMutationInput is used internally by genqlient
 type __updateWebsiteMutationInput struct {
-	Input PublicUpdateWebsiteInput `json:"input"`
+	Input UpdateWebsiteInput `json:"input"`
 }
 
 // GetInput returns __updateWebsiteMutationInput.Input, and is useful for accessing the field via an interface.
-func (v *__updateWebsiteMutationInput) GetInput() PublicUpdateWebsiteInput { return v.Input }
+func (v *__updateWebsiteMutationInput) GetInput() UpdateWebsiteInput { return v.Input }
 
 // createAlertDefinitionAlertMutations includes the requested fields of the GraphQL type AlertMutations.
 type createAlertDefinitionAlertMutations struct {
 	// Creates a new Alert definition and returns it on success, or null on error.
-	// Requires JWT payload (*x-jwt-verified* header) with `org_id` claim containing Organization ID.
 	CreateAlertDefinition *createAlertDefinitionAlertMutationsCreateAlertDefinition `json:"createAlertDefinition"`
 }
 
@@ -1099,37 +1097,41 @@ func (v *createAlertDefinitionAlertMutations) GetCreateAlertDefinition() *create
 }
 
 // createAlertDefinitionAlertMutationsCreateAlertDefinition includes the requested fields of the GraphQL type AlertDefinition.
+// The GraphQL type's documentation follows.
+//
+// Alert definition object.
 type createAlertDefinitionAlertMutationsCreateAlertDefinition struct {
-	// List of alert actions that shall be triggered in case of alert FIRING
+	// Alert definition actions (notifications) to be triggered in a case of a new active alert, or when active alert
+	// returns to normal.
 	Actions []createAlertDefinitionAlertMutationsCreateAlertDefinitionActionsAlertAction `json:"actions"`
-	// A flag indicating whether to send a notification when active alert returns to normal.
+	// Indication whether to send a notification when active alert returns to normal.
 	TriggerResetActions bool `json:"triggerResetActions"`
-	// Alert definition condition type
+	// Alert definition condition type.
 	ConditionType ConditionType `json:"conditionType"`
-	// Ordered list of condition nodes representing the flatten condition tree.
-	// The first item is the tree root.
+	// Ordered list of condition nodes representing the flattened condition tree. The first item is the tree root.
 	FlatCondition []createAlertDefinitionAlertMutationsCreateAlertDefinitionFlatConditionFlatAlertConditionExpression `json:"flatCondition"`
-	// Alert definition description
+	// Alert definition description.
 	Description *string `json:"description"`
-	// Enabled whether Alert definition shall be evaluated
+	// Indication whether the Alert definition is being evaluated.
 	Enabled bool `json:"enabled"`
-	// Alert definition ID in UUID format
+	// Alert definition ID (in the UUID format).
 	Id string `json:"id"`
-	// Alert definition name
+	// Alert definition name.
 	Name string `json:"name"`
-	// Organization ID
+	// Organization ID where the Alert definition was created.
 	OrganizationId string `json:"organizationId"`
-	// Alert definition severity
+	// Alert definition severity.
 	Severity AlertSeverity `json:"severity"`
-	// Indication whether alert is triggered
+	// Indication whether the Alert definition is triggered (i.e. if there is at least one active alert instance).
 	Triggered bool `json:"triggered"`
-	// Time when the Alert definition was triggered in ISO-8601 date format (e.g. `2011-12-03T10:15:30Z`)
+	// Timestamp (in the ISO-8601 date and time format in UTC) indicating when the Alert definition was triggered
+	// (*null* if the Alert definition is currently not triggered).
 	TriggeredTime *string `json:"triggeredTime"`
-	// List of targeted Entity types
+	// Entity types targeted by the Alert definition.
 	TargetEntityTypes []string `json:"targetEntityTypes"`
-	// Information about any pending mutes on the Alert definition
+	// Information if notifications for the Alert definition are muted (suppressed).
 	MuteInfo createAlertDefinitionAlertMutationsCreateAlertDefinitionMuteInfo `json:"muteInfo"`
-	// User ID
+	// Alert definition creator ID.
 	UserId string `json:"userId"`
 }
 
@@ -1205,10 +1207,14 @@ func (v *createAlertDefinitionAlertMutationsCreateAlertDefinition) GetUserId() s
 }
 
 // createAlertDefinitionAlertMutationsCreateAlertDefinitionActionsAlertAction includes the requested fields of the GraphQL type AlertAction.
+// The GraphQL type's documentation follows.
+//
+// Alert definition action object. It describes which notifications of a given type shall be triggered in a case of a new
+// active alert, or when active alert returns to normal.
 type createAlertDefinitionAlertMutationsCreateAlertDefinitionActionsAlertAction struct {
-	// List of notification configuration IDs
+	// Notification configuration IDs.
 	ConfigurationIds []string `json:"configurationIds"`
-	// Type of a notification service
+	// Notification service type (email, MS Teams, Slack, webhook, ...).
 	Type string `json:"type"`
 }
 
@@ -1275,18 +1281,21 @@ type createAlertDefinitionAlertMutationsCreateAlertDefinitionFlatConditionFlatAl
 	FieldName *string `json:"fieldName"`
 	// Operator for combining operands. Supported values:
 	// - For aggregationOperator: `COUNT`, `MIN`, `MAX`, `AVG`, `SUM`, `LAST`
-	// - For binaryOperator: `=`, `!=`, `>`, `<`, `>=`, `<=`
+	// - For binaryOperator: `=`, `!=`, `>`, `<`, `>=`, `<=`, `IN`
 	// - For logicalOperator: `AND`, `OR`
 	// - For unaryOperator: `!`
+	// - For relationshipOperator: null
 	Operator *string `json:"operator"`
 	// Node (operator) type. Supported values:
 	// - `aggregationOperator` (child of `binaryOperator`)
-	// - `binaryOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `binaryOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
 	// - `constantValue` (root, or child of `aggregationOperator`, `binaryOperator`)
-	// - `logicalOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `logicalOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
+	// - `attributeField` (child of `binaryOperator`)
 	// - `metricField` (child of `binaryOperator`, `aggregationOperator`)
 	// - `queryField` (child of `aggregationOperator`)
-	// - `unaryOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `unaryOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
+	// - `relationshipOperator` (root, or child of `logicalOperator`, `unaryOperator`)
 	Type string `json:"type"`
 	// Query specification for `queryField` nodes.
 	Query *string `json:"query"`
@@ -1315,14 +1324,13 @@ func (v *createAlertDefinitionAlertMutationsCreateAlertDefinitionFlatConditionFl
 // createAlertDefinitionAlertMutationsCreateAlertDefinitionMuteInfo includes the requested fields of the GraphQL type AlertDefinitionMuteInfo.
 // The GraphQL type's documentation follows.
 //
-// Alert definitions can be muted for certain period of time or muted until resolved.
-//
-// If the muted is set to *true* and until attribute is not set meaning no notification will be sent until
-// all of the evaluations are set to **OK** state or alert definition is reset
+// Information if notifications for the Alert definition are muted (suppressed).
 type createAlertDefinitionAlertMutationsCreateAlertDefinitionMuteInfo struct {
-	// When muted no notifications are sent
+	// Indication whether notifications for the Alert definition are muted.
 	Muted bool `json:"muted"`
-	// Time until the mute expires in ISO-8601 date format - `2011-12-03T10:15:30Z` or `null` - muted until resolved
+	// Timestamp (in the ISO-8601 date and time format in UTC) indicating until when notifications for the Alert definition
+	// are muted. If not specified, notifications are muted 'until resolved', i.e. until all evaluations are set back to
+	// the *OK* state (either automatically or using manual reset).
 	Until *string `json:"until"`
 }
 
@@ -1671,6 +1679,7 @@ func (v *createWebsiteMutationDemDemMutations) GetCreateWebsite() createWebsiteM
 
 // createWebsiteMutationDemDemMutationsCreateWebsiteCreateWebsiteSuccess includes the requested fields of the GraphQL type CreateWebsiteSuccess.
 type createWebsiteMutationDemDemMutationsCreateWebsiteCreateWebsiteSuccess struct {
+	// The id of the created website.
 	Id string `json:"id"`
 }
 
@@ -1690,7 +1699,6 @@ func (v *createWebsiteMutationResponse) GetDem() createWebsiteMutationDemDemMuta
 // deleteAlertDefinitionAlertMutations includes the requested fields of the GraphQL type AlertMutations.
 type deleteAlertDefinitionAlertMutations struct {
 	// Deletes an Alert definition by ID and returns the ID on success, or null when no such Alert definition exists.
-	// Requires JWT payload (*x-jwt-verified* header) with `org_id` claim containing Organization ID.
 	DeleteAlertDefinition *string `json:"deleteAlertDefinition"`
 }
 
@@ -1783,6 +1791,7 @@ func (v *deleteWebsiteMutationDemDemMutations) GetDeleteWebsite() deleteWebsiteM
 
 // deleteWebsiteMutationDemDemMutationsDeleteWebsiteDeleteWebsiteSuccess includes the requested fields of the GraphQL type DeleteWebsiteSuccess.
 type deleteWebsiteMutationDemDemMutationsDeleteWebsiteDeleteWebsiteSuccess struct {
+	// The id of the deleted website.
 	Id string `json:"id"`
 }
 
@@ -1805,7 +1814,6 @@ type getAlertDefinitionsAlertQueries struct {
 	// Filtering can be performed either using dedicated fields in the `filter` input, or using a generic `filter.filter`
 	// field. The latter one can be also used to filter Alert definitions with no configured actions/condition evaluations
 	// using `propertyName: "actions:`/`propertyName: "conditionEvaluations"` and 'operation: EXISTS'.
-	// Requires JWT payload (*x-jwt-verified* header) with `org_id` claim containing Organization ID.
 	AlertDefinitions getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResult `json:"alertDefinitions"`
 }
 
@@ -1826,37 +1834,41 @@ func (v *getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResult) 
 }
 
 // getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition includes the requested fields of the GraphQL type AlertDefinition.
+// The GraphQL type's documentation follows.
+//
+// Alert definition object.
 type getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition struct {
-	// List of alert actions that shall be triggered in case of alert FIRING
+	// Alert definition actions (notifications) to be triggered in a case of a new active alert, or when active alert
+	// returns to normal.
 	Actions []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction `json:"actions"`
-	// A flag indicating whether to send a notification when active alert returns to normal.
+	// Indication whether to send a notification when active alert returns to normal.
 	TriggerResetActions bool `json:"triggerResetActions"`
-	// Alert definition condition type
+	// Alert definition condition type.
 	ConditionType ConditionType `json:"conditionType"`
-	// Ordered list of condition nodes representing the flatten condition tree.
-	// The first item is the tree root.
+	// Ordered list of condition nodes representing the flattened condition tree. The first item is the tree root.
 	FlatCondition []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpression `json:"flatCondition"`
-	// Alert definition description
+	// Alert definition description.
 	Description *string `json:"description"`
-	// Enabled whether Alert definition shall be evaluated
+	// Indication whether the Alert definition is being evaluated.
 	Enabled bool `json:"enabled"`
-	// Alert definition ID in UUID format
+	// Alert definition ID (in the UUID format).
 	Id string `json:"id"`
-	// Alert definition name
+	// Alert definition name.
 	Name string `json:"name"`
-	// Organization ID
+	// Organization ID where the Alert definition was created.
 	OrganizationId string `json:"organizationId"`
-	// Alert definition severity
+	// Alert definition severity.
 	Severity AlertSeverity `json:"severity"`
-	// Indication whether alert is triggered
+	// Indication whether the Alert definition is triggered (i.e. if there is at least one active alert instance).
 	Triggered bool `json:"triggered"`
-	// Time when the Alert definition was triggered in ISO-8601 date format (e.g. `2011-12-03T10:15:30Z`)
+	// Timestamp (in the ISO-8601 date and time format in UTC) indicating when the Alert definition was triggered
+	// (*null* if the Alert definition is currently not triggered).
 	TriggeredTime *string `json:"triggeredTime"`
-	// List of targeted Entity types
+	// Entity types targeted by the Alert definition.
 	TargetEntityTypes []string `json:"targetEntityTypes"`
-	// Information about any pending mutes on the Alert definition
+	// Information if notifications for the Alert definition are muted (suppressed).
 	MuteInfo getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionMuteInfo `json:"muteInfo"`
-	// User ID
+	// Alert definition creator ID.
 	UserId string `json:"userId"`
 }
 
@@ -1936,10 +1948,14 @@ func (v *getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAl
 }
 
 // getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction includes the requested fields of the GraphQL type AlertAction.
+// The GraphQL type's documentation follows.
+//
+// Alert definition action object. It describes which notifications of a given type shall be triggered in a case of a new
+// active alert, or when active alert returns to normal.
 type getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction struct {
-	// List of notification configuration IDs
+	// Notification configuration IDs.
 	ConfigurationIds []string `json:"configurationIds"`
-	// Type of a notification service
+	// Notification service type (email, MS Teams, Slack, webhook, ...).
 	Type string `json:"type"`
 }
 
@@ -2006,18 +2022,21 @@ type getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertD
 	FieldName *string `json:"fieldName"`
 	// Operator for combining operands. Supported values:
 	// - For aggregationOperator: `COUNT`, `MIN`, `MAX`, `AVG`, `SUM`, `LAST`
-	// - For binaryOperator: `=`, `!=`, `>`, `<`, `>=`, `<=`
+	// - For binaryOperator: `=`, `!=`, `>`, `<`, `>=`, `<=`, `IN`
 	// - For logicalOperator: `AND`, `OR`
 	// - For unaryOperator: `!`
+	// - For relationshipOperator: null
 	Operator *string `json:"operator"`
 	// Node (operator) type. Supported values:
 	// - `aggregationOperator` (child of `binaryOperator`)
-	// - `binaryOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `binaryOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
 	// - `constantValue` (root, or child of `aggregationOperator`, `binaryOperator`)
-	// - `logicalOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `logicalOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
+	// - `attributeField` (child of `binaryOperator`)
 	// - `metricField` (child of `binaryOperator`, `aggregationOperator`)
 	// - `queryField` (child of `aggregationOperator`)
-	// - `unaryOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `unaryOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
+	// - `relationshipOperator` (root, or child of `logicalOperator`, `unaryOperator`)
 	Type string `json:"type"`
 	// Query specification for `queryField` nodes.
 	Query *string `json:"query"`
@@ -2046,14 +2065,13 @@ func (v *getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAl
 // getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionMuteInfo includes the requested fields of the GraphQL type AlertDefinitionMuteInfo.
 // The GraphQL type's documentation follows.
 //
-// Alert definitions can be muted for certain period of time or muted until resolved.
-//
-// If the muted is set to *true* and until attribute is not set meaning no notification will be sent until
-// all of the evaluations are set to **OK** state or alert definition is reset
+// Information if notifications for the Alert definition are muted (suppressed).
 type getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionMuteInfo struct {
-	// When muted no notifications are sent
+	// Indication whether notifications for the Alert definition are muted.
 	Muted bool `json:"muted"`
-	// Time until the mute expires in ISO-8601 date format - `2011-12-03T10:15:30Z` or `null` - muted until resolved
+	// Timestamp (in the ISO-8601 date and time format in UTC) indicating until when notifications for the Alert definition
+	// are muted. If not specified, notifications are muted 'until resolved', i.e. until all evaluations are set back to
+	// the *OK* state (either automatically or using manual reset).
 	Until *string `json:"until"`
 }
 
@@ -2445,6 +2463,56 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdApacheInstance) GetTypename() *s
 	return v.Typename
 }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdApplication includes the requested fields of the GraphQL type Application.
+// The GraphQL type's documentation follows.
+//
+// Entity represents Application from "Server and Application Monitor" in HCO (collected by Network Collector)
+type getWebsiteByIdEntitiesEntityQueriesByIdApplication struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdApplication.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdApplication) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent includes the requested fields of the GraphQL type ApplicationComponent.
+// The GraphQL type's documentation follows.
+//
+// Application Component entity represents component of application from "Server and Application Monitor" in HCO (collected by Network Collector)
+type getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession includes the requested fields of the GraphQL type AsaRemoteAccessSession.
+// The GraphQL type's documentation follows.
+//
+// ASA Firewall RemoteAccessSession entity.
+type getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel includes the requested fields of the GraphQL type AsaSiteToSiteTunnel.
+// The GraphQL type's documentation follows.
+//
+// ASA Firewall SiteToSiteTunnel entity
+type getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel) GetTypename() *string {
+	return v.Typename
+}
+
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsApiGateway includes the requested fields of the GraphQL type AwsApiGateway.
 // The GraphQL type's documentation follows.
 //
@@ -2601,6 +2669,45 @@ type getWebsiteByIdEntitiesEntityQueriesByIdAwsNatGateway struct {
 
 // GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdAwsNatGateway.Typename, and is useful for accessing the field via an interface.
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsNatGateway) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection includes the requested fields of the GraphQL type AwsOpenSearchCollection.
+// The GraphQL type's documentation follows.
+//
+// AWS Open Search Serverless Collection
+type getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain includes the requested fields of the GraphQL type AwsOpenSearchDomain.
+// The GraphQL type's documentation follows.
+//
+// AWS OpenSearch Service Domain
+type getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline includes the requested fields of the GraphQL type AwsOpenSearchIngestionPipeline.
+// The GraphQL type's documentation follows.
+//
+// AWS Open Search Ingestion Pipeline
+type getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline) GetTypename() *string {
 	return v.Typename
 }
 
@@ -2811,6 +2918,19 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdAzureKeyVault) GetTypename() *st
 	return v.Typename
 }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer includes the requested fields of the GraphQL type AzureLoadBalancer.
+// The GraphQL type's documentation follows.
+//
+// Azure LoadBalancer entity
+type getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer) GetTypename() *string {
+	return v.Typename
+}
+
 // getWebsiteByIdEntitiesEntityQueriesByIdAzureServiceBus includes the requested fields of the GraphQL type AzureServiceBus.
 // The GraphQL type's documentation follows.
 //
@@ -2901,6 +3021,10 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdDeviceVolume) GetTypename() *str
 //
 // getWebsiteByIdEntitiesEntityQueriesByIdEntity is implemented by the following types:
 // getWebsiteByIdEntitiesEntityQueriesByIdApacheInstance
+// getWebsiteByIdEntitiesEntityQueriesByIdApplication
+// getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent
+// getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession
+// getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsApiGateway
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsApplicationELB
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsAuroraCluster
@@ -2914,6 +3038,9 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdDeviceVolume) GetTypename() *str
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsFsx
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsLambda
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsNatGateway
+// getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection
+// getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain
+// getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsRDS
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsS3
 // getWebsiteByIdEntitiesEntityQueriesByIdAwsSNSTopic
@@ -2931,6 +3058,7 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdDeviceVolume) GetTypename() *str
 // getWebsiteByIdEntitiesEntityQueriesByIdAzureFrontDoor
 // getWebsiteByIdEntitiesEntityQueriesByIdAzureFunction
 // getWebsiteByIdEntitiesEntityQueriesByIdAzureKeyVault
+// getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer
 // getWebsiteByIdEntitiesEntityQueriesByIdAzureServiceBus
 // getWebsiteByIdEntitiesEntityQueriesByIdAzureSqlDatabase
 // getWebsiteByIdEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet
@@ -2939,9 +3067,22 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdDeviceVolume) GetTypename() *str
 // getWebsiteByIdEntitiesEntityQueriesByIdDatabaseInstance
 // getWebsiteByIdEntitiesEntityQueriesByIdDeviceVolume
 // getWebsiteByIdEntitiesEntityQueriesByIdEntityGroup
+// getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer
+// getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover
+// getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule
+// getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan
+// getWebsiteByIdEntitiesEntityQueriesByIdHAMember
+// getWebsiteByIdEntitiesEntityQueriesByIdHAPool
 // getWebsiteByIdEntitiesEntityQueriesByIdHardwareSensor
+// getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine
 // getWebsiteByIdEntitiesEntityQueriesByIdHcoGroup
 // getWebsiteByIdEntitiesEntityQueriesByIdHost
+// getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer
 // getWebsiteByIdEntitiesEntityQueriesByIdIpAddress
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesCluster
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesContainer
@@ -2951,21 +3092,43 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdDeviceVolume) GetTypename() *str
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesJob
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesNamespace
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesNode
+// getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume
+// getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod
+// getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesReplicaSet
+// getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesStatefulSet
+// getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint
 // getWebsiteByIdEntitiesEntityQueriesByIdNetworkDevice
 // getWebsiteByIdEntitiesEntityQueriesByIdNetworkInterface
 // getWebsiteByIdEntitiesEntityQueriesByIdNetworkShadowDevice
 // getWebsiteByIdEntitiesEntityQueriesByIdNginxInstance
+// getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession
+// getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel
 // getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPort
 // getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortEndpoint
 // getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortIpAddress
 // getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortToEndpoint
+// getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface
+// getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel
 // getWebsiteByIdEntitiesEntityQueriesByIdService
 // getWebsiteByIdEntitiesEntityQueriesByIdServiceInstance
+// getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication
+// getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost
 // getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint
+// getWebsiteByIdEntitiesEntityQueriesByIdTransaction
+// getWebsiteByIdEntitiesEntityQueriesByIdUri
+// getWebsiteByIdEntitiesEntityQueriesByIdVCenter
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine
 // getWebsiteByIdEntitiesEntityQueriesByIdVirtualRoutingForwarding
+// getWebsiteByIdEntitiesEntityQueriesByIdVlan
+// getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice
+// getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap
 // getWebsiteByIdEntitiesEntityQueriesByIdWebsite
 // getWebsiteByIdEntitiesEntityQueriesByIdWirelessClient
 // getWebsiteByIdEntitiesEntityQueriesByIdWirelessInterface
@@ -2979,6 +3142,14 @@ type getWebsiteByIdEntitiesEntityQueriesByIdEntity interface {
 }
 
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdApacheInstance) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdApplication) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsApiGateway) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
@@ -3005,6 +3176,12 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsFsx) implementsGraphQLInterfa
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsLambda) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsNatGateway) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdAwsRDS) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
@@ -3040,6 +3217,8 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdAzureFunction) implementsGraphQL
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdAzureKeyVault) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdAzureServiceBus) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdAzureSqlDatabase) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
@@ -3056,11 +3235,37 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdDeviceVolume) implementsGraphQLI
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdEntityGroup) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdHAMember) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdHAPool) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdHardwareSensor) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdHcoGroup) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdHost) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdIpAddress) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
@@ -3080,11 +3285,21 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesNamespace) implementsG
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesNode) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesReplicaSet) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesStatefulSet) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdNetworkDevice) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
@@ -3094,6 +3309,10 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdNetworkShadowDevice) implementsG
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdNginxInstance) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPort) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortEndpoint) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
@@ -3102,13 +3321,43 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortIpAddress) implement
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortToEndpoint) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdService) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdServiceInstance) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdTransaction) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdUri) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVCenter) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualRoutingForwarding) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVlan) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
+}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) implementsGraphQLInterfacegetWebsiteByIdEntitiesEntityQueriesByIdEntity() {
 }
@@ -3133,6 +3382,18 @@ func __unmarshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(b []byte, v *getWe
 	switch tn.TypeName {
 	case "ApacheInstance":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdApacheInstance)
+		return json.Unmarshal(b, *v)
+	case "Application":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdApplication)
+		return json.Unmarshal(b, *v)
+	case "ApplicationComponent":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent)
+		return json.Unmarshal(b, *v)
+	case "AsaRemoteAccessSession":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession)
+		return json.Unmarshal(b, *v)
+	case "AsaSiteToSiteTunnel":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel)
 		return json.Unmarshal(b, *v)
 	case "AwsApiGateway":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAwsApiGateway)
@@ -3172,6 +3433,15 @@ func __unmarshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(b []byte, v *getWe
 		return json.Unmarshal(b, *v)
 	case "AwsNatGateway":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAwsNatGateway)
+		return json.Unmarshal(b, *v)
+	case "AwsOpenSearchCollection":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection)
+		return json.Unmarshal(b, *v)
+	case "AwsOpenSearchDomain":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain)
+		return json.Unmarshal(b, *v)
+	case "AwsOpenSearchIngestionPipeline":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline)
 		return json.Unmarshal(b, *v)
 	case "AwsRDS":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAwsRDS)
@@ -3224,6 +3494,9 @@ func __unmarshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(b []byte, v *getWe
 	case "AzureKeyVault":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAzureKeyVault)
 		return json.Unmarshal(b, *v)
+	case "AzureLoadBalancer":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer)
+		return json.Unmarshal(b, *v)
 	case "AzureServiceBus":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdAzureServiceBus)
 		return json.Unmarshal(b, *v)
@@ -3248,14 +3521,53 @@ func __unmarshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(b []byte, v *getWe
 	case "EntityGroup":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdEntityGroup)
 		return json.Unmarshal(b, *v)
+	case "F5GTMWideIP":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP)
+		return json.Unmarshal(b, *v)
+	case "F5LTMPool":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool)
+		return json.Unmarshal(b, *v)
+	case "F5LTMPoolMember":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember)
+		return json.Unmarshal(b, *v)
+	case "F5LTMServer":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer)
+		return json.Unmarshal(b, *v)
+	case "F5LTMVirtualIPAddress":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress)
+		return json.Unmarshal(b, *v)
+	case "F5LTMVirtualServer":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer)
+		return json.Unmarshal(b, *v)
+	case "F5SystemFailover":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover)
+		return json.Unmarshal(b, *v)
+	case "F5SystemModule":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule)
+		return json.Unmarshal(b, *v)
+	case "F5SystemVlan":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan)
+		return json.Unmarshal(b, *v)
+	case "HAMember":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdHAMember)
+		return json.Unmarshal(b, *v)
+	case "HAPool":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdHAPool)
+		return json.Unmarshal(b, *v)
 	case "HardwareSensor":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdHardwareSensor)
+		return json.Unmarshal(b, *v)
+	case "HcoEngine":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine)
 		return json.Unmarshal(b, *v)
 	case "HcoGroup":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdHcoGroup)
 		return json.Unmarshal(b, *v)
 	case "Host":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdHost)
+		return json.Unmarshal(b, *v)
+	case "IISWebServer":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer)
 		return json.Unmarshal(b, *v)
 	case "IpAddress":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdIpAddress)
@@ -3284,14 +3596,29 @@ func __unmarshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(b []byte, v *getWe
 	case "KubernetesNode":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdKubernetesNode)
 		return json.Unmarshal(b, *v)
+	case "KubernetesPersistentVolume":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume)
+		return json.Unmarshal(b, *v)
+	case "KubernetesPersistentVolumeClaim":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim)
+		return json.Unmarshal(b, *v)
 	case "KubernetesPod":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod)
+		return json.Unmarshal(b, *v)
+	case "KubernetesPodInstance":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance)
 		return json.Unmarshal(b, *v)
 	case "KubernetesReplicaSet":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdKubernetesReplicaSet)
 		return json.Unmarshal(b, *v)
+	case "KubernetesService":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService)
+		return json.Unmarshal(b, *v)
 	case "KubernetesStatefulSet":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdKubernetesStatefulSet)
+		return json.Unmarshal(b, *v)
+	case "NetPathEndpoint":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint)
 		return json.Unmarshal(b, *v)
 	case "NetworkDevice":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdNetworkDevice)
@@ -3305,6 +3632,12 @@ func __unmarshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(b []byte, v *getWe
 	case "NginxInstance":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdNginxInstance)
 		return json.Unmarshal(b, *v)
+	case "PaloAltoRemoteAccessSession":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession)
+		return json.Unmarshal(b, *v)
+	case "PaloAltoSiteToSiteTunnel":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel)
+		return json.Unmarshal(b, *v)
 	case "PhysicalPort":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPort)
 		return json.Unmarshal(b, *v)
@@ -3317,17 +3650,62 @@ func __unmarshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(b []byte, v *getWe
 	case "PhysicalPortToEndpoint":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortToEndpoint)
 		return json.Unmarshal(b, *v)
+	case "SdWanEdgeInterface":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface)
+		return json.Unmarshal(b, *v)
+	case "SdWanTunnel":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel)
+		return json.Unmarshal(b, *v)
 	case "Service":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdService)
 		return json.Unmarshal(b, *v)
 	case "ServiceInstance":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdServiceInstance)
 		return json.Unmarshal(b, *v)
+	case "SyslogApplication":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication)
+		return json.Unmarshal(b, *v)
+	case "SyslogHost":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost)
+		return json.Unmarshal(b, *v)
 	case "ThinAccessPoint":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint)
 		return json.Unmarshal(b, *v)
+	case "Transaction":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdTransaction)
+		return json.Unmarshal(b, *v)
+	case "Uri":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdUri)
+		return json.Unmarshal(b, *v)
+	case "VCenter":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVCenter)
+		return json.Unmarshal(b, *v)
+	case "VirtualCluster":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster)
+		return json.Unmarshal(b, *v)
+	case "VirtualDatacenter":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter)
+		return json.Unmarshal(b, *v)
+	case "VirtualDatastore":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore)
+		return json.Unmarshal(b, *v)
+	case "VirtualHost":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost)
+		return json.Unmarshal(b, *v)
+	case "VirtualMachine":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine)
+		return json.Unmarshal(b, *v)
 	case "VirtualRoutingForwarding":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVirtualRoutingForwarding)
+		return json.Unmarshal(b, *v)
+	case "Vlan":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVlan)
+		return json.Unmarshal(b, *v)
+	case "VlanDevice":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice)
+		return json.Unmarshal(b, *v)
+	case "VlanPortInterfaceMap":
+		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap)
 		return json.Unmarshal(b, *v)
 	case "Website":
 		*v = new(getWebsiteByIdEntitiesEntityQueriesByIdWebsite)
@@ -3357,6 +3735,38 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 		result := struct {
 			TypeName string `json:"__typename"`
 			*getWebsiteByIdEntitiesEntityQueriesByIdApacheInstance
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdApplication:
+		typename = "Application"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdApplication
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent:
+		typename = "ApplicationComponent"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdApplicationComponent
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession:
+		typename = "AsaRemoteAccessSession"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdAsaRemoteAccessSession
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel:
+		typename = "AsaSiteToSiteTunnel"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdAsaSiteToSiteTunnel
 		}{typename, v}
 		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdAwsApiGateway:
@@ -3461,6 +3871,30 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 		result := struct {
 			TypeName string `json:"__typename"`
 			*getWebsiteByIdEntitiesEntityQueriesByIdAwsNatGateway
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection:
+		typename = "AwsOpenSearchCollection"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchCollection
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain:
+		typename = "AwsOpenSearchDomain"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchDomain
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline:
+		typename = "AwsOpenSearchIngestionPipeline"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline
 		}{typename, v}
 		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdAwsRDS:
@@ -3599,6 +4033,14 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 			*getWebsiteByIdEntitiesEntityQueriesByIdAzureKeyVault
 		}{typename, v}
 		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer:
+		typename = "AzureLoadBalancer"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdAzureLoadBalancer
+		}{typename, v}
+		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdAzureServiceBus:
 		typename = "AzureServiceBus"
 
@@ -3663,12 +4105,108 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 			*getWebsiteByIdEntitiesEntityQueriesByIdEntityGroup
 		}{typename, v}
 		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP:
+		typename = "F5GTMWideIP"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool:
+		typename = "F5LTMPool"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember:
+		typename = "F5LTMPoolMember"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer:
+		typename = "F5LTMServer"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress:
+		typename = "F5LTMVirtualIPAddress"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer:
+		typename = "F5LTMVirtualServer"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover:
+		typename = "F5SystemFailover"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule:
+		typename = "F5SystemModule"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan:
+		typename = "F5SystemVlan"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdHAMember:
+		typename = "HAMember"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdHAMember
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdHAPool:
+		typename = "HAPool"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdHAPool
+		}{typename, v}
+		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdHardwareSensor:
 		typename = "HardwareSensor"
 
 		result := struct {
 			TypeName string `json:"__typename"`
 			*getWebsiteByIdEntitiesEntityQueriesByIdHardwareSensor
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine:
+		typename = "HcoEngine"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine
 		}{typename, v}
 		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdHcoGroup:
@@ -3685,6 +4223,14 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 		result := struct {
 			TypeName string `json:"__typename"`
 			*getWebsiteByIdEntitiesEntityQueriesByIdHost
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer:
+		typename = "IISWebServer"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer
 		}{typename, v}
 		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdIpAddress:
@@ -3759,12 +4305,36 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 			*getWebsiteByIdEntitiesEntityQueriesByIdKubernetesNode
 		}{typename, v}
 		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume:
+		typename = "KubernetesPersistentVolume"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim:
+		typename = "KubernetesPersistentVolumeClaim"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim
+		}{typename, v}
+		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod:
 		typename = "KubernetesPod"
 
 		result := struct {
 			TypeName string `json:"__typename"`
 			*getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance:
+		typename = "KubernetesPodInstance"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance
 		}{typename, v}
 		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesReplicaSet:
@@ -3775,12 +4345,28 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 			*getWebsiteByIdEntitiesEntityQueriesByIdKubernetesReplicaSet
 		}{typename, v}
 		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService:
+		typename = "KubernetesService"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService
+		}{typename, v}
+		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesStatefulSet:
 		typename = "KubernetesStatefulSet"
 
 		result := struct {
 			TypeName string `json:"__typename"`
 			*getWebsiteByIdEntitiesEntityQueriesByIdKubernetesStatefulSet
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint:
+		typename = "NetPathEndpoint"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint
 		}{typename, v}
 		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdNetworkDevice:
@@ -3815,6 +4401,22 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 			*getWebsiteByIdEntitiesEntityQueriesByIdNginxInstance
 		}{typename, v}
 		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession:
+		typename = "PaloAltoRemoteAccessSession"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel:
+		typename = "PaloAltoSiteToSiteTunnel"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel
+		}{typename, v}
+		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPort:
 		typename = "PhysicalPort"
 
@@ -3847,6 +4449,22 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 			*getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortToEndpoint
 		}{typename, v}
 		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface:
+		typename = "SdWanEdgeInterface"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel:
+		typename = "SdWanTunnel"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel
+		}{typename, v}
+		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdService:
 		typename = "Service"
 
@@ -3863,12 +4481,92 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 			*getWebsiteByIdEntitiesEntityQueriesByIdServiceInstance
 		}{typename, v}
 		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication:
+		typename = "SyslogApplication"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost:
+		typename = "SyslogHost"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost
+		}{typename, v}
+		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint:
 		typename = "ThinAccessPoint"
 
 		result := struct {
 			TypeName string `json:"__typename"`
 			*getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdTransaction:
+		typename = "Transaction"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdTransaction
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdUri:
+		typename = "Uri"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdUri
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVCenter:
+		typename = "VCenter"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVCenter
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster:
+		typename = "VirtualCluster"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter:
+		typename = "VirtualDatacenter"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore:
+		typename = "VirtualDatastore"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost:
+		typename = "VirtualHost"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine:
+		typename = "VirtualMachine"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine
 		}{typename, v}
 		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdVirtualRoutingForwarding:
@@ -3879,17 +4577,37 @@ func __marshalgetWebsiteByIdEntitiesEntityQueriesByIdEntity(v *getWebsiteByIdEnt
 			*getWebsiteByIdEntitiesEntityQueriesByIdVirtualRoutingForwarding
 		}{typename, v}
 		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVlan:
+		typename = "Vlan"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVlan
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice:
+		typename = "VlanDevice"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice
+		}{typename, v}
+		return json.Marshal(result)
+	case *getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap:
+		typename = "VlanPortInterfaceMap"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap
+		}{typename, v}
+		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdWebsite:
 		typename = "Website"
 
-		premarshaled, err := v.__premarshalJSON()
-		if err != nil {
-			return nil, err
-		}
 		result := struct {
 			TypeName string `json:"__typename"`
-			*__premarshalgetWebsiteByIdEntitiesEntityQueriesByIdWebsite
-		}{typename, premarshaled}
+			*getWebsiteByIdEntitiesEntityQueriesByIdWebsite
+		}{typename, v}
 		return json.Marshal(result)
 	case *getWebsiteByIdEntitiesEntityQueriesByIdWirelessClient:
 		typename = "WirelessClient"
@@ -3926,6 +4644,112 @@ type getWebsiteByIdEntitiesEntityQueriesByIdEntityGroup struct {
 // GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdEntityGroup.Typename, and is useful for accessing the field via an interface.
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdEntityGroup) GetTypename() *string { return v.Typename }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP includes the requested fields of the GraphQL type F5GTMWideIP.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5GTMWideIP) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool includes the requested fields of the GraphQL type F5LTMPool.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPool) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember includes the requested fields of the GraphQL type F5LTMPoolMember.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMPoolMember) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer includes the requested fields of the GraphQL type F5LTMServer.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMServer) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress includes the requested fields of the GraphQL type F5LTMVirtualIPAddress.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualIPAddress) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer includes the requested fields of the GraphQL type F5LTMVirtualServer.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5LTMVirtualServer) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover includes the requested fields of the GraphQL type F5SystemFailover.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemFailover) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule includes the requested fields of the GraphQL type F5SystemModule.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemModule) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan includes the requested fields of the GraphQL type F5SystemVlan.
+type getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdF5SystemVlan) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdHAMember includes the requested fields of the GraphQL type HAMember.
+// The GraphQL type's documentation follows.
+//
+// Entity representing a member of an HAPool
+type getWebsiteByIdEntitiesEntityQueriesByIdHAMember struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdHAMember.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdHAMember) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdHAPool includes the requested fields of the GraphQL type HAPool.
+// The GraphQL type's documentation follows.
+//
+// HA pool entity
+type getWebsiteByIdEntitiesEntityQueriesByIdHAPool struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdHAPool.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdHAPool) GetTypename() *string { return v.Typename }
+
 // getWebsiteByIdEntitiesEntityQueriesByIdHardwareSensor includes the requested fields of the GraphQL type HardwareSensor.
 // The GraphQL type's documentation follows.
 //
@@ -3938,6 +4762,17 @@ type getWebsiteByIdEntitiesEntityQueriesByIdHardwareSensor struct {
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdHardwareSensor) GetTypename() *string {
 	return v.Typename
 }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine includes the requested fields of the GraphQL type HcoEngine.
+// The GraphQL type's documentation follows.
+//
+// HcoEngine entity represents Hybrid Cloud Observability polling engine
+type getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdHcoEngine) GetTypename() *string { return v.Typename }
 
 // getWebsiteByIdEntitiesEntityQueriesByIdHcoGroup includes the requested fields of the GraphQL type HcoGroup.
 // The GraphQL type's documentation follows.
@@ -3960,6 +4795,16 @@ type getWebsiteByIdEntitiesEntityQueriesByIdHost struct {
 
 // GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdHost.Typename, and is useful for accessing the field via an interface.
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdHost) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer includes the requested fields of the GraphQL type IISWebServer.
+type getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdIISWebServer) GetTypename() *string {
+	return v.Typename
+}
 
 // getWebsiteByIdEntitiesEntityQueriesByIdIpAddress includes the requested fields of the GraphQL type IpAddress.
 // The GraphQL type's documentation follows.
@@ -4076,6 +4921,32 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesNode) GetTypename() *s
 	return v.Typename
 }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume includes the requested fields of the GraphQL type KubernetesPersistentVolume.
+// The GraphQL type's documentation follows.
+//
+// Kubernetes PersistenVolume entity
+type getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolume) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim includes the requested fields of the GraphQL type KubernetesPersistentVolumeClaim.
+// The GraphQL type's documentation follows.
+//
+// Kubernetes PersistenVolumeClaim entity
+type getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim) GetTypename() *string {
+	return v.Typename
+}
+
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod includes the requested fields of the GraphQL type KubernetesPod.
 // The GraphQL type's documentation follows.
 //
@@ -4086,6 +4957,19 @@ type getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod struct {
 
 // GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod.Typename, and is useful for accessing the field via an interface.
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPod) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance includes the requested fields of the GraphQL type KubernetesPodInstance.
+// The GraphQL type's documentation follows.
+//
+// Kubernetes Pod Instance entity
+type getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesPodInstance) GetTypename() *string {
 	return v.Typename
 }
 
@@ -4102,6 +4986,19 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesReplicaSet) GetTypenam
 	return v.Typename
 }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService includes the requested fields of the GraphQL type KubernetesService.
+// The GraphQL type's documentation follows.
+//
+// Kubernetes Service entity
+type getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesService) GetTypename() *string {
+	return v.Typename
+}
+
 // getWebsiteByIdEntitiesEntityQueriesByIdKubernetesStatefulSet includes the requested fields of the GraphQL type KubernetesStatefulSet.
 // The GraphQL type's documentation follows.
 //
@@ -4115,11 +5012,24 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdKubernetesStatefulSet) GetTypena
 	return v.Typename
 }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint includes the requested fields of the GraphQL type NetPathEndpoint.
+// The GraphQL type's documentation follows.
+//
+// NetPath Endpoint entity is a representation of target monitored by NetPath Probe.
+type getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdNetPathEndpoint) GetTypename() *string {
+	return v.Typename
+}
+
 // getWebsiteByIdEntitiesEntityQueriesByIdNetworkDevice includes the requested fields of the GraphQL type NetworkDevice.
 // The GraphQL type's documentation follows.
 //
 // Network Device entity as a flat representation of Orion SWIS schema for all statistics related to Node
-// with telemetry mapping condition to all telemetry with existing tags 'Orion.Nodes.Uri' and 'Orion.EntityType'
+// with telemetry mapping condition to all telemetry with existing tags 'sw.collector.Nodes.Uri' and 'sw.collector.Nodes.Category'
 type getWebsiteByIdEntitiesEntityQueriesByIdNetworkDevice struct {
 	Typename *string `json:"__typename"`
 }
@@ -4162,6 +5072,32 @@ type getWebsiteByIdEntitiesEntityQueriesByIdNginxInstance struct {
 
 // GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdNginxInstance.Typename, and is useful for accessing the field via an interface.
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdNginxInstance) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession includes the requested fields of the GraphQL type PaloAltoRemoteAccessSession.
+// The GraphQL type's documentation follows.
+//
+// Palo Alto Firewall Remote Access entity
+type getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel includes the requested fields of the GraphQL type PaloAltoSiteToSiteTunnel.
+// The GraphQL type's documentation follows.
+//
+// Palo Alto Firewall SiteToSiteTunnel entity
+type getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel) GetTypename() *string {
 	return v.Typename
 }
 
@@ -4217,6 +5153,30 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdPhysicalPortToEndpoint) GetTypen
 	return v.Typename
 }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface includes the requested fields of the GraphQL type SdWanEdgeInterface.
+// The GraphQL type's documentation follows.
+//
+// SD-WAN Edge Interface entity
+type getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdSdWanEdgeInterface) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel includes the requested fields of the GraphQL type SdWanTunnel.
+// The GraphQL type's documentation follows.
+//
+// SD-WAN Tunnel entity
+type getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdSdWanTunnel) GetTypename() *string { return v.Typename }
+
 // getWebsiteByIdEntitiesEntityQueriesByIdService includes the requested fields of the GraphQL type Service.
 // The GraphQL type's documentation follows.
 //
@@ -4241,6 +5201,30 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdServiceInstance) GetTypename() *
 	return v.Typename
 }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication includes the requested fields of the GraphQL type SyslogApplication.
+// The GraphQL type's documentation follows.
+//
+// Syslog Application entity
+type getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdSyslogApplication) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost includes the requested fields of the GraphQL type SyslogHost.
+// The GraphQL type's documentation follows.
+//
+// Syslog Host entity
+type getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdSyslogHost) GetTypename() *string { return v.Typename }
+
 // getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint includes the requested fields of the GraphQL type ThinAccessPoint.
 // The GraphQL type's documentation follows.
 //
@@ -4251,6 +5235,84 @@ type getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint struct {
 
 // GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint.Typename, and is useful for accessing the field via an interface.
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdThinAccessPoint) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdTransaction includes the requested fields of the GraphQL type Transaction.
+// The GraphQL type's documentation follows.
+//
+// Transaction entity
+type getWebsiteByIdEntitiesEntityQueriesByIdTransaction struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdTransaction.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdTransaction) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdUri includes the requested fields of the GraphQL type Uri.
+// The GraphQL type's documentation follows.
+//
+// Uri entity
+type getWebsiteByIdEntitiesEntityQueriesByIdUri struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdUri.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdUri) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdVCenter includes the requested fields of the GraphQL type VCenter.
+type getWebsiteByIdEntitiesEntityQueriesByIdVCenter struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVCenter.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVCenter) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster includes the requested fields of the GraphQL type VirtualCluster.
+type getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualCluster) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter includes the requested fields of the GraphQL type VirtualDatacenter.
+type getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatacenter) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore includes the requested fields of the GraphQL type VirtualDatastore.
+type getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualDatastore) GetTypename() *string {
+	return v.Typename
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost includes the requested fields of the GraphQL type VirtualHost.
+type getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualHost) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine includes the requested fields of the GraphQL type VirtualMachine.
+type getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualMachine) GetTypename() *string {
 	return v.Typename
 }
 
@@ -4267,172 +5329,263 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdVirtualRoutingForwarding) GetTyp
 	return v.Typename
 }
 
+// getWebsiteByIdEntitiesEntityQueriesByIdVlan includes the requested fields of the GraphQL type Vlan.
+// The GraphQL type's documentation follows.
+//
+// Vlan entity
+type getWebsiteByIdEntitiesEntityQueriesByIdVlan struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVlan.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVlan) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice includes the requested fields of the GraphQL type VlanDevice.
+// The GraphQL type's documentation follows.
+//
+// VlanDevice entity
+type getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVlanDevice) GetTypename() *string { return v.Typename }
+
+// getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap includes the requested fields of the GraphQL type VlanPortInterfaceMap.
+// The GraphQL type's documentation follows.
+//
+// Vlan port and interface mapping entity
+type getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap.Typename, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdVlanPortInterfaceMap) GetTypename() *string {
+	return v.Typename
+}
+
 // getWebsiteByIdEntitiesEntityQueriesByIdWebsite includes the requested fields of the GraphQL type Website.
 // The GraphQL type's documentation follows.
 //
 // Website entity
 type getWebsiteByIdEntitiesEntityQueriesByIdWebsite struct {
-	Typename                   *string `json:"__typename"`
-	WebsiteEntityBasicMetadata `json:"-"`
+	Typename *string `json:"__typename"`
+	// Entity name
+	Name       *string                                                   `json:"name"`
+	Url        string                                                    `json:"url"`
+	Monitoring *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring `json:"monitoring"`
 }
 
 // GetTypename returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.Typename, and is useful for accessing the field via an interface.
 func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetTypename() *string { return v.Typename }
 
-// GetId returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.Id, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetId() string {
-	return v.WebsiteEntityBasicMetadata.Id
-}
-
-// GetType returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.Type, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetType() string {
-	return v.WebsiteEntityBasicMetadata.Type
-}
-
 // GetName returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.Name, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetName() *string {
-	return v.WebsiteEntityBasicMetadata.Name
-}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetName() *string { return v.Name }
 
 // GetUrl returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.Url, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetUrl() string {
-	return v.WebsiteEntityBasicMetadata.Url
-}
-
-// GetDisplayName returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.DisplayName, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetDisplayName() *string {
-	return v.WebsiteEntityBasicMetadata.DisplayName
-}
-
-// GetCreatedTime returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.CreatedTime, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetCreatedTime() *string {
-	return v.WebsiteEntityBasicMetadata.CreatedTime
-}
-
-// GetUpdatedTime returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.UpdatedTime, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetUpdatedTime() *string {
-	return v.WebsiteEntityBasicMetadata.UpdatedTime
-}
-
-// GetLastSeenTime returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.LastSeenTime, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetLastSeenTime() *string {
-	return v.WebsiteEntityBasicMetadata.LastSeenTime
-}
-
-// GetMaxUnknownPeriodMinutes returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.MaxUnknownPeriodMinutes, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetMaxUnknownPeriodMinutes() *int {
-	return v.WebsiteEntityBasicMetadata.MaxUnknownPeriodMinutes
-}
-
-// GetIsUnknown returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.IsUnknown, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetIsUnknown() *bool {
-	return v.WebsiteEntityBasicMetadata.IsUnknown
-}
-
-// GetExtensions returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.Extensions, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetExtensions() []string {
-	return v.WebsiteEntityBasicMetadata.Extensions
-}
-
-// GetFeatures returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.Features, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetFeatures() []string {
-	return v.WebsiteEntityBasicMetadata.Features
-}
-
-// GetLockReleaseTime returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.LockReleaseTime, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetLockReleaseTime() *time.Time {
-	return v.WebsiteEntityBasicMetadata.LockReleaseTime
-}
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetUrl() string { return v.Url }
 
 // GetMonitoring returns getWebsiteByIdEntitiesEntityQueriesByIdWebsite.Monitoring, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetMonitoring() *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoring {
-	return v.WebsiteEntityBasicMetadata.Monitoring
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) GetMonitoring() *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring {
+	return v.Monitoring
 }
 
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) UnmarshalJSON(b []byte) error {
-
-	if string(b) == "null" {
-		return nil
-	}
-
-	var firstPass struct {
-		*getWebsiteByIdEntitiesEntityQueriesByIdWebsite
-		graphql.NoUnmarshalJSON
-	}
-	firstPass.getWebsiteByIdEntitiesEntityQueriesByIdWebsite = v
-
-	err := json.Unmarshal(b, &firstPass)
-	if err != nil {
-		return err
-	}
-
-	err = json.Unmarshal(
-		b, &v.WebsiteEntityBasicMetadata)
-	if err != nil {
-		return err
-	}
-	return nil
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring includes the requested fields of the GraphQL type WebsiteMonitoring.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring struct {
+	CustomHeaders []getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringCustomHeadersCustomHeader         `json:"customHeaders"`
+	Availability  *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring `json:"availability"`
+	Rum           *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring                   `json:"rum"`
+	Options       *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringOptions                            `json:"options"`
 }
 
-type __premarshalgetWebsiteByIdEntitiesEntityQueriesByIdWebsite struct {
-	Typename *string `json:"__typename"`
-
-	Id string `json:"id"`
-
-	Type string `json:"type"`
-
-	Name *string `json:"name"`
-
-	Url string `json:"url"`
-
-	DisplayName *string `json:"displayName"`
-
-	CreatedTime *string `json:"createdTime"`
-
-	UpdatedTime *string `json:"updatedTime"`
-
-	LastSeenTime *string `json:"lastSeenTime"`
-
-	MaxUnknownPeriodMinutes *int `json:"maxUnknownPeriodMinutes"`
-
-	IsUnknown *bool `json:"isUnknown"`
-
-	Extensions []string `json:"extensions"`
-
-	Features []string `json:"features"`
-
-	LockReleaseTime *time.Time `json:"lockReleaseTime"`
-
-	Monitoring *WebsiteEntityBasicMetadataMonitoringWebsiteMonitoring `json:"monitoring"`
+// GetCustomHeaders returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring.CustomHeaders, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring) GetCustomHeaders() []getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringCustomHeadersCustomHeader {
+	return v.CustomHeaders
 }
 
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) MarshalJSON() ([]byte, error) {
-	premarshaled, err := v.__premarshalJSON()
-	if err != nil {
-		return nil, err
-	}
-	return json.Marshal(premarshaled)
+// GetAvailability returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring.Availability, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring) GetAvailability() *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring {
+	return v.Availability
 }
 
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsite) __premarshalJSON() (*__premarshalgetWebsiteByIdEntitiesEntityQueriesByIdWebsite, error) {
-	var retval __premarshalgetWebsiteByIdEntitiesEntityQueriesByIdWebsite
+// GetRum returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring.Rum, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring) GetRum() *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring {
+	return v.Rum
+}
 
-	retval.Typename = v.Typename
-	retval.Id = v.WebsiteEntityBasicMetadata.Id
-	retval.Type = v.WebsiteEntityBasicMetadata.Type
-	retval.Name = v.WebsiteEntityBasicMetadata.Name
-	retval.Url = v.WebsiteEntityBasicMetadata.Url
-	retval.DisplayName = v.WebsiteEntityBasicMetadata.DisplayName
-	retval.CreatedTime = v.WebsiteEntityBasicMetadata.CreatedTime
-	retval.UpdatedTime = v.WebsiteEntityBasicMetadata.UpdatedTime
-	retval.LastSeenTime = v.WebsiteEntityBasicMetadata.LastSeenTime
-	retval.MaxUnknownPeriodMinutes = v.WebsiteEntityBasicMetadata.MaxUnknownPeriodMinutes
-	retval.IsUnknown = v.WebsiteEntityBasicMetadata.IsUnknown
-	retval.Extensions = v.WebsiteEntityBasicMetadata.Extensions
-	retval.Features = v.WebsiteEntityBasicMetadata.Features
-	retval.LockReleaseTime = v.WebsiteEntityBasicMetadata.LockReleaseTime
-	retval.Monitoring = v.WebsiteEntityBasicMetadata.Monitoring
-	return &retval, nil
+// GetOptions returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring.Options, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoring) GetOptions() *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringOptions {
+	return v.Options
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring includes the requested fields of the GraphQL type AvailabilityMonitoring.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring struct {
+	Protocols             []WebsiteProtocol                                                                                                           `json:"protocols"`
+	LocationOptions       []getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation    `json:"locationOptions"`
+	PlatformOptions       *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions                  `json:"platformOptions"`
+	TestFromLocation      *ProbeLocationType                                                                                                          `json:"testFromLocation"`
+	TestIntervalInSeconds *int                                                                                                                        `json:"testIntervalInSeconds"`
+	CheckForString        *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType `json:"checkForString"`
+	Ssl                   *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring                 `json:"ssl"`
+}
+
+// GetProtocols returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring.Protocols, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetProtocols() []WebsiteProtocol {
+	return v.Protocols
+}
+
+// GetLocationOptions returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring.LocationOptions, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetLocationOptions() []getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation {
+	return v.LocationOptions
+}
+
+// GetPlatformOptions returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring.PlatformOptions, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetPlatformOptions() *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions {
+	return v.PlatformOptions
+}
+
+// GetTestFromLocation returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring.TestFromLocation, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetTestFromLocation() *ProbeLocationType {
+	return v.TestFromLocation
+}
+
+// GetTestIntervalInSeconds returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring.TestIntervalInSeconds, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetTestIntervalInSeconds() *int {
+	return v.TestIntervalInSeconds
+}
+
+// GetCheckForString returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring.CheckForString, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetCheckForString() *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType {
+	return v.CheckForString
+}
+
+// GetSsl returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring.Ssl, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetSsl() *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring {
+	return v.Ssl
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType includes the requested fields of the GraphQL type CheckForStringType.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType struct {
+	Operator CheckStringOperator `json:"operator"`
+	Value    string              `json:"value"`
+}
+
+// GetOperator returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType.Operator, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType) GetOperator() CheckStringOperator {
+	return v.Operator
+}
+
+// GetValue returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType.Value, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType) GetValue() string {
+	return v.Value
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation includes the requested fields of the GraphQL type ProbeLocation.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation struct {
+	Type  ProbeLocationType `json:"type"`
+	Value string            `json:"value"`
+}
+
+// GetType returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation.Type, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation) GetType() ProbeLocationType {
+	return v.Type
+}
+
+// GetValue returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation.Value, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation) GetValue() string {
+	return v.Value
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions includes the requested fields of the GraphQL type PlatformOptions.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions struct {
+	TestFromAll bool     `json:"testFromAll"`
+	Platforms   []string `json:"platforms"`
+}
+
+// GetTestFromAll returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions.TestFromAll, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions) GetTestFromAll() bool {
+	return v.TestFromAll
+}
+
+// GetPlatforms returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions.Platforms, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions) GetPlatforms() []string {
+	return v.Platforms
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring includes the requested fields of the GraphQL type SslMonitoring.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring struct {
+	Enabled                        bool `json:"enabled"`
+	DaysPriorToExpiration          *int `json:"daysPriorToExpiration"`
+	IgnoreIntermediateCertificates bool `json:"ignoreIntermediateCertificates"`
+}
+
+// GetEnabled returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring.Enabled, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring) GetEnabled() bool {
+	return v.Enabled
+}
+
+// GetDaysPriorToExpiration returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring.DaysPriorToExpiration, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring) GetDaysPriorToExpiration() *int {
+	return v.DaysPriorToExpiration
+}
+
+// GetIgnoreIntermediateCertificates returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring.IgnoreIntermediateCertificates, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring) GetIgnoreIntermediateCertificates() bool {
+	return v.IgnoreIntermediateCertificates
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringCustomHeadersCustomHeader includes the requested fields of the GraphQL type CustomHeader.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringCustomHeadersCustomHeader struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+// GetName returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringCustomHeadersCustomHeader.Name, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringCustomHeadersCustomHeader) GetName() string {
+	return v.Name
+}
+
+// GetValue returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringCustomHeadersCustomHeader.Value, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringCustomHeadersCustomHeader) GetValue() string {
+	return v.Value
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringOptions includes the requested fields of the GraphQL type MonitoringOptions.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringOptions struct {
+	IsAvailabilityActive bool `json:"isAvailabilityActive"`
+	IsRumActive          bool `json:"isRumActive"`
+}
+
+// GetIsAvailabilityActive returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringOptions.IsAvailabilityActive, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringOptions) GetIsAvailabilityActive() bool {
+	return v.IsAvailabilityActive
+}
+
+// GetIsRumActive returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringOptions.IsRumActive, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringOptions) GetIsRumActive() bool {
+	return v.IsRumActive
+}
+
+// getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring includes the requested fields of the GraphQL type RumMonitoring.
+type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring struct {
+	ApdexTimeInSeconds *int    `json:"apdexTimeInSeconds"`
+	Snippet            *string `json:"snippet"`
+	Spa                bool    `json:"spa"`
+}
+
+// GetApdexTimeInSeconds returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring.ApdexTimeInSeconds, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring) GetApdexTimeInSeconds() *int {
+	return v.ApdexTimeInSeconds
+}
+
+// GetSnippet returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring.Snippet, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring) GetSnippet() *string {
+	return v.Snippet
+}
+
+// GetSpa returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring.Spa, and is useful for accessing the field via an interface.
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringRumRumMonitoring) GetSpa() bool {
+	return v.Spa
 }
 
 // getWebsiteByIdEntitiesEntityQueriesByIdWirelessClient includes the requested fields of the GraphQL type WirelessClient.
@@ -4473,7 +5626,6 @@ func (v *getWebsiteByIdResponse) GetEntities() getWebsiteByIdEntitiesEntityQueri
 // updateAlertDefinitionAlertMutations includes the requested fields of the GraphQL type AlertMutations.
 type updateAlertDefinitionAlertMutations struct {
 	// Updates an Alert definition by ID and returns the alert on success, or null when no such Alert definition exists.
-	// Requires JWT payload (*x-jwt-verified* header) with `org_id` claim containing Organization ID.
 	UpdateAlertDefinition *updateAlertDefinitionAlertMutationsUpdateAlertDefinition `json:"updateAlertDefinition"`
 }
 
@@ -4483,37 +5635,41 @@ func (v *updateAlertDefinitionAlertMutations) GetUpdateAlertDefinition() *update
 }
 
 // updateAlertDefinitionAlertMutationsUpdateAlertDefinition includes the requested fields of the GraphQL type AlertDefinition.
+// The GraphQL type's documentation follows.
+//
+// Alert definition object.
 type updateAlertDefinitionAlertMutationsUpdateAlertDefinition struct {
-	// List of alert actions that shall be triggered in case of alert FIRING
+	// Alert definition actions (notifications) to be triggered in a case of a new active alert, or when active alert
+	// returns to normal.
 	Actions []updateAlertDefinitionAlertMutationsUpdateAlertDefinitionActionsAlertAction `json:"actions"`
-	// A flag indicating whether to send a notification when active alert returns to normal.
+	// Indication whether to send a notification when active alert returns to normal.
 	TriggerResetActions bool `json:"triggerResetActions"`
-	// Alert definition condition type
+	// Alert definition condition type.
 	ConditionType ConditionType `json:"conditionType"`
-	// Ordered list of condition nodes representing the flatten condition tree.
-	// The first item is the tree root.
+	// Ordered list of condition nodes representing the flattened condition tree. The first item is the tree root.
 	FlatCondition []updateAlertDefinitionAlertMutationsUpdateAlertDefinitionFlatConditionFlatAlertConditionExpression `json:"flatCondition"`
-	// Alert definition description
+	// Alert definition description.
 	Description *string `json:"description"`
-	// Enabled whether Alert definition shall be evaluated
+	// Indication whether the Alert definition is being evaluated.
 	Enabled bool `json:"enabled"`
-	// Alert definition ID in UUID format
+	// Alert definition ID (in the UUID format).
 	Id string `json:"id"`
-	// Alert definition name
+	// Alert definition name.
 	Name string `json:"name"`
-	// Organization ID
+	// Organization ID where the Alert definition was created.
 	OrganizationId string `json:"organizationId"`
-	// Alert definition severity
+	// Alert definition severity.
 	Severity AlertSeverity `json:"severity"`
-	// Indication whether alert is triggered
+	// Indication whether the Alert definition is triggered (i.e. if there is at least one active alert instance).
 	Triggered bool `json:"triggered"`
-	// Time when the Alert definition was triggered in ISO-8601 date format (e.g. `2011-12-03T10:15:30Z`)
+	// Timestamp (in the ISO-8601 date and time format in UTC) indicating when the Alert definition was triggered
+	// (*null* if the Alert definition is currently not triggered).
 	TriggeredTime *string `json:"triggeredTime"`
-	// List of targeted Entity types
+	// Entity types targeted by the Alert definition.
 	TargetEntityTypes []string `json:"targetEntityTypes"`
-	// Information about any pending mutes on the Alert definition
+	// Information if notifications for the Alert definition are muted (suppressed).
 	MuteInfo updateAlertDefinitionAlertMutationsUpdateAlertDefinitionMuteInfo `json:"muteInfo"`
-	// User ID
+	// Alert definition creator ID.
 	UserId string `json:"userId"`
 }
 
@@ -4589,10 +5745,14 @@ func (v *updateAlertDefinitionAlertMutationsUpdateAlertDefinition) GetUserId() s
 }
 
 // updateAlertDefinitionAlertMutationsUpdateAlertDefinitionActionsAlertAction includes the requested fields of the GraphQL type AlertAction.
+// The GraphQL type's documentation follows.
+//
+// Alert definition action object. It describes which notifications of a given type shall be triggered in a case of a new
+// active alert, or when active alert returns to normal.
 type updateAlertDefinitionAlertMutationsUpdateAlertDefinitionActionsAlertAction struct {
-	// List of notification configuration IDs
+	// Notification configuration IDs.
 	ConfigurationIds []string `json:"configurationIds"`
-	// Type of a notification service
+	// Notification service type (email, MS Teams, Slack, webhook, ...).
 	Type string `json:"type"`
 }
 
@@ -4659,18 +5819,21 @@ type updateAlertDefinitionAlertMutationsUpdateAlertDefinitionFlatConditionFlatAl
 	FieldName *string `json:"fieldName"`
 	// Operator for combining operands. Supported values:
 	// - For aggregationOperator: `COUNT`, `MIN`, `MAX`, `AVG`, `SUM`, `LAST`
-	// - For binaryOperator: `=`, `!=`, `>`, `<`, `>=`, `<=`
+	// - For binaryOperator: `=`, `!=`, `>`, `<`, `>=`, `<=`, `IN`
 	// - For logicalOperator: `AND`, `OR`
 	// - For unaryOperator: `!`
+	// - For relationshipOperator: null
 	Operator *string `json:"operator"`
 	// Node (operator) type. Supported values:
 	// - `aggregationOperator` (child of `binaryOperator`)
-	// - `binaryOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `binaryOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
 	// - `constantValue` (root, or child of `aggregationOperator`, `binaryOperator`)
-	// - `logicalOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `logicalOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
+	// - `attributeField` (child of `binaryOperator`)
 	// - `metricField` (child of `binaryOperator`, `aggregationOperator`)
 	// - `queryField` (child of `aggregationOperator`)
-	// - `unaryOperator` (root, or child of `logicalOperator`, `unaryOperator`)
+	// - `unaryOperator` (root, or child of `logicalOperator`, `unaryOperator`, `relationshipOperator`)
+	// - `relationshipOperator` (root, or child of `logicalOperator`, `unaryOperator`)
 	Type string `json:"type"`
 	// Query specification for `queryField` nodes.
 	Query *string `json:"query"`
@@ -4699,14 +5862,13 @@ func (v *updateAlertDefinitionAlertMutationsUpdateAlertDefinitionFlatConditionFl
 // updateAlertDefinitionAlertMutationsUpdateAlertDefinitionMuteInfo includes the requested fields of the GraphQL type AlertDefinitionMuteInfo.
 // The GraphQL type's documentation follows.
 //
-// Alert definitions can be muted for certain period of time or muted until resolved.
-//
-// If the muted is set to *true* and until attribute is not set meaning no notification will be sent until
-// all of the evaluations are set to **OK** state or alert definition is reset
+// Information if notifications for the Alert definition are muted (suppressed).
 type updateAlertDefinitionAlertMutationsUpdateAlertDefinitionMuteInfo struct {
-	// When muted no notifications are sent
+	// Indication whether notifications for the Alert definition are muted.
 	Muted bool `json:"muted"`
-	// Time until the mute expires in ISO-8601 date format - `2011-12-03T10:15:30Z` or `null` - muted until resolved
+	// Timestamp (in the ISO-8601 date and time format in UTC) indicating until when notifications for the Alert definition
+	// are muted. If not specified, notifications are muted 'until resolved', i.e. until all evaluations are set back to
+	// the *OK* state (either automatically or using manual reset).
 	Until *string `json:"until"`
 }
 
@@ -4959,22 +6121,22 @@ func (v *updateNotificationUpdateNotificationServiceConfigurationUpdateNotificat
 //
 // Mutations related to Digital Experience Monitoring (DEM).
 type updateWebsiteMutationDemDemMutations struct {
-	UpdateWebsite updateWebsiteMutationDemDemMutationsUpdateWebsitePublicUpdateWebsiteSuccess `json:"updateWebsite"`
+	UpdateWebsite updateWebsiteMutationDemDemMutationsUpdateWebsiteUpdateWebsiteSuccess `json:"updateWebsite"`
 }
 
 // GetUpdateWebsite returns updateWebsiteMutationDemDemMutations.UpdateWebsite, and is useful for accessing the field via an interface.
-func (v *updateWebsiteMutationDemDemMutations) GetUpdateWebsite() updateWebsiteMutationDemDemMutationsUpdateWebsitePublicUpdateWebsiteSuccess {
+func (v *updateWebsiteMutationDemDemMutations) GetUpdateWebsite() updateWebsiteMutationDemDemMutationsUpdateWebsiteUpdateWebsiteSuccess {
 	return v.UpdateWebsite
 }
 
-// updateWebsiteMutationDemDemMutationsUpdateWebsitePublicUpdateWebsiteSuccess includes the requested fields of the GraphQL type PublicUpdateWebsiteSuccess.
-type updateWebsiteMutationDemDemMutationsUpdateWebsitePublicUpdateWebsiteSuccess struct {
+// updateWebsiteMutationDemDemMutationsUpdateWebsiteUpdateWebsiteSuccess includes the requested fields of the GraphQL type UpdateWebsiteSuccess.
+type updateWebsiteMutationDemDemMutationsUpdateWebsiteUpdateWebsiteSuccess struct {
 	// The id of the updated website.
 	Id string `json:"id"`
 }
 
-// GetId returns updateWebsiteMutationDemDemMutationsUpdateWebsitePublicUpdateWebsiteSuccess.Id, and is useful for accessing the field via an interface.
-func (v *updateWebsiteMutationDemDemMutationsUpdateWebsitePublicUpdateWebsiteSuccess) GetId() string {
+// GetId returns updateWebsiteMutationDemDemMutationsUpdateWebsiteUpdateWebsiteSuccess.Id, and is useful for accessing the field via an interface.
+func (v *updateWebsiteMutationDemDemMutationsUpdateWebsiteUpdateWebsiteSuccess) GetId() string {
 	return v.Id
 }
 
@@ -5556,29 +6718,46 @@ query getWebsiteById ($id: ID!) {
 		byId(id: $id) {
 			__typename
 			... on Website {
-				... WebsiteEntityBasicMetadata
+				name
+				url
+				monitoring {
+					customHeaders {
+						name
+						value
+					}
+					availability {
+						protocols
+						locationOptions {
+							type
+							value
+						}
+						platformOptions {
+							testFromAll
+							platforms
+						}
+						testFromLocation
+						testIntervalInSeconds
+						checkForString {
+							operator
+							value
+						}
+						ssl {
+							enabled
+							daysPriorToExpiration
+							ignoreIntermediateCertificates
+						}
+					}
+					rum {
+						apdexTimeInSeconds
+						snippet
+						spa
+					}
+					options {
+						isAvailabilityActive
+						isRumActive
+					}
+				}
 			}
-		}
-	}
-}
-fragment WebsiteEntityBasicMetadata on Website {
-	id
-	type
-	name
-	url
-	displayName
-	createdTime
-	updatedTime
-	lastSeenTime
-	maxUnknownPeriodMinutes
-	isUnknown
-	extensions
-	features
-	lockReleaseTime
-	monitoring {
-		options {
-			isAvailabilityActive
-			isRumActive
 		}
 	}
 }
@@ -5786,10 +6965,12 @@ func updateNotification(
 
 // The query or mutation executed by updateWebsiteMutation.
 const updateWebsiteMutation_Operation = `
-mutation updateWebsiteMutation ($input: PublicUpdateWebsiteInput!) {
+mutation updateWebsiteMutation ($input: UpdateWebsiteInput!) {
 	dem {
 		updateWebsite(input: $input) {
-			id
+			... on UpdateWebsiteSuccess {
+				id
+			}
 		}
 	}
 }
@@ -5798,7 +6979,7 @@ mutation updateWebsiteMutation ($input: PublicUpdateWebsiteInput!) {
 func updateWebsiteMutation(
 	ctx context.Context,
 	client graphql.Client,
-	input PublicUpdateWebsiteInput,
+	input UpdateWebsiteInput,
 ) (*updateWebsiteMutationResponse, error) {
 	req := &graphql.Request{
 		OpName: "updateWebsiteMutation",

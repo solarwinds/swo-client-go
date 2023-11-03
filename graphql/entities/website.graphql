@@ -2,32 +2,46 @@ query getWebsiteById($id: ID!) {
   entities {
     byId(id: $id) {
       ... on Website {
-        ...WebsiteEntityBasicMetadata
+        name
+        url
+        monitoring {
+          customHeaders {
+            name
+            value
+          }
+          availability {
+            protocols
+            locationOptions {
+              type
+              value
+            }
+            platformOptions {
+              testFromAll
+              platforms
+            }
+            testFromLocation
+            testIntervalInSeconds
+            checkForString {
+              operator
+              value
+            }
+            ssl {
+              enabled
+              daysPriorToExpiration
+              ignoreIntermediateCertificates
+            }
+          }
+          rum {
+            apdexTimeInSeconds
+            snippet
+            spa
+          }
+          options {
+            isAvailabilityActive
+            isRumActive
+          }
+        }
       }
-    }
-  }
-}
-
-fragment WebsiteEntityBasicMetadata on Website {
-  id
-  type
-  name
-  url
-  displayName
-  createdTime
-  updatedTime
-  lastSeenTime
-  maxUnknownPeriodMinutes
-  isUnknown
-  # related
-  extensions
-  # services
-  features
-  lockReleaseTime
-  monitoring {
-    options {
-      isAvailabilityActive
-      isRumActive
     }
   }
 }
@@ -40,10 +54,12 @@ mutation createWebsiteMutation($input: CreateWebsiteInput!) {
   }
 }
 
-mutation updateWebsiteMutation($input: PublicUpdateWebsiteInput!) {
+mutation updateWebsiteMutation($input: UpdateWebsiteInput!) {
   dem {
     updateWebsite(input: $input) {
-      id
+      ... on UpdateWebsiteSuccess {
+        id
+      }
     }
   }
 }
@@ -57,96 +73,3 @@ mutation deleteWebsiteMutation($input: DeleteWebsiteInput!) {
     }
   }
 }
-
-# {
-#     "operationName": "updateWebsiteMutation",
-#     "variables": {
-#         "input": {
-#             "id": "e-1653524651233509376",
-#             "name": "RobS Test (changed)",
-#             "url": "google.com",
-#             "availabilityCheckSettings": {
-#                 "testIntervalInSeconds": 300,
-#                 "protocols": [
-#                     "HTTP",
-#                     "HTTPS"
-#                 ],
-#                 "testFrom": {
-#                     "type": "REGION",
-#                     "values": [
-#                         "NA",
-#                         "AS",
-#                         "EU",
-#                         "SA",
-#                         "OC"
-#                     ]
-#                 },
-#                 "ssl": {
-#                     "enabled": true,
-#                     "daysPriorToExpiration": 30,
-#                     "ignoreIntermediateCertificates": false
-#                 },
-#                 "customHeaders": [
-#                     {
-#                         "name": "User-Agent",
-#                         "value": "solarwinds/1.0 (www.solarwinds.com/solarwinds-observability)"
-#                     },
-#                     {
-#                         "name": "Accept",
-#                         "value": "application/json"
-#                     }
-#                 ]
-#             },
-#             "rum": {
-#                 "apdexTimeInSeconds": 3,
-#                 "spa": true
-#             }
-#         }
-#     },
-# }
-
-# {
-#     "operationName": "createWebsiteMutation",
-#     "variables": {
-#         "input": {
-#             "name": "RobS Test",
-#             "url": "google.com",
-#             "availabilityCheckSettings": {
-#                 "testIntervalInSeconds": 300,
-#                 "protocols": [
-#                     "HTTP",
-#                     "HTTPS"
-#                 ],
-#                 "testFrom": {
-#                     "type": "REGION",
-#                     "values": [
-#                         "NA",
-#                         "AS",
-#                         "EU",
-#                         "SA",
-#                         "OC"
-#                     ]
-#                 },
-#                 "ssl": {
-#                     "enabled": true,
-#                     "daysPriorToExpiration": 30,
-#                     "ignoreIntermediateCertificates": false
-#                 },
-#                 "customHeaders": [
-#                     {
-#                         "name": "User-Agent",
-#                         "value": "solarwinds/1.0 (www.solarwinds.com/solarwinds-observability)"
-#                     },
-#                     {
-#                         "name": "Accept",
-#                         "value": "application/json"
-#                     }
-#                 ]
-#             },
-#             "rum": {
-#                 "spa": true,
-#                 "apdexTimeInSeconds": 3
-#             }
-#         }
-#     },
-# }
