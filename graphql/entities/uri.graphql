@@ -1,0 +1,75 @@
+query getUriById($id: ID!) {
+  entities {
+    byId(id: $id) {
+      ... on Uri {
+        id
+        name
+        host
+        httpPathAndQuery
+        options {
+          isPingEnabled
+          isHttpEnabled
+          isTcpEnabled
+        }
+        httpOptions {
+          protocols
+          checkForString {
+            operator
+            value
+          }
+          customHeaders {
+            name
+            value
+          }
+        }
+        tcpOptions {
+          port
+          stringToExpect
+          stringToSend
+        }
+        testDefinitions {
+          testFromLocation
+          locationOptions {
+            type
+            value
+          }
+          testIntervalInSeconds
+          platformOptions {
+            testFromAll
+            platforms
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation createUriMutation($input: CreateUriInput!) {
+  dem {
+    createUri(input: $input) {
+      ... on CreateUriResponse {
+        id
+      }
+    }
+  }
+}
+
+mutation updateUriMutation($input: UpdateUriInput!) {
+  dem {
+    updateUri(input: $input) {
+      ... on UpdateUriResponse {
+        id
+      }
+    }
+  }
+}
+
+mutation deleteUriMutation($input: DeleteUriInput!) {
+  dem {
+    deleteUri(input: $input) {
+      ... on DeleteUriResponse {
+        id
+      }
+    }
+  }
+}

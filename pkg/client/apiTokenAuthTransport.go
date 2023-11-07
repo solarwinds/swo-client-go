@@ -30,7 +30,8 @@ func (t *apiTokenAuthTransport) RoundTrip(request *http.Request) (*http.Response
 
 	response, err := http.DefaultTransport.RoundTrip(clone)
 
-	if t.client.debugMode {
+	// If response is nil then likely a client error (e.g. timeout).
+	if t.client.debugMode && response != nil {
 		DumpResponse(response)
 	}
 
