@@ -24,24 +24,13 @@ func main() {
 	Update(ctx, client, website.Id)
 }
 
-func GetCreateInput() swo.CreateWebsiteInput {
-	inputJson, err := ioutil.ReadFile(createFile)
+func Create(ctx context.Context, client *swo.Client) *swo.CreateWebsiteResult {
+	input, err := swo.GetObjectFromFile[swo.CreateWebsiteInput](createFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var website swo.CreateWebsiteInput
-	if err = json.Unmarshal(inputJson, &website); err != nil {
-		log.Fatal(err)
-	}
-
-	return website
-}
-
-func Create(ctx context.Context, client *swo.Client) *swo.CreateWebsiteResult {
-	website := GetCreateInput()
-
-	result, err := client.WebsiteService().Create(ctx, website)
+	result, err := client.WebsiteService().Create(ctx, *input)
 	if err != nil {
 		log.Fatal(err)
 	}
