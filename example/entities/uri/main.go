@@ -10,8 +10,6 @@ import (
 
 const (
 	createFile = "create.json"
-
-	test commit
 )
 
 func main() {
