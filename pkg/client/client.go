@@ -18,12 +18,6 @@ const (
 	requestIdentifier     = "X-Request-Id"
 )
 
-var (
-	serviceInitError = func(serviceName string) error {
-		return fmt.Errorf("could not instantiate service. name: %s", serviceName)
-	}
-)
-
 // ServiceAccessor defines an interface for talking to via domain-specific service constructs
 type ServiceAccessor interface {
 	AlertsService() AlertsCommunicator
