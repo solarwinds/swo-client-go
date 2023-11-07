@@ -1,28 +1,11 @@
 package client
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"log"
 	"net/http"
 	"testing"
 
 	"github.com/google/uuid"
 )
-
-func GetCreateInput() CreateWebsiteInput {
-	inputJson, err := ioutil.ReadFile("website_test.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var website CreateWebsiteInput
-	if err = json.Unmarshal(inputJson, &website); err != nil {
-		log.Fatal(err)
-	}
-
-	return website
-}
 
 func TestSwoService_ReadWebsite(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
@@ -64,8 +47,12 @@ func TestSwoService_CreateWebsite(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
 
+	input, err := GetObjectFromFile[CreateWebsiteInput]("website_test.json")
+	if err != nil {
+		t.Errorf("Swo.CreateWebsite error: %v", err)
+	}
+
 	id := uuid.NewString()
-	input := GetCreateInput()
 
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		gqlInput, err := getGraphQLInput[__createWebsiteMutationInput](r)
@@ -74,7 +61,7 @@ func TestSwoService_CreateWebsite(t *testing.T) {
 		}
 
 		got := gqlInput.Input
-		want := input
+		want := *input
 
 		if !testObjects(t, got, want) {
 			t.Errorf("Request got = %+v, want = %+v", got, want)
@@ -89,7 +76,7 @@ func TestSwoService_CreateWebsite(t *testing.T) {
 		})
 	})
 
-	got, err := client.WebsiteService().Create(ctx, input)
+	got, err := client.WebsiteService().Create(ctx, *input)
 	if err != nil {
 		t.Errorf("Swo.CreateWebsite returned error: %v", err)
 	}
