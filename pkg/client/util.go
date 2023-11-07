@@ -3,6 +3,7 @@ package client
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -46,6 +47,20 @@ func ConvertObject[T any](from any) (*T, error) {
 	}
 
 	return &result, nil
+}
+
+func GetObjectFromFile[T any](file string) (*T, error) {
+	inputJson, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var obj T
+	if err = json.Unmarshal(inputJson, &obj); err != nil {
+		return nil, err
+	}
+
+	return &obj, nil
 }
 
 // A debugging function which dumps the HTTP response to stdout.

@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"io/ioutil"
 	"log"
 
 	"github.com/solarwindscloud/swo-client-go/example"
@@ -25,17 +23,12 @@ func main() {
 }
 
 func Create(ctx context.Context, client *swo.Client) *swo.CreateDashboardResult {
-	inputJson, err := ioutil.ReadFile(createFile)
+	input, err := swo.GetObjectFromFile[swo.CreateDashboardInput](createFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var input swo.CreateDashboardInput
-	if err = json.Unmarshal(inputJson, &input); err != nil {
-		log.Fatal(err)
-	}
-
-	result, err := client.DashboardsService().Create(ctx, input)
+	result, err := client.DashboardsService().Create(ctx, *input)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -25,17 +25,12 @@ func main() {
 }
 
 func Create(ctx context.Context, client *swo.Client) *swo.CreateAlertDefinitionResult {
-	inputJson, err := ioutil.ReadFile(createFile)
+	input, err := swo.GetObjectFromFile[swo.AlertDefinitionInput](createFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var input swo.AlertDefinitionInput
-	if err = json.Unmarshal(inputJson, &input); err != nil {
-		log.Fatal(err)
-	}
-
-	result, err := client.AlertsService().Create(ctx, input)
+	result, err := client.AlertsService().Create(ctx, *input)
 	if err != nil {
 		log.Fatal(err)
 	}
