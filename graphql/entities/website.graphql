@@ -1,0 +1,75 @@
+query getWebsiteById($id: ID!) {
+  entities {
+    byId(id: $id) {
+      ... on Website {
+        name
+        url
+        monitoring {
+          customHeaders {
+            name
+            value
+          }
+          availability {
+            protocols
+            locationOptions {
+              type
+              value
+            }
+            platformOptions {
+              testFromAll
+              platforms
+            }
+            testFromLocation
+            testIntervalInSeconds
+            checkForString {
+              operator
+              value
+            }
+            ssl {
+              enabled
+              daysPriorToExpiration
+              ignoreIntermediateCertificates
+            }
+          }
+          rum {
+            apdexTimeInSeconds
+            snippet
+            spa
+          }
+          options {
+            isAvailabilityActive
+            isRumActive
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation createWebsiteMutation($input: CreateWebsiteInput!) {
+  dem {
+    createWebsite(input: $input) {
+      id
+    }
+  }
+}
+
+mutation updateWebsiteMutation($input: UpdateWebsiteInput!) {
+  dem {
+    updateWebsite(input: $input) {
+      ... on UpdateWebsiteSuccess {
+        id
+      }
+    }
+  }
+}
+
+mutation deleteWebsiteMutation($input: DeleteWebsiteInput!) {
+  dem {
+    deleteWebsite(input: $input) {
+      ... on DeleteWebsiteSuccess {
+        id
+      }
+    }
+  }
+}

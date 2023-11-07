@@ -5,10 +5,13 @@ operations:
 - alerts.graphql
 - dashboards.graphql
 - notifications.graphql
+- entities/*.graphql
 generated: ../pkg/client/genqlient_generated.go
 optional: pointer
 bindings:
   DateTime:
+    type: time.Time
+  Timestamp:
     type: time.Time
   JSON:
     type: any
