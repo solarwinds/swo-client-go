@@ -52,12 +52,6 @@ type service struct {
 	client *Client
 }
 
-var (
-	serviceInitError = func(serviceName string) error {
-		return fmt.Errorf("could not instantiate service: name=%s", serviceName)
-	}
-)
-
 // Returns a new SWO API client with functional override options.
 // * BaseUrlOption
 // * DebugOption
@@ -110,22 +104,13 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 }
 
 func initServices(c *Client) error {
-	if c.alertsService = newAlertsService(c); c.alertsService == nil {
-		return serviceInitError("AlertsService")
-	}
-	if c.dashboardsService = newDashboardsService(c); c.dashboardsService == nil {
-		return serviceInitError("DashboardsService")
-	}
-	if c.notificationsService = newNotificationsService(c); c.notificationsService == nil {
-		return serviceInitError("NotificationsService")
-	}
-	if c.uriService = newUriService(c); c.uriService == nil {
-		return serviceInitError("UriService")
-	}
-	if c.websiteService = newWebsiteService(c); c.websiteService == nil {
-		return serviceInitError("WebsiteService")
-	}
+	c.alertsService = newAlertsService(c)
+	c.dashboardsService = newDashboardsService(c)
+	c.notificationsService = newNotificationsService(c)
+	c.uriService = newUriService(c)
+	c.websiteService = newWebsiteService(c)
 
+	// We will keep this available in case more complex initialization is needed in the future.
 	return nil
 }
 
