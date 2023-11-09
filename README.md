@@ -7,6 +7,8 @@ The resources that are currently supported are:
 * Alerts
 * Dashboards
 * Notification Services
+* Websites
+* Uris
 
 ## Installation ##
 Currently, **swo-client-go requires Go version 1.18 or greater**.
@@ -44,7 +46,7 @@ Construct a new SWO client, then use the various services on the client to
 access different parts of the SWO API. For example:
 
 ```go
-client := swoClient.NewClient(apiToken, options...)
+client := swoClient.New(apiToken, options...)
 
 // get a single dashboard.
 dashboard, err := client.DashboardService().Read(context.Background(), "[dashboard_id]")
@@ -66,8 +68,8 @@ func main() {
   transport := NewCustomTransport(myOptions)
   ctx := context.Background()
 
-  client := swo.NewClient(apiToken,
-    swo.TransportOption(transport),
+  client, err := swoClient.New(apiToken,
+    swoClient.TransportOption(transport),
   )
 
   dashboard, err := client.DashboardService().Read(ctx, "123")

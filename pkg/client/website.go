@@ -18,7 +18,7 @@ type WebsiteCommunicator interface {
 	Delete(context.Context, string) error
 }
 
-func NewWebsiteService(c *Client) *WebsiteService {
+func newWebsiteService(c *Client) *WebsiteService {
 	return &WebsiteService{c}
 }
 

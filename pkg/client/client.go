@@ -18,17 +18,12 @@ const (
 	requestIdentifier     = "X-Request-Id"
 )
 
-var (
-	serviceInitError = func(serviceName string) error {
-		return fmt.Errorf("could not instantiate service. name: %s", serviceName)
-	}
-)
-
 // ServiceAccessor defines an interface for talking to via domain-specific service constructs
 type ServiceAccessor interface {
 	AlertsService() AlertsCommunicator
 	DashboardsService() DashboardsCommunicator
 	NotificationsService() NotificationsCommunicator
+	UriService() UriCommunicator
 	WebsiteService() WebsiteCommunicator
 }
 
@@ -48,6 +43,7 @@ type Client struct {
 	alertsService        AlertsCommunicator
 	dashboardsService    DashboardsCommunicator
 	notificationsService NotificationsCommunicator
+	uriService           UriCommunicator
 	websiteService       WebsiteCommunicator
 }
 
@@ -62,12 +58,11 @@ type service struct {
 // * TransportOption
 // * UserAgentOption
 // * RequestTimeoutOption
-func NewClient(apiToken string, opts ...ClientOption) *Client {
+func New(apiToken string, opts ...ClientOption) (*Client, error) {
 	baseURL, err := url.Parse(defaultBaseURL)
 
 	if err != nil {
-		log.Error(err)
-		return nil
+		return nil, err
 	}
 
 	swoClient := &Client{
@@ -102,26 +97,20 @@ func NewClient(apiToken string, opts ...ClientOption) *Client {
 	})
 
 	if err = initServices(swoClient); err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	return swoClient
+	return swoClient, nil
 }
 
 func initServices(c *Client) error {
-	if c.alertsService = NewAlertsService(c); c.alertsService == nil {
-		return serviceInitError("AlertsService")
-	}
-	if c.dashboardsService = NewDashboardsService(c); c.dashboardsService == nil {
-		return serviceInitError("DashboardsService")
-	}
-	if c.notificationsService = NewNotificationsService(c); c.notificationsService == nil {
-		return serviceInitError("NotificationsService")
-	}
-	if c.websiteService = NewWebsiteService(c); c.websiteService == nil {
-		return serviceInitError("WebsiteService")
-	}
+	c.alertsService = newAlertsService(c)
+	c.dashboardsService = newDashboardsService(c)
+	c.notificationsService = newNotificationsService(c)
+	c.uriService = newUriService(c)
+	c.websiteService = newWebsiteService(c)
 
+	// We will keep this available in case more complex initialization is needed in the future.
 	return nil
 }
 
@@ -138,6 +127,11 @@ func (c *Client) DashboardsService() DashboardsCommunicator {
 // A subset of the API that deals with Notifications.
 func (c *Client) NotificationsService() NotificationsCommunicator {
 	return c.notificationsService
+}
+
+// A subset of the API that deals with Uris.
+func (c *Client) UriService() UriCommunicator {
+	return c.uriService
 }
 
 // A subset of the API that deals with Websites.

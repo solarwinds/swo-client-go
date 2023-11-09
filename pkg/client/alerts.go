@@ -18,7 +18,7 @@ type AlertsCommunicator interface {
 	Delete(context.Context, string) error
 }
 
-func NewAlertsService(c *Client) *AlertsService {
+func newAlertsService(c *Client) *AlertsService {
 	return &AlertsService{c}
 }
 

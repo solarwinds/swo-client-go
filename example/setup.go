@@ -19,14 +19,13 @@ func Setup() (context.Context, *swo.Client) {
 
 	ctx := context.Background()
 
-	client := swo.NewClient(apiToken,
+	client, err := swo.New(apiToken,
 		swo.BaseUrlOption(baseUrl),
 		swo.DebugOption(true),
 	)
 
-	if client == nil {
-		log.Fatal("Unable to create an instance of the SWO client.")
-		return nil, nil
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	return ctx, client
