@@ -52,6 +52,12 @@ type service struct {
 	client *Client
 }
 
+var (
+	serviceInitError = func(serviceName string) error {
+		return fmt.Errorf("could not instantiate service: name=%s", serviceName)
+	}
+)
+
 // Returns a new SWO API client with functional override options.
 // * BaseUrlOption
 // * DebugOption
@@ -97,51 +103,55 @@ func NewClient(apiToken string, opts ...ClientOption) *Client {
 		Transport: swoClient.transport,
 	})
 
+	if err = initServices(swoClient); err != nil {
+		log.Fatal(err)
+	}
+
 	return swoClient
+}
+
+func initServices(c *Client) error {
+	if c.alertsService = NewAlertsService(c); c.alertsService == nil {
+		return serviceInitError("AlertsService")
+	}
+	if c.dashboardsService = NewDashboardsService(c); c.dashboardsService == nil {
+		return serviceInitError("DashboardsService")
+	}
+	if c.notificationsService = NewNotificationsService(c); c.notificationsService == nil {
+		return serviceInitError("NotificationsService")
+	}
+	if c.uriService = NewUriService(c); c.uriService == nil {
+		return serviceInitError("UriService")
+	}
+	if c.websiteService = NewWebsiteService(c); c.websiteService == nil {
+		return serviceInitError("WebsiteService")
+	}
+
+	return nil
 }
 
 // A subset of the API that deals with Alerts.
 func (c *Client) AlertsService() AlertsCommunicator {
-	if c.alertsService == nil {
-		c.alertsService = NewAlertsService(c)
-	}
-
 	return c.alertsService
 }
 
 // A subset of the API that deals with Dashboards.
 func (c *Client) DashboardsService() DashboardsCommunicator {
-	if c.dashboardsService == nil {
-		c.dashboardsService = NewDashboardsService(c)
-	}
-
 	return c.dashboardsService
 }
 
 // A subset of the API that deals with Notifications.
 func (c *Client) NotificationsService() NotificationsCommunicator {
-	if c.notificationsService == nil {
-		c.notificationsService = NewNotificationsService(c)
-	}
-
 	return c.notificationsService
 }
 
 // A subset of the API that deals with Uris.
 func (c *Client) UriService() UriCommunicator {
-	if c.uriService == nil {
-		c.uriService = NewUriService(c)
-	}
-
 	return c.uriService
 }
 
 // A subset of the API that deals with Websites.
 func (c *Client) WebsiteService() WebsiteCommunicator {
-	if c.websiteService == nil {
-		c.websiteService = NewWebsiteService(c)
-	}
-
 	return c.websiteService
 }
 
