@@ -18,7 +18,7 @@ type UriCommunicator interface {
 	Delete(context.Context, string) error
 }
 
-func NewUriService(c *Client) *UriService {
+func newUriService(c *Client) *UriService {
 	return &UriService{c}
 }
 

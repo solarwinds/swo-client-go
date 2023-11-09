@@ -64,12 +64,11 @@ var (
 // * TransportOption
 // * UserAgentOption
 // * RequestTimeoutOption
-func NewClient(apiToken string, opts ...ClientOption) *Client {
+func New(apiToken string, opts ...ClientOption) (*Client, error) {
 	baseURL, err := url.Parse(defaultBaseURL)
 
 	if err != nil {
-		log.Error(err)
-		return nil
+		return nil, err
 	}
 
 	swoClient := &Client{
@@ -104,26 +103,26 @@ func NewClient(apiToken string, opts ...ClientOption) *Client {
 	})
 
 	if err = initServices(swoClient); err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	return swoClient
+	return swoClient, nil
 }
 
 func initServices(c *Client) error {
-	if c.alertsService = NewAlertsService(c); c.alertsService == nil {
+	if c.alertsService = newAlertsService(c); c.alertsService == nil {
 		return serviceInitError("AlertsService")
 	}
-	if c.dashboardsService = NewDashboardsService(c); c.dashboardsService == nil {
+	if c.dashboardsService = newDashboardsService(c); c.dashboardsService == nil {
 		return serviceInitError("DashboardsService")
 	}
-	if c.notificationsService = NewNotificationsService(c); c.notificationsService == nil {
+	if c.notificationsService = newNotificationsService(c); c.notificationsService == nil {
 		return serviceInitError("NotificationsService")
 	}
-	if c.uriService = NewUriService(c); c.uriService == nil {
+	if c.uriService = newUriService(c); c.uriService == nil {
 		return serviceInitError("UriService")
 	}
-	if c.websiteService = NewWebsiteService(c); c.websiteService == nil {
+	if c.websiteService = newWebsiteService(c); c.websiteService == nil {
 		return serviceInitError("WebsiteService")
 	}
 

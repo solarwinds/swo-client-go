@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -36,7 +37,10 @@ func setup() (ctx context.Context, client *Client, mux *http.ServeMux, serverURL
 
 	// client is the SWO client being tested and is configured to use the test server.
 	url, _ := url.Parse(server.URL + baseURLPath + "/")
-	client = NewClient("123456", BaseUrlOption(url.String()))
+	client, err := New("123456", BaseUrlOption(url.String()))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return context.Background(), client, mux, server.URL, server.Close
 }

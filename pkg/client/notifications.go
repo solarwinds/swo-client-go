@@ -22,7 +22,7 @@ type NotificationsCommunicator interface {
 	Delete(context.Context, string) error
 }
 
-func NewNotificationsService(c *Client) *NotificationsService {
+func newNotificationsService(c *Client) *NotificationsService {
 	return &NotificationsService{c}
 }
 

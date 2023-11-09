@@ -26,7 +26,7 @@ type DashboardsCommunicator interface {
 	Delete(context.Context, string) error
 }
 
-func NewDashboardsService(c *Client) *DashboardsService {
+func newDashboardsService(c *Client) *DashboardsService {
 	return &DashboardsService{c}
 }
 
