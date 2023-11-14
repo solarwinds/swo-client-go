@@ -1,15 +1,28 @@
 package client
 
 import (
+	"bytes"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"testing"
 
+	"github.com/Khan/genqlient/graphql"
 	"github.com/google/uuid"
 )
 
 func TestSwoService_ReadUri(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
+
+	// There is a problem in the genqlient library that prevents the generated code from
+	// marshalling the response correct due using the (json:"-") ignore flag. This is a
+	// workaround that uses a raw string as the response instead of the actual response type.
+	// See the getUriByIdEntitiesEntityQueries type in the generated code for more info.
+	inputJson, err := ioutil.ReadFile("uri_test_read.json")
+	if err != nil {
+		t.Error(err)
+	}
 
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		gqlInput, err := getGraphQLInput[__getUriByIdInput](r)
@@ -24,9 +37,7 @@ func TestSwoService_ReadUri(t *testing.T) {
 			t.Errorf("Request got = %+v, want = %+v", got, want)
 		}
 
-		sendGraphQLResponse(t, w, getUriByIdResponse{
-			Entities: getUriByIdEntitiesEntityQueries{},
-		})
+		sendGraphQLResponse(t, w, inputJson)
 	})
 
 	got, err := client.UriService().Read(ctx, "123")
@@ -34,9 +45,17 @@ func TestSwoService_ReadUri(t *testing.T) {
 		t.Errorf("Swo.ReadUri returned error: %v", err)
 	}
 
-	want := &getUriByIdResponse{
-		Entities: getUriByIdEntitiesEntityQueries{},
+	var data getUriByIdResponse
+	resp := &graphql.Response{Data: &data}
+
+	// Decode the json test response so we can compare it to the server response.
+	if err = json.NewDecoder(bytes.NewReader(inputJson)).Decode(resp); err != nil {
+		t.Errorf("Swo.ReadUri marshal error: %v", err)
 	}
+
+	// Pull the wanted value out of the interface.
+	result := *resp.Data.(*getUriByIdResponse).Entities.ById
+	want := result.(*getUriByIdEntitiesEntityQueriesByIdUri)
 
 	if !testObjects(t, got, want) {
 		t.Errorf("Swo.ReadUri returned %+v, wanted %+v", got, want)
@@ -47,7 +66,7 @@ func TestSwoService_CreateUri(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
 
-	input, err := GetObjectFromFile[CreateUriInput]("uri_test.json")
+	input, err := GetObjectFromFile[CreateUriInput]("uri_test_create.json")
 	if err != nil {
 		t.Errorf("Swo.CreateUri error: %v", err)
 	}

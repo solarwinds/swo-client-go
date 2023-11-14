@@ -1,0 +1,32 @@
+{
+  "name": "swo-client-go test",
+  "ipOrDomain": "solarwinds.com",
+  "pingOptions": {
+    "enabled": false
+  },
+  "tcpOptions": {
+    "enabled": true,
+    "stringToExpect": "test-expect",
+    "stringToSend": "test-send",
+    "port": 443
+  },
+  "testDefinitions": {
+    "testFrom": {
+      "type": "REGION",
+      "values": [
+        "NA",
+        "AS",
+        "SA",
+        "OC",
+        "EU"
+      ]
+    },
+    "testIntervalInSeconds": 3600,
+    "platformOptions": {
+      "probePlatforms": [
+        "AWS"
+      ],
+      "testFromAll": false
+    }
+  }
+}

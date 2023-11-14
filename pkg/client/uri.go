@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"log"
 )
 
@@ -9,7 +10,7 @@ type UriService service
 
 type CreateUriResult = createUriMutationDemDemMutationsCreateUriCreateUriResponse
 type UpdateUriResult = updateUriMutationDemDemMutationsUpdateUriUpdateUriResponse
-type ReadUriResult = getUriByIdResponse
+type ReadUriResult = getUriByIdEntitiesEntityQueriesByIdUri
 
 type UriCommunicator interface {
 	Create(context.Context, CreateUriInput) (*CreateUriResult, error)
@@ -46,13 +47,12 @@ func (as *UriService) Read(ctx context.Context, id string) (*ReadUriResult, erro
 		return nil, err
 	}
 
-	if uri := resp.Entities.ById; uri == nil {
-		log.Printf("read uri result. not found:id=%s", id)
+	uriPtr := *resp.Entities.ById
+	if uri, ok := uriPtr.(*ReadUriResult); !ok {
+		return nil, fmt.Errorf("unexpected type %T", uri)
 	} else {
-		log.Printf("read uri result. found:id=%s", id)
+		return uri, nil
 	}
-
-	return resp, nil
 }
 
 // Updates the Uri with input for the given id.
