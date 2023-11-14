@@ -1,0 +1,73 @@
+{
+  "data": {
+    "entities": {
+      "byId": {
+        "__typename": "Website",
+        "name": "swo-client-go test website",
+        "url": "www.solarwinds.com",
+        "monitoring": {
+          "customHeaders": [
+            {
+              "name": "User-Agent",
+              "value": "solarwinds/1.0 (www.solarwinds.com/solarwinds-observability)"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ],
+          "availability": {
+            "protocols": [
+              "HTTP",
+              "HTTPS"
+            ],
+            "locationOptions": [
+              {
+                "type": "REGION",
+                "value": "NA"
+              },
+              {
+                "type": "REGION",
+                "value": "AS"
+              },
+              {
+                "type": "REGION",
+                "value": "SA"
+              },
+              {
+                "type": "REGION",
+                "value": "OC"
+              }
+            ],
+            "platformOptions": {
+              "testFromAll": false,
+              "platforms": [
+                "AWS"
+              ]
+            },
+            "testFromLocation": "REGION",
+            "testIntervalInSeconds": 900,
+            "checkForString": {
+              "operator": "CONTAINS",
+              "value": "solarwinds"
+            },
+            "ssl": {
+              "enabled": true,
+              "daysPriorToExpiration": 30,
+              "ignoreIntermediateCertificates": true
+            }
+          },
+          "rum": {
+            "apdexTimeInSeconds": 3,
+            "snippet": "<script src=\"https://rum-agent.na-01.cloud.solarwinds.com/ra-e-1661126647429210112.js\" async></script>",
+            "spa": true
+          },
+          "options": {
+            "isAvailabilityActive": true,
+            "isRumActive": true
+          }
+        }
+      }
+    }
+  }
+}

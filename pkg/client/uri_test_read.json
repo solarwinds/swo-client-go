@@ -1,0 +1,60 @@
+{
+  "data": {
+    "entities": {
+      "byId": {
+        "__typename": "Uri",
+        "id": "e-1661163945172463616",
+        "name": "swo-client-go test",
+        "host": "solarwinds.com",
+        "httpPathAndQuery": null,
+        "options": {
+          "isPingEnabled": false,
+          "isHttpEnabled": false,
+          "isTcpEnabled": true
+        },
+        "httpOptions": {
+          "protocols": [],
+          "checkForString": null,
+          "customHeaders": []
+        },
+        "tcpOptions": {
+          "port": 443,
+          "stringToExpect": "test-expect",
+          "stringToSend": "test-send"
+        },
+        "testDefinitions": {
+          "testFromLocation": "REGION",
+          "locationOptions": [
+            {
+              "type": "REGION",
+              "value": "NA"
+            },
+            {
+              "type": "REGION",
+              "value": "AS"
+            },
+            {
+              "type": "REGION",
+              "value": "SA"
+            },
+            {
+              "type": "REGION",
+              "value": "OC"
+            },
+            {
+              "type": "REGION",
+              "value": "EU"
+            }
+          ],
+          "testIntervalInSeconds": 3600,
+          "platformOptions": {
+            "testFromAll": false,
+            "platforms": [
+              "AWS"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,15 +1,28 @@
 package client
 
 import (
+	"bytes"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"testing"
 
+	"github.com/Khan/genqlient/graphql"
 	"github.com/google/uuid"
 )
 
 func TestSwoService_ReadWebsite(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
+
+	// There is a problem in the genqlient library that prevents the generated code from
+	// marshalling the response correct due using the (json:"-") ignore flag. This is a
+	// workaround that uses a raw string as the response instead of the actual response type.
+	// See the getWebsiteByIdEntitiesEntityQueries type in the generated code for more info.
+	inputJson, err := ioutil.ReadFile("website_test_read.json")
+	if err != nil {
+		t.Error(err)
+	}
 
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		gqlInput, err := getGraphQLInput[__getWebsiteByIdInput](r)
@@ -24,9 +37,7 @@ func TestSwoService_ReadWebsite(t *testing.T) {
 			t.Errorf("Request got = %+v, want = %+v", got, want)
 		}
 
-		sendGraphQLResponse(t, w, getWebsiteByIdResponse{
-			Entities: getWebsiteByIdEntitiesEntityQueries{},
-		})
+		sendGraphQLResponse(t, w, inputJson)
 	})
 
 	got, err := client.WebsiteService().Read(ctx, "123")
@@ -34,9 +45,18 @@ func TestSwoService_ReadWebsite(t *testing.T) {
 		t.Errorf("Swo.ReadWebsite returned error: %v", err)
 	}
 
-	want := &getWebsiteByIdResponse{
-		Entities: getWebsiteByIdEntitiesEntityQueries{},
+	reader := bytes.NewReader(inputJson)
+	var data getWebsiteByIdResponse
+	resp := &graphql.Response{Data: &data}
+
+	// Decode the json test response so we can compare it to the server response.
+	if err = json.NewDecoder(reader).Decode(resp); err != nil {
+		t.Errorf("Swo.ReadWebsite marshal error: %v", err)
 	}
+
+	// Pull the wanted value out of the interface.
+	result := *resp.Data.(*getWebsiteByIdResponse).Entities.ById
+	want := result.(*getWebsiteByIdEntitiesEntityQueriesByIdWebsite)
 
 	if !testObjects(t, got, want) {
 		t.Errorf("Swo.ReadWebsite returned %+v, wanted %+v", got, want)
@@ -47,7 +67,7 @@ func TestSwoService_CreateWebsite(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
 
-	input, err := GetObjectFromFile[CreateWebsiteInput]("website_test.json")
+	input, err := GetObjectFromFile[CreateWebsiteInput]("website_test_create.json")
 	if err != nil {
 		t.Errorf("Swo.CreateWebsite error: %v", err)
 	}

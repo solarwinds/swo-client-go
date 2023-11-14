@@ -1,0 +1,49 @@
+{
+  "name": "swo-client-go test website",
+  "url": "www.solarwinds.com",
+  "availabilityCheckSettings": {
+    "testIntervalInSeconds": 900,
+    "protocols": [
+      "HTTP",
+      "HTTPS"
+    ],
+    "testFrom": {
+      "type": "REGION",
+      "values": [
+        "NA",
+        "AS",
+        "SA",
+        "OC"
+      ]
+    },
+    "checkForString": {
+      "operator": "CONTAINS",
+      "value": "solarwinds"
+    },
+    "platformOptions": {
+      "probePlatforms": [
+        "AWS"
+      ],
+      "testFromAll": false
+    },
+    "ssl": {
+      "enabled": true,
+      "daysPriorToExpiration": 30,
+      "ignoreIntermediateCertificates": true
+    },
+    "customHeaders": [
+      {
+        "name": "User-Agent",
+        "value": "solarwinds/1.0 (www.solarwinds.com/solarwinds-observability)"
+      },
+      {
+        "name": "Accept",
+        "value": "application/json"
+      }
+    ]
+  },
+  "rum": {
+    "spa": true,
+    "apdexTimeInSeconds": 3
+  }
+}
