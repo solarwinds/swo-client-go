@@ -50,7 +50,21 @@ func httpErrorResponse(w http.ResponseWriter, r *http.Request) {
 }
 
 func sendGraphQLResponse(t *testing.T, w io.Writer, response any) bool {
-	err := json.NewEncoder(w).Encode(graphql.Response{Data: response})
+	var data []byte
+
+	switch typedResp := response.(type) {
+	default:
+		var err error
+		data, err = json.Marshal(graphql.Response{Data: typedResp})
+		if err != nil {
+			t.Errorf("Swo.SendGraphQLResponse error: %v", err)
+			return false
+		}
+	case []byte:
+		data = typedResp
+	}
+
+	_, err := w.Write(data)
 	if err != nil {
 		t.Errorf("Swo.SendGraphQLResponse error: %v", err)
 		return false

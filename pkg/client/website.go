@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"log"
 )
 
@@ -9,7 +10,7 @@ type WebsiteService service
 
 type CreateWebsiteResult = createWebsiteMutationDemDemMutationsCreateWebsiteCreateWebsiteSuccess
 type UpdateWebsiteResult = updateWebsiteMutationResponse
-type ReadWebsiteResult = getWebsiteByIdResponse
+type ReadWebsiteResult = getWebsiteByIdEntitiesEntityQueriesByIdWebsite
 
 type WebsiteCommunicator interface {
 	Create(context.Context, CreateWebsiteInput) (*CreateWebsiteResult, error)
@@ -47,13 +48,12 @@ func (as *WebsiteService) Read(ctx context.Context, id string) (*ReadWebsiteResu
 		return nil, err
 	}
 
-	if website := resp.Entities.ById; website == nil {
-		log.Printf("read website result. not found:id=%s", id)
+	websitePtr := *resp.Entities.ById
+	if website, ok := websitePtr.(*ReadWebsiteResult); !ok {
+		return nil, fmt.Errorf("unexpected type %T", website)
 	} else {
-		log.Printf("read website result. found:id=%s", id)
+		return website, nil
 	}
-
-	return resp, nil
 }
 
 // Updates the website with input for the given id.
