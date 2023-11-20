@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/solarwindscloud/swo-client-go/example"
-	swo "github.com/solarwindscloud/swo-client-go/pkg/client"
+	"github.com/solarwinds/swo-client-go/example"
+	swo "github.com/solarwinds/swo-client-go/pkg/client"
 )
 
 const (

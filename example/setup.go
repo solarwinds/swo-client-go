@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	swo "github.com/solarwindscloud/swo-client-go/pkg/client"
+	swo "github.com/solarwinds/swo-client-go/pkg/client"
 )
 
 var (
