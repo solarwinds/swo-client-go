@@ -15,7 +15,7 @@ Currently, **swo-client-go requires Go version 1.18 or greater**.
 swo-client-go is compatible with modern Go releases in module mode, with Go installed:
 
 ```bash
-go get github.com/solarwindscloud/swo-client-go/v1
+go get github.com/solarwinds/swo-client-go/v1
 ```
 
 will resolve and add the package to the current development module, along with its dependencies.
@@ -23,7 +23,7 @@ will resolve and add the package to the current development module, along with i
 Alternatively the same can be achieved if you use import in a package:
 
 ```go
-import "github.com/solarwindscloud/swo-client-go/v1"
+import "github.com/solarwinds/swo-client-go/v1"
 ```
 
 and run `go get` without parameters.
@@ -31,15 +31,15 @@ and run `go get` without parameters.
 Finally, to use the top-of-trunk version of this repo, use the following command:
 
 ```bash
-go get github.com/solarwindscloud/swo-client-go/v1@main
+go get github.com/solarwinds/swo-client-go/v1@main
 ```
 
 ## Usage ##
 ```go
 // with go modules enabled (GO111MODULE=on or outside GOPATH)
-import "github.com/solarwindscloud/swo-client-go/v1"
+import "github.com/solarwinds/swo-client-go/v1"
 // with go modules disabled
-import "github.com/solarwindscloud/swo-client-go"
+import "github.com/solarwinds/swo-client-go"
 ```
 
 Construct a new SWO client, then use the various services on the client to
@@ -57,7 +57,7 @@ https://api.solarwinds.com/graphql.
 
 NOTE: The [context](https://godoc.org/context) package, can be used to pass cancelation signals and deadlines to various services of the client for handling a request. If there is no context available, then `context.Background()` can be used as a starting point.
 
-For more sample code snippets, head over to the [example](https://github.com/solarwindscloud/swo-client-go/tree/master/example) directory.
+For more sample code snippets, head over to the [example](https://github.com/solarwinds/swo-client-go/tree/master/example) directory.
 
 ### Authentication ###
 The `swo-client-go` library handles Bearer token authentication by default using a valid api token that must be provided to the client. The caller can provide a custom transport to the client which will allow for additional authentication methods or middleware if needed:
@@ -100,7 +100,7 @@ file.
 See the ./example directory for working examples of using the api.
 
 ### Issues/Bugs
-Please report bugs and request enhancements in the [Issues area](https://github.com/solarwindscloud/swo-client-go/issues) of this repo.
+Please report bugs and request enhancements in the [Issues area](https://github.com/solarwinds/swo-client-go/issues) of this repo.
 
 ## Requirements
 - [Go](https://golang.org/doc/install) >= 1.18

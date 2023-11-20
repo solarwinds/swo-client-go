@@ -1,4 +1,4 @@
-module github.com/solarwindscloud/swo-client-go
+module github.com/solarwinds/swo-client-go
 
 go 1.18
 
