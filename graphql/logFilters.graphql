@@ -1,4 +1,3 @@
-
 query getLogFilterById($input: GetExclusionFilterInput!) {
   getExclusionFilter(input: $input) {
     name
