@@ -1,0 +1,54 @@
+
+query getLogFilterById($input: GetExclusionFilterInput!) {
+  getExclusionFilter(input: $input) {
+    name
+    description
+    enabled
+    tokenSignature
+    expressions {
+      expression
+      kind
+    }
+  }
+}
+
+mutation createLogFilter($input: CreateExclusionFilterInput!) {
+  createExclusionFilter(input: $input) {
+    ... on CreateExclusionFilterResponse {
+      code
+      success
+      message
+      exclusionFilter {
+        id
+        name
+        description
+        enabled
+        tokenSignature
+        expressions {
+          expression
+          kind
+        }
+      }
+    }
+  }
+}
+
+mutation updateLogFilter($input: UpdateExclusionFilterInput!) {
+  updateExclusionFilter(input: $input) {
+    ... on GenericExclusionFilterMutationResponse {
+      code
+      success
+      message
+    }
+  }
+}
+
+mutation deleteLogFilter($input: DeleteExclusionFilterInput!) {
+  deleteExclusionFilter(input: $input) {
+    ... on GenericExclusionFilterMutationResponse {
+      code
+      success
+      message
+    }
+  }
+}

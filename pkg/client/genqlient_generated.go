@@ -530,6 +530,38 @@ func (v *CreateDashboardInput) GetWidgets() []WidgetInput { return v.Widgets }
 // GetLayout returns CreateDashboardInput.Layout, and is useful for accessing the field via an interface.
 func (v *CreateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
 
+type CreateExclusionFilterExpressionInput struct {
+	Kind       ExclusionFilterExpressionKind `json:"kind"`
+	Expression string                        `json:"expression"`
+}
+
+// GetKind returns CreateExclusionFilterExpressionInput.Kind, and is useful for accessing the field via an interface.
+func (v *CreateExclusionFilterExpressionInput) GetKind() ExclusionFilterExpressionKind { return v.Kind }
+
+// GetExpression returns CreateExclusionFilterExpressionInput.Expression, and is useful for accessing the field via an interface.
+func (v *CreateExclusionFilterExpressionInput) GetExpression() string { return v.Expression }
+
+type CreateExclusionFilterInput struct {
+	Name           string                                 `json:"name"`
+	Description    string                                 `json:"description"`
+	TokenSignature *string                                `json:"tokenSignature"`
+	Expressions    []CreateExclusionFilterExpressionInput `json:"expressions"`
+}
+
+// GetName returns CreateExclusionFilterInput.Name, and is useful for accessing the field via an interface.
+func (v *CreateExclusionFilterInput) GetName() string { return v.Name }
+
+// GetDescription returns CreateExclusionFilterInput.Description, and is useful for accessing the field via an interface.
+func (v *CreateExclusionFilterInput) GetDescription() string { return v.Description }
+
+// GetTokenSignature returns CreateExclusionFilterInput.TokenSignature, and is useful for accessing the field via an interface.
+func (v *CreateExclusionFilterInput) GetTokenSignature() *string { return v.TokenSignature }
+
+// GetExpressions returns CreateExclusionFilterInput.Expressions, and is useful for accessing the field via an interface.
+func (v *CreateExclusionFilterInput) GetExpressions() []CreateExclusionFilterExpressionInput {
+	return v.Expressions
+}
+
 type CreateNotificationServiceConfigurationInput struct {
 	Type        string  `json:"type"`
 	Title       string  `json:"title"`
@@ -645,6 +677,13 @@ type DeleteDashboardInput struct {
 // GetId returns DeleteDashboardInput.Id, and is useful for accessing the field via an interface.
 func (v *DeleteDashboardInput) GetId() string { return v.Id }
 
+type DeleteExclusionFilterInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns DeleteExclusionFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *DeleteExclusionFilterInput) GetId() string { return v.Id }
+
 type DeleteNotificationServiceConfigurationInput struct {
 	Id string `json:"id"`
 }
@@ -668,6 +707,24 @@ type DeleteWebsiteInput struct {
 // GetId returns DeleteWebsiteInput.Id, and is useful for accessing the field via an interface.
 func (v *DeleteWebsiteInput) GetId() string { return v.Id }
 
+type ExclusionFilterExpressionKind string
+
+const (
+	ExclusionFilterExpressionKindRegex  ExclusionFilterExpressionKind = "REGEX"
+	ExclusionFilterExpressionKindString ExclusionFilterExpressionKind = "STRING"
+)
+
+type ExclusionFilterResponseCode string
+
+const (
+	ExclusionFilterResponseCodeOk                    ExclusionFilterResponseCode = "OK"
+	ExclusionFilterResponseCodeNotFound              ExclusionFilterResponseCode = "NOT_FOUND"
+	ExclusionFilterResponseCodeInvalidRegex          ExclusionFilterResponseCode = "INVALID_REGEX"
+	ExclusionFilterResponseCodeInvalidTokenSignature ExclusionFilterResponseCode = "INVALID_TOKEN_SIGNATURE"
+	ExclusionFilterResponseCodeDuplicateEntry        ExclusionFilterResponseCode = "DUPLICATE_ENTRY"
+	ExclusionFilterResponseCodeInternalServerError   ExclusionFilterResponseCode = "INTERNAL_SERVER_ERROR"
+)
+
 // Allowed entity filtering operators
 type FilterOperation string
 
@@ -686,6 +743,13 @@ const (
 	FilterOperationNot      FilterOperation = "NOT"
 	FilterOperationExists   FilterOperation = "EXISTS"
 )
+
+type GetExclusionFilterInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns GetExclusionFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *GetExclusionFilterInput) GetId() string { return v.Id }
 
 type LayoutInput struct {
 	Id     string `json:"id"`
@@ -890,6 +954,42 @@ func (v *UpdateDashboardInput) GetWidgets() []WidgetInput { return v.Widgets }
 
 // GetLayout returns UpdateDashboardInput.Layout, and is useful for accessing the field via an interface.
 func (v *UpdateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
+
+type UpdateExclusionFilterExpressionInput struct {
+	Kind       ExclusionFilterExpressionKind `json:"kind"`
+	Expression string                        `json:"expression"`
+}
+
+// GetKind returns UpdateExclusionFilterExpressionInput.Kind, and is useful for accessing the field via an interface.
+func (v *UpdateExclusionFilterExpressionInput) GetKind() ExclusionFilterExpressionKind { return v.Kind }
+
+// GetExpression returns UpdateExclusionFilterExpressionInput.Expression, and is useful for accessing the field via an interface.
+func (v *UpdateExclusionFilterExpressionInput) GetExpression() string { return v.Expression }
+
+type UpdateExclusionFilterInput struct {
+	Id          string                                 `json:"id"`
+	Name        string                                 `json:"name"`
+	Enabled     bool                                   `json:"enabled"`
+	Description string                                 `json:"description"`
+	Expressions []UpdateExclusionFilterExpressionInput `json:"expressions"`
+}
+
+// GetId returns UpdateExclusionFilterInput.Id, and is useful for accessing the field via an interface.
+func (v *UpdateExclusionFilterInput) GetId() string { return v.Id }
+
+// GetName returns UpdateExclusionFilterInput.Name, and is useful for accessing the field via an interface.
+func (v *UpdateExclusionFilterInput) GetName() string { return v.Name }
+
+// GetEnabled returns UpdateExclusionFilterInput.Enabled, and is useful for accessing the field via an interface.
+func (v *UpdateExclusionFilterInput) GetEnabled() bool { return v.Enabled }
+
+// GetDescription returns UpdateExclusionFilterInput.Description, and is useful for accessing the field via an interface.
+func (v *UpdateExclusionFilterInput) GetDescription() string { return v.Description }
+
+// GetExpressions returns UpdateExclusionFilterInput.Expressions, and is useful for accessing the field via an interface.
+func (v *UpdateExclusionFilterInput) GetExpressions() []UpdateExclusionFilterExpressionInput {
+	return v.Expressions
+}
 
 type UpdateNotificationServiceConfigurationInput struct {
 	Id          string  `json:"id"`
@@ -1104,6 +1204,14 @@ type __createDashboardInput struct {
 // GetInput returns __createDashboardInput.Input, and is useful for accessing the field via an interface.
 func (v *__createDashboardInput) GetInput() CreateDashboardInput { return v.Input }
 
+// __createLogFilterInput is used internally by genqlient
+type __createLogFilterInput struct {
+	Input CreateExclusionFilterInput `json:"input"`
+}
+
+// GetInput returns __createLogFilterInput.Input, and is useful for accessing the field via an interface.
+func (v *__createLogFilterInput) GetInput() CreateExclusionFilterInput { return v.Input }
+
 // __createNotificationInput is used internally by genqlient
 type __createNotificationInput struct {
 	Configuration CreateNotificationServiceConfigurationInput `json:"configuration"`
@@ -1147,6 +1255,14 @@ type __deleteDashboardInput struct {
 
 // GetInput returns __deleteDashboardInput.Input, and is useful for accessing the field via an interface.
 func (v *__deleteDashboardInput) GetInput() DeleteDashboardInput { return v.Input }
+
+// __deleteLogFilterInput is used internally by genqlient
+type __deleteLogFilterInput struct {
+	Input DeleteExclusionFilterInput `json:"input"`
+}
+
+// GetInput returns __deleteLogFilterInput.Input, and is useful for accessing the field via an interface.
+func (v *__deleteLogFilterInput) GetInput() DeleteExclusionFilterInput { return v.Input }
 
 // __deleteNotificationInput is used internally by genqlient
 type __deleteNotificationInput struct {
@@ -1198,6 +1314,14 @@ type __getDashboardByIdInput struct {
 // GetId returns __getDashboardByIdInput.Id, and is useful for accessing the field via an interface.
 func (v *__getDashboardByIdInput) GetId() string { return v.Id }
 
+// __getLogFilterByIdInput is used internally by genqlient
+type __getLogFilterByIdInput struct {
+	Input GetExclusionFilterInput `json:"input"`
+}
+
+// GetInput returns __getLogFilterByIdInput.Input, and is useful for accessing the field via an interface.
+func (v *__getLogFilterByIdInput) GetInput() GetExclusionFilterInput { return v.Input }
+
 // __getNotificationInput is used internally by genqlient
 type __getNotificationInput struct {
 	ConfigurationId   string `json:"configurationId"`
@@ -1247,6 +1371,14 @@ type __updateDashboardInput struct {
 
 // GetInput returns __updateDashboardInput.Input, and is useful for accessing the field via an interface.
 func (v *__updateDashboardInput) GetInput() UpdateDashboardInput { return v.Input }
+
+// __updateLogFilterInput is used internally by genqlient
+type __updateLogFilterInput struct {
+	Input UpdateExclusionFilterInput `json:"input"`
+}
+
+// GetInput returns __updateLogFilterInput.Input, and is useful for accessing the field via an interface.
+func (v *__updateLogFilterInput) GetInput() UpdateExclusionFilterInput { return v.Input }
 
 // __updateNotificationInput is used internally by genqlient
 type __updateNotificationInput struct {
@@ -1762,6 +1894,104 @@ func (v *createDashboardResponse) GetCreateDashboard() createDashboardCreateDash
 	return v.CreateDashboard
 }
 
+// createLogFilterCreateExclusionFilterCreateExclusionFilterResponse includes the requested fields of the GraphQL type CreateExclusionFilterResponse.
+type createLogFilterCreateExclusionFilterCreateExclusionFilterResponse struct {
+	Code            ExclusionFilterResponseCode                                                       `json:"code"`
+	Success         bool                                                                              `json:"success"`
+	Message         string                                                                            `json:"message"`
+	ExclusionFilter *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter `json:"exclusionFilter"`
+}
+
+// GetCode returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponse.Code, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponse) GetCode() ExclusionFilterResponseCode {
+	return v.Code
+}
+
+// GetSuccess returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponse.Success, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponse) GetSuccess() bool {
+	return v.Success
+}
+
+// GetMessage returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponse.Message, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponse) GetMessage() string {
+	return v.Message
+}
+
+// GetExclusionFilter returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponse.ExclusionFilter, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponse) GetExclusionFilter() *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter {
+	return v.ExclusionFilter
+}
+
+// createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter includes the requested fields of the GraphQL type ExclusionFilter.
+// The GraphQL type's documentation follows.
+//
+// ExclusionFilter is a set of regular expressions used to exclude unwanted log messages.
+// The filters may be scoped to an entire organization or a single token
+type createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter struct {
+	Id             string                                                                                                                 `json:"id"`
+	Name           string                                                                                                                 `json:"name"`
+	Description    *string                                                                                                                `json:"description"`
+	Enabled        bool                                                                                                                   `json:"enabled"`
+	TokenSignature *string                                                                                                                `json:"tokenSignature"`
+	Expressions    []createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression `json:"expressions"`
+}
+
+// GetId returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter.Id, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter) GetId() string {
+	return v.Id
+}
+
+// GetName returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter.Name, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter) GetName() string {
+	return v.Name
+}
+
+// GetDescription returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter.Description, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter) GetDescription() *string {
+	return v.Description
+}
+
+// GetEnabled returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter.Enabled, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter) GetEnabled() bool {
+	return v.Enabled
+}
+
+// GetTokenSignature returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter.TokenSignature, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter) GetTokenSignature() *string {
+	return v.TokenSignature
+}
+
+// GetExpressions returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter.Expressions, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilter) GetExpressions() []createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression {
+	return v.Expressions
+}
+
+// createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression includes the requested fields of the GraphQL type ExclusionFilterExpression.
+type createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression struct {
+	Expression string                        `json:"expression"`
+	Kind       ExclusionFilterExpressionKind `json:"kind"`
+}
+
+// GetExpression returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression.Expression, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression) GetExpression() string {
+	return v.Expression
+}
+
+// GetKind returns createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression.Kind, and is useful for accessing the field via an interface.
+func (v *createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression) GetKind() ExclusionFilterExpressionKind {
+	return v.Kind
+}
+
+// createLogFilterResponse is returned by createLogFilter on success.
+type createLogFilterResponse struct {
+	CreateExclusionFilter createLogFilterCreateExclusionFilterCreateExclusionFilterResponse `json:"createExclusionFilter"`
+}
+
+// GetCreateExclusionFilter returns createLogFilterResponse.CreateExclusionFilter, and is useful for accessing the field via an interface.
+func (v *createLogFilterResponse) GetCreateExclusionFilter() createLogFilterCreateExclusionFilterCreateExclusionFilterResponse {
+	return v.CreateExclusionFilter
+}
+
 // createNotificationCreateNotificationServiceConfigurationCreateNotificationServiceConfigurationResponse includes the requested fields of the GraphQL type CreateNotificationServiceConfigurationResponse.
 type createNotificationCreateNotificationServiceConfigurationCreateNotificationServiceConfigurationResponse struct {
 	Code          string                                                                                                                                  `json:"code"`
@@ -1960,6 +2190,38 @@ type deleteDashboardResponse struct {
 // GetDeleteDashboard returns deleteDashboardResponse.DeleteDashboard, and is useful for accessing the field via an interface.
 func (v *deleteDashboardResponse) GetDeleteDashboard() deleteDashboardDeleteDashboardDeleteDashboardResponse {
 	return v.DeleteDashboard
+}
+
+// deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse includes the requested fields of the GraphQL type GenericExclusionFilterMutationResponse.
+type deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse struct {
+	Code    ExclusionFilterResponseCode `json:"code"`
+	Success bool                        `json:"success"`
+	Message string                      `json:"message"`
+}
+
+// GetCode returns deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse.Code, and is useful for accessing the field via an interface.
+func (v *deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse) GetCode() ExclusionFilterResponseCode {
+	return v.Code
+}
+
+// GetSuccess returns deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse.Success, and is useful for accessing the field via an interface.
+func (v *deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse) GetSuccess() bool {
+	return v.Success
+}
+
+// GetMessage returns deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse.Message, and is useful for accessing the field via an interface.
+func (v *deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse) GetMessage() string {
+	return v.Message
+}
+
+// deleteLogFilterResponse is returned by deleteLogFilter on success.
+type deleteLogFilterResponse struct {
+	DeleteExclusionFilter deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse `json:"deleteExclusionFilter"`
+}
+
+// GetDeleteExclusionFilter returns deleteLogFilterResponse.DeleteExclusionFilter, and is useful for accessing the field via an interface.
+func (v *deleteLogFilterResponse) GetDeleteExclusionFilter() deleteLogFilterDeleteExclusionFilterGenericExclusionFilterMutationResponse {
+	return v.DeleteExclusionFilter
 }
 
 // deleteNotificationDeleteNotificationServiceConfigurationDeleteNotificationServiceConfigurationResponse includes the requested fields of the GraphQL type DeleteNotificationServiceConfigurationResponse.
@@ -2539,6 +2801,62 @@ type getDashboardByIdResponse struct {
 // GetDashboards returns getDashboardByIdResponse.Dashboards, and is useful for accessing the field via an interface.
 func (v *getDashboardByIdResponse) GetDashboards() *getDashboardByIdDashboardsDashboardQueries {
 	return v.Dashboards
+}
+
+// getLogFilterByIdGetExclusionFilter includes the requested fields of the GraphQL type ExclusionFilter.
+// The GraphQL type's documentation follows.
+//
+// ExclusionFilter is a set of regular expressions used to exclude unwanted log messages.
+// The filters may be scoped to an entire organization or a single token
+type getLogFilterByIdGetExclusionFilter struct {
+	Name           string                                                                   `json:"name"`
+	Description    *string                                                                  `json:"description"`
+	Enabled        bool                                                                     `json:"enabled"`
+	TokenSignature *string                                                                  `json:"tokenSignature"`
+	Expressions    []getLogFilterByIdGetExclusionFilterExpressionsExclusionFilterExpression `json:"expressions"`
+}
+
+// GetName returns getLogFilterByIdGetExclusionFilter.Name, and is useful for accessing the field via an interface.
+func (v *getLogFilterByIdGetExclusionFilter) GetName() string { return v.Name }
+
+// GetDescription returns getLogFilterByIdGetExclusionFilter.Description, and is useful for accessing the field via an interface.
+func (v *getLogFilterByIdGetExclusionFilter) GetDescription() *string { return v.Description }
+
+// GetEnabled returns getLogFilterByIdGetExclusionFilter.Enabled, and is useful for accessing the field via an interface.
+func (v *getLogFilterByIdGetExclusionFilter) GetEnabled() bool { return v.Enabled }
+
+// GetTokenSignature returns getLogFilterByIdGetExclusionFilter.TokenSignature, and is useful for accessing the field via an interface.
+func (v *getLogFilterByIdGetExclusionFilter) GetTokenSignature() *string { return v.TokenSignature }
+
+// GetExpressions returns getLogFilterByIdGetExclusionFilter.Expressions, and is useful for accessing the field via an interface.
+func (v *getLogFilterByIdGetExclusionFilter) GetExpressions() []getLogFilterByIdGetExclusionFilterExpressionsExclusionFilterExpression {
+	return v.Expressions
+}
+
+// getLogFilterByIdGetExclusionFilterExpressionsExclusionFilterExpression includes the requested fields of the GraphQL type ExclusionFilterExpression.
+type getLogFilterByIdGetExclusionFilterExpressionsExclusionFilterExpression struct {
+	Expression string                        `json:"expression"`
+	Kind       ExclusionFilterExpressionKind `json:"kind"`
+}
+
+// GetExpression returns getLogFilterByIdGetExclusionFilterExpressionsExclusionFilterExpression.Expression, and is useful for accessing the field via an interface.
+func (v *getLogFilterByIdGetExclusionFilterExpressionsExclusionFilterExpression) GetExpression() string {
+	return v.Expression
+}
+
+// GetKind returns getLogFilterByIdGetExclusionFilterExpressionsExclusionFilterExpression.Kind, and is useful for accessing the field via an interface.
+func (v *getLogFilterByIdGetExclusionFilterExpressionsExclusionFilterExpression) GetKind() ExclusionFilterExpressionKind {
+	return v.Kind
+}
+
+// getLogFilterByIdResponse is returned by getLogFilterById on success.
+type getLogFilterByIdResponse struct {
+	GetExclusionFilter *getLogFilterByIdGetExclusionFilter `json:"getExclusionFilter"`
+}
+
+// GetGetExclusionFilter returns getLogFilterByIdResponse.GetExclusionFilter, and is useful for accessing the field via an interface.
+func (v *getLogFilterByIdResponse) GetGetExclusionFilter() *getLogFilterByIdGetExclusionFilter {
+	return v.GetExclusionFilter
 }
 
 // getNotificationResponse is returned by getNotification on success.
@@ -9450,6 +9768,38 @@ func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardWidgetsWi
 	return v.Type
 }
 
+// updateLogFilterResponse is returned by updateLogFilter on success.
+type updateLogFilterResponse struct {
+	UpdateExclusionFilter updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse `json:"updateExclusionFilter"`
+}
+
+// GetUpdateExclusionFilter returns updateLogFilterResponse.UpdateExclusionFilter, and is useful for accessing the field via an interface.
+func (v *updateLogFilterResponse) GetUpdateExclusionFilter() updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse {
+	return v.UpdateExclusionFilter
+}
+
+// updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse includes the requested fields of the GraphQL type GenericExclusionFilterMutationResponse.
+type updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse struct {
+	Code    ExclusionFilterResponseCode `json:"code"`
+	Success bool                        `json:"success"`
+	Message string                      `json:"message"`
+}
+
+// GetCode returns updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse.Code, and is useful for accessing the field via an interface.
+func (v *updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse) GetCode() ExclusionFilterResponseCode {
+	return v.Code
+}
+
+// GetSuccess returns updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse.Success, and is useful for accessing the field via an interface.
+func (v *updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse) GetSuccess() bool {
+	return v.Success
+}
+
+// GetMessage returns updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse.Message, and is useful for accessing the field via an interface.
+func (v *updateLogFilterUpdateExclusionFilterGenericExclusionFilterMutationResponse) GetMessage() string {
+	return v.Message
+}
+
 // updateNotificationResponse is returned by updateNotification on success.
 type updateNotificationResponse struct {
 	UpdateNotificationServiceConfiguration *updateNotificationUpdateNotificationServiceConfigurationUpdateNotificationServiceConfigurationResponse `json:"updateNotificationServiceConfiguration"`
@@ -9743,6 +10093,56 @@ func createDashboard(
 	return &data, err
 }
 
+// The query or mutation executed by createLogFilter.
+const createLogFilter_Operation = `
+mutation createLogFilter ($input: CreateExclusionFilterInput!) {
+	createExclusionFilter(input: $input) {
+		... on CreateExclusionFilterResponse {
+			code
+			success
+			message
+			exclusionFilter {
+				id
+				name
+				description
+				enabled
+				tokenSignature
+				expressions {
+					expression
+					kind
+				}
+			}
+		}
+	}
+}
+`
+
+func createLogFilter(
+	ctx context.Context,
+	client graphql.Client,
+	input CreateExclusionFilterInput,
+) (*createLogFilterResponse, error) {
+	req := &graphql.Request{
+		OpName: "createLogFilter",
+		Query:  createLogFilter_Operation,
+		Variables: &__createLogFilterInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data createLogFilterResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 // The query or mutation executed by createNotification.
 const createNotification_Operation = `
 mutation createNotification ($configuration: createNotificationServiceConfigurationInput!) {
@@ -9926,6 +10326,45 @@ func deleteDashboard(
 	var err error
 
 	var data deleteDashboardResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by deleteLogFilter.
+const deleteLogFilter_Operation = `
+mutation deleteLogFilter ($input: DeleteExclusionFilterInput!) {
+	deleteExclusionFilter(input: $input) {
+		... on GenericExclusionFilterMutationResponse {
+			code
+			success
+			message
+		}
+	}
+}
+`
+
+func deleteLogFilter(
+	ctx context.Context,
+	client graphql.Client,
+	input DeleteExclusionFilterInput,
+) (*deleteLogFilterResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteLogFilter",
+		Query:  deleteLogFilter_Operation,
+		Variables: &__deleteLogFilterInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data deleteLogFilterResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(
@@ -10185,6 +10624,48 @@ func getDashboardById(
 	var err error
 
 	var data getDashboardByIdResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by getLogFilterById.
+const getLogFilterById_Operation = `
+query getLogFilterById ($input: GetExclusionFilterInput!) {
+	getExclusionFilter(input: $input) {
+		name
+		description
+		enabled
+		tokenSignature
+		expressions {
+			expression
+			kind
+		}
+	}
+}
+`
+
+func getLogFilterById(
+	ctx context.Context,
+	client graphql.Client,
+	input GetExclusionFilterInput,
+) (*getLogFilterByIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "getLogFilterById",
+		Query:  getLogFilterById_Operation,
+		Variables: &__getLogFilterByIdInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data getLogFilterByIdResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(
@@ -10514,6 +10995,45 @@ func updateDashboard(
 	var err error
 
 	var data updateDashboardResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by updateLogFilter.
+const updateLogFilter_Operation = `
+mutation updateLogFilter ($input: UpdateExclusionFilterInput!) {
+	updateExclusionFilter(input: $input) {
+		... on GenericExclusionFilterMutationResponse {
+			code
+			success
+			message
+		}
+	}
+}
+`
+
+func updateLogFilter(
+	ctx context.Context,
+	client graphql.Client,
+	input UpdateExclusionFilterInput,
+) (*updateLogFilterResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateLogFilter",
+		Query:  updateLogFilter_Operation,
+		Variables: &__updateLogFilterInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data updateLogFilterResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(
