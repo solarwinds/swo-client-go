@@ -1,0 +1,10 @@
+{
+  "name": "swo-client-go test",
+  "description": "log filter description",
+  "expressions": [
+    {
+      "kind": "STRING",
+      "expression": "test string"
+    }
+  ]
+}

@@ -22,6 +22,7 @@ const (
 type ServiceAccessor interface {
 	AlertsService() AlertsCommunicator
 	DashboardsService() DashboardsCommunicator
+	LogFilterService() LogFilterCommunicator
 	NotificationsService() NotificationsCommunicator
 	UriService() UriCommunicator
 	WebsiteService() WebsiteCommunicator
@@ -42,6 +43,7 @@ type Client struct {
 	// Service accessors
 	alertsService        AlertsCommunicator
 	dashboardsService    DashboardsCommunicator
+	logFilterService     LogFilterCommunicator
 	notificationsService NotificationsCommunicator
 	uriService           UriCommunicator
 	websiteService       WebsiteCommunicator
@@ -106,6 +108,7 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 func initServices(c *Client) error {
 	c.alertsService = newAlertsService(c)
 	c.dashboardsService = newDashboardsService(c)
+	c.logFilterService = newLogFilterService(c)
 	c.notificationsService = newNotificationsService(c)
 	c.uriService = newUriService(c)
 	c.websiteService = newWebsiteService(c)
@@ -122,6 +125,11 @@ func (c *Client) AlertsService() AlertsCommunicator {
 // A subset of the API that deals with Dashboards.
 func (c *Client) DashboardsService() DashboardsCommunicator {
 	return c.dashboardsService
+}
+
+// A subset of the API that deals with LogFilters.
+func (c *Client) LogFilterService() LogFilterCommunicator {
+	return c.logFilterService
 }
 
 // A subset of the API that deals with Notifications.
