@@ -118,8 +118,8 @@ func TestSwoService_CreateLogFilter(t *testing.T) {
 
 	want := &CreateLogFilterResult{
 		Id:          id,
-		Name:        "swo-client-go - logFilter",
-		Description: Ptr("logFilter description"),
+		Name:        input.Name,
+		Description: &input.Description,
 		Expressions: []createLogFilterCreateExclusionFilterCreateExclusionFilterResponseExclusionFilterExpressionsExclusionFilterExpression{
 			{
 				Kind:       ExclusionFilterExpressionKindString,
@@ -143,7 +143,7 @@ func TestSwoService_UpdateLogFilter(t *testing.T) {
 		Description: "logFilter description",
 		Expressions: []UpdateExclusionFilterExpressionInput{
 			{
-				Kind:       "STRING",
+				Kind:       ExclusionFilterExpressionKindString,
 				Expression: "test string",
 			},
 		},
