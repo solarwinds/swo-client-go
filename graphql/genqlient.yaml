@@ -3,6 +3,7 @@
 schema: schema.graphql
 operations:
 - alerts.graphql
+- apiTokens.graphql
 - dashboards.graphql
 - entities/*.graphql
 - logFilters.graphql
@@ -10,6 +11,8 @@ operations:
 generated: ../pkg/client/genqlient_generated.go
 optional: pointer
 bindings:
+  Guid:
+    type: string
   DateTime:
     type: time.Time
   Timestamp:

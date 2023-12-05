@@ -1,0 +1,11 @@
+{
+  "name": "swo-client-go test",
+  "accessLevel": "FULL",
+  "attributes": [
+    {
+      "key": "test-key",
+      "value": "test-value"
+    }
+  ],
+  "type": "public-api"
+}
