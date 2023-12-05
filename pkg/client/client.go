@@ -42,6 +42,7 @@ type Client struct {
 
 	// Service accessors
 	alertsService        AlertsCommunicator
+	apiTokenService      ApiTokenCommunicator
 	dashboardsService    DashboardsCommunicator
 	logFilterService     LogFilterCommunicator
 	notificationsService NotificationsCommunicator
@@ -107,6 +108,7 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 
 func initServices(c *Client) error {
 	c.alertsService = newAlertsService(c)
+	c.apiTokenService = newApiTokenService(c)
 	c.dashboardsService = newDashboardsService(c)
 	c.logFilterService = newLogFilterService(c)
 	c.notificationsService = newNotificationsService(c)
@@ -120,6 +122,11 @@ func initServices(c *Client) error {
 // A subset of the API that deals with Alerts.
 func (c *Client) AlertsService() AlertsCommunicator {
 	return c.alertsService
+}
+
+// A subset of the API that deals with ApiTokens.
+func (c *Client) ApiTokenService() ApiTokenCommunicator {
+	return c.apiTokenService
 }
 
 // A subset of the API that deals with Dashboards.

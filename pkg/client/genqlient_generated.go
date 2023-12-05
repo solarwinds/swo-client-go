@@ -581,6 +581,25 @@ func (v *CreateNotificationServiceConfigurationInput) GetDescription() *string {
 // GetSettings returns CreateNotificationServiceConfigurationInput.Settings, and is useful for accessing the field via an interface.
 func (v *CreateNotificationServiceConfigurationInput) GetSettings() any { return v.Settings }
 
+type CreateTokenInput struct {
+	Name        string                `json:"name"`
+	AccessLevel TokenAccessLevel      `json:"accessLevel"`
+	Type        *string               `json:"type"`
+	Attributes  []TokenAttributeInput `json:"attributes"`
+}
+
+// GetName returns CreateTokenInput.Name, and is useful for accessing the field via an interface.
+func (v *CreateTokenInput) GetName() string { return v.Name }
+
+// GetAccessLevel returns CreateTokenInput.AccessLevel, and is useful for accessing the field via an interface.
+func (v *CreateTokenInput) GetAccessLevel() TokenAccessLevel { return v.AccessLevel }
+
+// GetType returns CreateTokenInput.Type, and is useful for accessing the field via an interface.
+func (v *CreateTokenInput) GetType() *string { return v.Type }
+
+// GetAttributes returns CreateTokenInput.Attributes, and is useful for accessing the field via an interface.
+func (v *CreateTokenInput) GetAttributes() []TokenAttributeInput { return v.Attributes }
+
 type CreateUriInput struct {
 	// Name of the URI, which must be unique within the organization. The name must not contain any
 	// control characters, any white space other than space (U+0020), or any consecutive, leading or
@@ -690,6 +709,13 @@ type DeleteNotificationServiceConfigurationInput struct {
 
 // GetId returns DeleteNotificationServiceConfigurationInput.Id, and is useful for accessing the field via an interface.
 func (v *DeleteNotificationServiceConfigurationInput) GetId() string { return v.Id }
+
+type DeleteTokenInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns DeleteTokenInput.Id, and is useful for accessing the field via an interface.
+func (v *DeleteTokenInput) GetId() string { return v.Id }
 
 type DeleteUriInput struct {
 	// The id of the URI to be deleted.
@@ -924,6 +950,25 @@ func (v *SslMonitoringInput) GetIgnoreIntermediateCertificates() *bool {
 	return v.IgnoreIntermediateCertificates
 }
 
+type TokenAccessLevel string
+
+const (
+	TokenAccessLevelRecord TokenAccessLevel = "RECORD"
+	TokenAccessLevelRead   TokenAccessLevel = "READ"
+	TokenAccessLevelFull   TokenAccessLevel = "FULL"
+)
+
+type TokenAttributeInput struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+// GetKey returns TokenAttributeInput.Key, and is useful for accessing the field via an interface.
+func (v *TokenAttributeInput) GetKey() string { return v.Key }
+
+// GetValue returns TokenAttributeInput.Value, and is useful for accessing the field via an interface.
+func (v *TokenAttributeInput) GetValue() string { return v.Value }
+
 type UpdateDashboardInput struct {
 	Id          string        `json:"id"`
 	Name        string        `json:"name"`
@@ -1009,6 +1054,33 @@ func (v *UpdateNotificationServiceConfigurationInput) GetDescription() *string {
 
 // GetSettings returns UpdateNotificationServiceConfigurationInput.Settings, and is useful for accessing the field via an interface.
 func (v *UpdateNotificationServiceConfigurationInput) GetSettings() *any { return v.Settings }
+
+type UpdateTokenInput struct {
+	Id          string                `json:"id"`
+	Name        *string               `json:"name"`
+	AccessLevel *TokenAccessLevel     `json:"accessLevel"`
+	Enabled     *bool                 `json:"enabled"`
+	Type        *string               `json:"type"`
+	Attributes  []TokenAttributeInput `json:"attributes"`
+}
+
+// GetId returns UpdateTokenInput.Id, and is useful for accessing the field via an interface.
+func (v *UpdateTokenInput) GetId() string { return v.Id }
+
+// GetName returns UpdateTokenInput.Name, and is useful for accessing the field via an interface.
+func (v *UpdateTokenInput) GetName() *string { return v.Name }
+
+// GetAccessLevel returns UpdateTokenInput.AccessLevel, and is useful for accessing the field via an interface.
+func (v *UpdateTokenInput) GetAccessLevel() *TokenAccessLevel { return v.AccessLevel }
+
+// GetEnabled returns UpdateTokenInput.Enabled, and is useful for accessing the field via an interface.
+func (v *UpdateTokenInput) GetEnabled() *bool { return v.Enabled }
+
+// GetType returns UpdateTokenInput.Type, and is useful for accessing the field via an interface.
+func (v *UpdateTokenInput) GetType() *string { return v.Type }
+
+// GetAttributes returns UpdateTokenInput.Attributes, and is useful for accessing the field via an interface.
+func (v *UpdateTokenInput) GetAttributes() []TokenAttributeInput { return v.Attributes }
 
 type UpdateUriInput struct {
 	// The id of the URI to be updated.
@@ -1222,6 +1294,14 @@ func (v *__createNotificationInput) GetConfiguration() CreateNotificationService
 	return v.Configuration
 }
 
+// __createTokenMutationInput is used internally by genqlient
+type __createTokenMutationInput struct {
+	Input CreateTokenInput `json:"input"`
+}
+
+// GetInput returns __createTokenMutationInput.Input, and is useful for accessing the field via an interface.
+func (v *__createTokenMutationInput) GetInput() CreateTokenInput { return v.Input }
+
 // __createUriMutationInput is used internally by genqlient
 type __createUriMutationInput struct {
 	Input CreateUriInput `json:"input"`
@@ -1274,6 +1354,14 @@ func (v *__deleteNotificationInput) GetInput() DeleteNotificationServiceConfigur
 	return v.Input
 }
 
+// __deleteTokenMutationInput is used internally by genqlient
+type __deleteTokenMutationInput struct {
+	Input DeleteTokenInput `json:"input"`
+}
+
+// GetInput returns __deleteTokenMutationInput.Input, and is useful for accessing the field via an interface.
+func (v *__deleteTokenMutationInput) GetInput() DeleteTokenInput { return v.Input }
+
 // __deleteUriMutationInput is used internally by genqlient
 type __deleteUriMutationInput struct {
 	Input DeleteUriInput `json:"input"`
@@ -1305,6 +1393,14 @@ func (v *__getAlertDefinitionsInput) GetPaging() *PagingInput { return v.Paging 
 
 // GetSortBy returns __getAlertDefinitionsInput.SortBy, and is useful for accessing the field via an interface.
 func (v *__getAlertDefinitionsInput) GetSortBy() *SortInput { return v.SortBy }
+
+// __getApiTokenByIdInput is used internally by genqlient
+type __getApiTokenByIdInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns __getApiTokenByIdInput.Id, and is useful for accessing the field via an interface.
+func (v *__getApiTokenByIdInput) GetId() string { return v.Id }
 
 // __getDashboardByIdInput is used internally by genqlient
 type __getDashboardByIdInput struct {
@@ -1389,6 +1485,14 @@ type __updateNotificationInput struct {
 func (v *__updateNotificationInput) GetConfiguration() UpdateNotificationServiceConfigurationInput {
 	return v.Configuration
 }
+
+// __updateTokenMutationInput is used internally by genqlient
+type __updateTokenMutationInput struct {
+	Input UpdateTokenInput `json:"input"`
+}
+
+// GetInput returns __updateTokenMutationInput.Input, and is useful for accessing the field via an interface.
+func (v *__updateTokenMutationInput) GetInput() UpdateTokenInput { return v.Input }
 
 // __updateUriMutationInput is used internally by genqlient
 type __updateUriMutationInput struct {
@@ -2083,6 +2187,76 @@ func (v *createNotificationResponse) GetCreateNotificationServiceConfiguration()
 	return v.CreateNotificationServiceConfiguration
 }
 
+// createTokenMutationCreateTokenCreateTokenResponse includes the requested fields of the GraphQL type CreateTokenResponse.
+type createTokenMutationCreateTokenCreateTokenResponse struct {
+	Success bool                                                    `json:"success"`
+	Code    string                                                  `json:"code"`
+	Message string                                                  `json:"message"`
+	Token   *createTokenMutationCreateTokenCreateTokenResponseToken `json:"token"`
+}
+
+// GetSuccess returns createTokenMutationCreateTokenCreateTokenResponse.Success, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponse) GetSuccess() bool { return v.Success }
+
+// GetCode returns createTokenMutationCreateTokenCreateTokenResponse.Code, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponse) GetCode() string { return v.Code }
+
+// GetMessage returns createTokenMutationCreateTokenCreateTokenResponse.Message, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponse) GetMessage() string { return v.Message }
+
+// GetToken returns createTokenMutationCreateTokenCreateTokenResponse.Token, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponse) GetToken() *createTokenMutationCreateTokenCreateTokenResponseToken {
+	return v.Token
+}
+
+// createTokenMutationCreateTokenCreateTokenResponseToken includes the requested fields of the GraphQL type Token.
+type createTokenMutationCreateTokenCreateTokenResponseToken struct {
+	// The ID of the Token. Known internally to Swoken as "signature".
+	Id string `json:"id"`
+	// The name of the Token. Generated from user input.
+	Name *string `json:"name"`
+	// The plain-text token of the Token.
+	Token *string `json:"token"`
+	// The access level of the Token. Available access levels must be one of read, record, or full.
+	AccessLevel *TokenAccessLevel `json:"accessLevel"`
+	// The type of the Token. Internal field in Swoken to support multiple types of tokens, e.g. admin, azure_integration, etc.
+	Type *string `json:"type"`
+	// The date of when the Token was created.
+	CreatedAt *time.Time `json:"createdAt"`
+}
+
+// GetId returns createTokenMutationCreateTokenCreateTokenResponseToken.Id, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponseToken) GetId() string { return v.Id }
+
+// GetName returns createTokenMutationCreateTokenCreateTokenResponseToken.Name, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponseToken) GetName() *string { return v.Name }
+
+// GetToken returns createTokenMutationCreateTokenCreateTokenResponseToken.Token, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponseToken) GetToken() *string { return v.Token }
+
+// GetAccessLevel returns createTokenMutationCreateTokenCreateTokenResponseToken.AccessLevel, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponseToken) GetAccessLevel() *TokenAccessLevel {
+	return v.AccessLevel
+}
+
+// GetType returns createTokenMutationCreateTokenCreateTokenResponseToken.Type, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponseToken) GetType() *string { return v.Type }
+
+// GetCreatedAt returns createTokenMutationCreateTokenCreateTokenResponseToken.CreatedAt, and is useful for accessing the field via an interface.
+func (v *createTokenMutationCreateTokenCreateTokenResponseToken) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// createTokenMutationResponse is returned by createTokenMutation on success.
+type createTokenMutationResponse struct {
+	CreateToken *createTokenMutationCreateTokenCreateTokenResponse `json:"createToken"`
+}
+
+// GetCreateToken returns createTokenMutationResponse.CreateToken, and is useful for accessing the field via an interface.
+func (v *createTokenMutationResponse) GetCreateToken() *createTokenMutationCreateTokenCreateTokenResponse {
+	return v.CreateToken
+}
+
 // createUriMutationDemDemMutations includes the requested fields of the GraphQL type DemMutations.
 // The GraphQL type's documentation follows.
 //
@@ -2254,6 +2428,32 @@ type deleteNotificationResponse struct {
 // GetDeleteNotificationServiceConfiguration returns deleteNotificationResponse.DeleteNotificationServiceConfiguration, and is useful for accessing the field via an interface.
 func (v *deleteNotificationResponse) GetDeleteNotificationServiceConfiguration() *deleteNotificationDeleteNotificationServiceConfigurationDeleteNotificationServiceConfigurationResponse {
 	return v.DeleteNotificationServiceConfiguration
+}
+
+// deleteTokenMutationDeleteTokenDeleteTokenResponse includes the requested fields of the GraphQL type DeleteTokenResponse.
+type deleteTokenMutationDeleteTokenDeleteTokenResponse struct {
+	Success bool   `json:"success"`
+	Code    string `json:"code"`
+	Message string `json:"message"`
+}
+
+// GetSuccess returns deleteTokenMutationDeleteTokenDeleteTokenResponse.Success, and is useful for accessing the field via an interface.
+func (v *deleteTokenMutationDeleteTokenDeleteTokenResponse) GetSuccess() bool { return v.Success }
+
+// GetCode returns deleteTokenMutationDeleteTokenDeleteTokenResponse.Code, and is useful for accessing the field via an interface.
+func (v *deleteTokenMutationDeleteTokenDeleteTokenResponse) GetCode() string { return v.Code }
+
+// GetMessage returns deleteTokenMutationDeleteTokenDeleteTokenResponse.Message, and is useful for accessing the field via an interface.
+func (v *deleteTokenMutationDeleteTokenDeleteTokenResponse) GetMessage() string { return v.Message }
+
+// deleteTokenMutationResponse is returned by deleteTokenMutation on success.
+type deleteTokenMutationResponse struct {
+	DeleteToken *deleteTokenMutationDeleteTokenDeleteTokenResponse `json:"deleteToken"`
+}
+
+// GetDeleteToken returns deleteTokenMutationResponse.DeleteToken, and is useful for accessing the field via an interface.
+func (v *deleteTokenMutationResponse) GetDeleteToken() *deleteTokenMutationDeleteTokenDeleteTokenResponse {
+	return v.DeleteToken
 }
 
 // deleteUriMutationDemDemMutations includes the requested fields of the GraphQL type DemMutations.
@@ -2603,6 +2803,152 @@ type getAlertDefinitionsResponse struct {
 // GetAlertQueries returns getAlertDefinitionsResponse.AlertQueries, and is useful for accessing the field via an interface.
 func (v *getAlertDefinitionsResponse) GetAlertQueries() getAlertDefinitionsAlertQueries {
 	return v.AlertQueries
+}
+
+// getApiTokenByIdResponse is returned by getApiTokenById on success.
+type getApiTokenByIdResponse struct {
+	User getApiTokenByIdUserAuthenticatedUser `json:"user"`
+}
+
+// GetUser returns getApiTokenByIdResponse.User, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdResponse) GetUser() getApiTokenByIdUserAuthenticatedUser { return v.User }
+
+// getApiTokenByIdUserAuthenticatedUser includes the requested fields of the GraphQL type AuthenticatedUser.
+type getApiTokenByIdUserAuthenticatedUser struct {
+	CurrentOrganization getApiTokenByIdUserAuthenticatedUserCurrentOrganization `json:"currentOrganization"`
+}
+
+// GetCurrentOrganization returns getApiTokenByIdUserAuthenticatedUser.CurrentOrganization, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUser) GetCurrentOrganization() getApiTokenByIdUserAuthenticatedUserCurrentOrganization {
+	return v.CurrentOrganization
+}
+
+// getApiTokenByIdUserAuthenticatedUserCurrentOrganization includes the requested fields of the GraphQL type Organization.
+type getApiTokenByIdUserAuthenticatedUserCurrentOrganization struct {
+	Tokens []getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken `json:"tokens"`
+}
+
+// GetTokens returns getApiTokenByIdUserAuthenticatedUserCurrentOrganization.Tokens, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganization) GetTokens() []getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken {
+	return v.Tokens
+}
+
+// getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken includes the requested fields of the GraphQL type Token.
+type getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken struct {
+	// The ID of the Token. Known internally to Swoken as "signature".
+	Id string `json:"id"`
+	// The name of the Token. Generated from user input.
+	Name *string `json:"name"`
+	// The plain-text token of the Token.
+	Token *string `json:"token"`
+	// The obfuscated token of the Token.
+	ObfuscatedToken *string `json:"obfuscatedToken"`
+	// The access level of the Token. Available access levels must be one of read, record, or full.
+	AccessLevel *TokenAccessLevel `json:"accessLevel"`
+	// The custom token attributes.
+	Attributes []getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute `json:"attributes"`
+	// The enabled state of the Token.
+	Enabled *bool `json:"enabled"`
+	// The type of the Token. Internal field in Swoken to support multiple types of tokens, e.g. admin, azure_integration, etc.
+	Type *string `json:"type"`
+	// The date of when the Token was last used.
+	UsedAt *time.Time `json:"usedAt"`
+	// The secure state of the Token. Secure tokens are only revealed to the user once at creation and cannot be unobfuscated.
+	Secure *bool `json:"secure"`
+	// The date of when the Token was created.
+	CreatedAt *time.Time `json:"createdAt"`
+	// The SWICUS user that did create this token.
+	CreatedBy *string `json:"createdBy"`
+	// The SWICUS user name that did create this token.
+	CreatedByName *string `json:"createdByName"`
+	// The date of when the Token was last updated.
+	UpdatedAt *time.Time `json:"updatedAt"`
+}
+
+// GetId returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.Id, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetId() string {
+	return v.Id
+}
+
+// GetName returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.Name, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetName() *string {
+	return v.Name
+}
+
+// GetToken returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.Token, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetToken() *string {
+	return v.Token
+}
+
+// GetObfuscatedToken returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.ObfuscatedToken, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetObfuscatedToken() *string {
+	return v.ObfuscatedToken
+}
+
+// GetAccessLevel returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.AccessLevel, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetAccessLevel() *TokenAccessLevel {
+	return v.AccessLevel
+}
+
+// GetAttributes returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.Attributes, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetAttributes() []getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute {
+	return v.Attributes
+}
+
+// GetEnabled returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.Enabled, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetEnabled() *bool {
+	return v.Enabled
+}
+
+// GetType returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.Type, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetType() *string {
+	return v.Type
+}
+
+// GetUsedAt returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.UsedAt, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetUsedAt() *time.Time {
+	return v.UsedAt
+}
+
+// GetSecure returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.Secure, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetSecure() *bool {
+	return v.Secure
+}
+
+// GetCreatedAt returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.CreatedAt, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetCreatedAt() *time.Time {
+	return v.CreatedAt
+}
+
+// GetCreatedBy returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.CreatedBy, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetCreatedBy() *string {
+	return v.CreatedBy
+}
+
+// GetCreatedByName returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.CreatedByName, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetCreatedByName() *string {
+	return v.CreatedByName
+}
+
+// GetUpdatedAt returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensToken) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute includes the requested fields of the GraphQL type TokenAttribute.
+type getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+// GetKey returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute.Key, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute) GetKey() string {
+	return v.Key
+}
+
+// GetValue returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute.Value, and is useful for accessing the field via an interface.
+func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute) GetValue() string {
+	return v.Value
 }
 
 // getDashboardByIdDashboardsDashboardQueries includes the requested fields of the GraphQL type DashboardQueries.
@@ -9891,6 +10237,83 @@ func (v *updateNotificationUpdateNotificationServiceConfigurationUpdateNotificat
 	return v.Description
 }
 
+// updateTokenMutationResponse is returned by updateTokenMutation on success.
+type updateTokenMutationResponse struct {
+	UpdateToken *updateTokenMutationUpdateTokenUpdateTokenResponse `json:"updateToken"`
+}
+
+// GetUpdateToken returns updateTokenMutationResponse.UpdateToken, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationResponse) GetUpdateToken() *updateTokenMutationUpdateTokenUpdateTokenResponse {
+	return v.UpdateToken
+}
+
+// updateTokenMutationUpdateTokenUpdateTokenResponse includes the requested fields of the GraphQL type UpdateTokenResponse.
+type updateTokenMutationUpdateTokenUpdateTokenResponse struct {
+	Success bool                                                    `json:"success"`
+	Code    string                                                  `json:"code"`
+	Message string                                                  `json:"message"`
+	Token   *updateTokenMutationUpdateTokenUpdateTokenResponseToken `json:"token"`
+}
+
+// GetSuccess returns updateTokenMutationUpdateTokenUpdateTokenResponse.Success, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponse) GetSuccess() bool { return v.Success }
+
+// GetCode returns updateTokenMutationUpdateTokenUpdateTokenResponse.Code, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponse) GetCode() string { return v.Code }
+
+// GetMessage returns updateTokenMutationUpdateTokenUpdateTokenResponse.Message, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponse) GetMessage() string { return v.Message }
+
+// GetToken returns updateTokenMutationUpdateTokenUpdateTokenResponse.Token, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponse) GetToken() *updateTokenMutationUpdateTokenUpdateTokenResponseToken {
+	return v.Token
+}
+
+// updateTokenMutationUpdateTokenUpdateTokenResponseToken includes the requested fields of the GraphQL type Token.
+type updateTokenMutationUpdateTokenUpdateTokenResponseToken struct {
+	// The ID of the Token. Known internally to Swoken as "signature".
+	Id string `json:"id"`
+	// The name of the Token. Generated from user input.
+	Name *string `json:"name"`
+	// The obfuscated token of the Token.
+	ObfuscatedToken *string `json:"obfuscatedToken"`
+	// The access level of the Token. Available access levels must be one of read, record, or full.
+	AccessLevel *TokenAccessLevel `json:"accessLevel"`
+	// The enabled state of the Token.
+	Enabled *bool `json:"enabled"`
+	// The date of when the Token was last updated.
+	UpdatedAt *time.Time `json:"updatedAt"`
+	// The type of the Token. Internal field in Swoken to support multiple types of tokens, e.g. admin, azure_integration, etc.
+	Type *string `json:"type"`
+}
+
+// GetId returns updateTokenMutationUpdateTokenUpdateTokenResponseToken.Id, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponseToken) GetId() string { return v.Id }
+
+// GetName returns updateTokenMutationUpdateTokenUpdateTokenResponseToken.Name, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponseToken) GetName() *string { return v.Name }
+
+// GetObfuscatedToken returns updateTokenMutationUpdateTokenUpdateTokenResponseToken.ObfuscatedToken, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponseToken) GetObfuscatedToken() *string {
+	return v.ObfuscatedToken
+}
+
+// GetAccessLevel returns updateTokenMutationUpdateTokenUpdateTokenResponseToken.AccessLevel, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponseToken) GetAccessLevel() *TokenAccessLevel {
+	return v.AccessLevel
+}
+
+// GetEnabled returns updateTokenMutationUpdateTokenUpdateTokenResponseToken.Enabled, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponseToken) GetEnabled() *bool { return v.Enabled }
+
+// GetUpdatedAt returns updateTokenMutationUpdateTokenUpdateTokenResponseToken.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponseToken) GetUpdatedAt() *time.Time {
+	return v.UpdatedAt
+}
+
+// GetType returns updateTokenMutationUpdateTokenUpdateTokenResponseToken.Type, and is useful for accessing the field via an interface.
+func (v *updateTokenMutationUpdateTokenUpdateTokenResponseToken) GetType() *string { return v.Type }
+
 // updateUriMutationDemDemMutations includes the requested fields of the GraphQL type DemMutations.
 // The GraphQL type's documentation follows.
 //
@@ -10189,6 +10612,51 @@ func createNotification(
 	return &data, err
 }
 
+// The query or mutation executed by createTokenMutation.
+const createTokenMutation_Operation = `
+mutation createTokenMutation ($input: CreateTokenInput!) {
+	createToken(input: $input) {
+		success
+		code
+		message
+		token {
+			id
+			name
+			token
+			accessLevel
+			type
+			createdAt
+		}
+	}
+}
+`
+
+func createTokenMutation(
+	ctx context.Context,
+	client graphql.Client,
+	input CreateTokenInput,
+) (*createTokenMutationResponse, error) {
+	req := &graphql.Request{
+		OpName: "createTokenMutation",
+		Query:  createTokenMutation_Operation,
+		Variables: &__createTokenMutationInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data createTokenMutationResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 // The query or mutation executed by createUriMutation.
 const createUriMutation_Operation = `
 mutation createUriMutation ($input: CreateUriInput!) {
@@ -10413,6 +10881,43 @@ func deleteNotification(
 	return &data, err
 }
 
+// The query or mutation executed by deleteTokenMutation.
+const deleteTokenMutation_Operation = `
+mutation deleteTokenMutation ($input: DeleteTokenInput!) {
+	deleteToken(input: $input) {
+		success
+		code
+		message
+	}
+}
+`
+
+func deleteTokenMutation(
+	ctx context.Context,
+	client graphql.Client,
+	input DeleteTokenInput,
+) (*deleteTokenMutationResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteTokenMutation",
+		Query:  deleteTokenMutation_Operation,
+		Variables: &__deleteTokenMutationInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data deleteTokenMutationResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 // The query or mutation executed by deleteUriMutation.
 const deleteUriMutation_Operation = `
 mutation deleteUriMutation ($input: DeleteUriInput!) {
@@ -10555,6 +11060,61 @@ func getAlertDefinitions(
 	var err error
 
 	var data getAlertDefinitionsResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by getApiTokenById.
+const getApiTokenById_Operation = `
+query getApiTokenById ($id: String!) {
+	user {
+		currentOrganization {
+			tokens(filter: {id:$id}) {
+				id
+				name
+				token
+				obfuscatedToken
+				accessLevel
+				attributes {
+					key
+					value
+				}
+				enabled
+				type
+				usedAt
+				secure
+				createdAt
+				createdBy
+				createdByName
+				updatedAt
+			}
+		}
+	}
+}
+`
+
+func getApiTokenById(
+	ctx context.Context,
+	client graphql.Client,
+	id string,
+) (*getApiTokenByIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "getApiTokenById",
+		Query:  getApiTokenById_Operation,
+		Variables: &__getApiTokenByIdInput{
+			Id: id,
+		},
+	}
+	var err error
+
+	var data getApiTokenByIdResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(
@@ -11080,6 +11640,52 @@ func updateNotification(
 	var err error
 
 	var data updateNotificationResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by updateTokenMutation.
+const updateTokenMutation_Operation = `
+mutation updateTokenMutation ($input: UpdateTokenInput!) {
+	updateToken(input: $input) {
+		success
+		code
+		message
+		token {
+			id
+			name
+			obfuscatedToken
+			accessLevel
+			enabled
+			updatedAt
+			type
+		}
+	}
+}
+`
+
+func updateTokenMutation(
+	ctx context.Context,
+	client graphql.Client,
+	input UpdateTokenInput,
+) (*updateTokenMutationResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateTokenMutation",
+		Query:  updateTokenMutation_Operation,
+		Variables: &__updateTokenMutationInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data updateTokenMutationResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(

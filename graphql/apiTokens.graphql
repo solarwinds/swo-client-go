@@ -1,0 +1,66 @@
+query getApiTokenById($id: String!) {
+  user {
+    currentOrganization {
+      tokens(filter: {id: $id}) {
+        id
+        name
+        token
+        obfuscatedToken
+        accessLevel
+        attributes {
+          key
+          value
+        }
+        enabled
+        type
+        usedAt
+        secure
+        createdAt
+        createdBy
+        createdByName
+        updatedAt
+      }
+    }
+  }
+}
+
+mutation createTokenMutation($input: CreateTokenInput!) {
+  createToken(input: $input) {
+    success
+    code
+    message
+    token {
+      id
+      name
+      token
+      accessLevel
+      type
+      createdAt
+    }
+  }
+}
+
+mutation updateTokenMutation($input: UpdateTokenInput!) {
+  updateToken(input: $input) {
+    success
+    code
+    message
+    token {
+      id
+      name
+      obfuscatedToken
+      accessLevel
+      enabled
+      updatedAt
+      type
+    }
+  }
+}
+
+mutation deleteTokenMutation($input: DeleteTokenInput!) {
+  deleteToken(input: $input) {
+    success
+    code
+    message
+  }
+}
