@@ -1,6 +1,6 @@
 module github.com/solarwinds/swo-client-go
 
-go 1.18
+go 1.20
 
 require (
 	github.com/Khan/genqlient v0.6.0

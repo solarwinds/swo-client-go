@@ -5,13 +5,15 @@ The Solarwinds Observability Client is a Go client library for accessing the [So
 The resources that are currently supported are:
 
 * Alerts
+* Api Tokens
 * Dashboards
-* Notification Services
-* Websites
-* Uris
+* Log Exclusion Filters
+* Notifications
+* Websites (uptime checks)
+* Uris (uptime checks)
 
 ## Installation ##
-Currently, **swo-client-go requires Go version 1.18 or greater**.
+Currently, **swo-client-go requires Go version 1.20 or greater**.
 swo-client-go is compatible with modern Go releases in module mode, with Go installed:
 
 ```bash
