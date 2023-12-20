@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"io/ioutil"
 	"log"
 
 	"github.com/solarwinds/swo-client-go/example"
@@ -48,20 +46,15 @@ func Read(ctx context.Context, client *swo.Client, id string) *swo.ReadWebsiteRe
 }
 
 func Update(ctx context.Context, client *swo.Client, id string) {
-	inputJson, err := ioutil.ReadFile(createFile)
+	input, err := swo.GetObjectFromFile[swo.UpdateWebsiteInput](createFile)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	var input swo.UpdateWebsiteInput
-	if err = json.Unmarshal(inputJson, &input); err != nil {
 		log.Fatal(err)
 	}
 
 	input.Id = id
 	input.Name += "->[UPDATED_WEBSITE]"
 
-	if err = client.WebsiteService().Update(ctx, input); err != nil {
+	if err = client.WebsiteService().Update(ctx, *input); err != nil {
 		log.Fatal(err)
 	}
 }
