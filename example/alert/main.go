@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"io/ioutil"
 	"log"
 
 	"github.com/solarwinds/swo-client-go/example"
@@ -48,19 +46,14 @@ func Read(ctx context.Context, client *swo.Client, id string) *swo.ReadAlertDefi
 }
 
 func Update(ctx context.Context, client *swo.Client, id string) *swo.UpdateAlertDefinitionResult {
-	inputJson, err := ioutil.ReadFile(createFile)
+	input, err := swo.GetObjectFromFile[swo.AlertDefinitionInput](createFile)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	var input swo.AlertDefinitionInput
-	if err = json.Unmarshal(inputJson, &input); err != nil {
 		log.Fatal(err)
 	}
 
 	input.Name += "->[UPDATE_ALERT]"
 
-	result, err := client.AlertsService().Update(ctx, id, input)
+	result, err := client.AlertsService().Update(ctx, id, *input)
 	if err != nil {
 		log.Fatal(err)
 	}
