@@ -3,10 +3,10 @@ package client
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"os"
 )
 
 type mutateHandler[T any] func() (T, error)
@@ -50,7 +50,7 @@ func ConvertObject[T any](from any) (*T, error) {
 }
 
 func GetObjectFromFile[T any](file string) (*T, error) {
-	inputJson, err := ioutil.ReadFile(file)
+	inputJson, err := os.ReadFile(file)
 	if err != nil {
 		log.Fatal(err)
 	}

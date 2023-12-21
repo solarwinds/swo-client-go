@@ -46,8 +46,8 @@ var (
 			Enabled:        true,
 			OrganizationId: "140638900734749696",
 			Severity:       "INFO",
-			Actions:        []createAlertDefinitionAlertMutationsCreateAlertDefinitionActionsAlertAction{},
-			FlatCondition: []createAlertDefinitionAlertMutationsCreateAlertDefinitionFlatConditionFlatAlertConditionExpression{
+			Actions:        []createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction{},
+			FlatCondition: []createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionFlatConditionFlatAlertConditionExpression{
 				{
 					Id: "935b93f6-f94f-4b25-98a6-e66bbf80eaee",
 				},
@@ -66,31 +66,33 @@ var (
 			},
 		}
 	}
-	mockReadAlertDefinitionResult = func(id string, description string) *getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition {
+	mockReadAlertDefinitionResult = func(id string, description string) *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition {
 		operatorGT := ">"
 		operatorMAX := "MAX"
 		metricFieldName := "Orion.NPM.InterfaceTraffic.InTotalBytes"
 
-		return &getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition{
-			Id:                id,
-			Name:              "swo-client-go [test-alert]",
-			Description:       &description,
-			Enabled:           false,
-			OrganizationId:    "140638900734749696",
-			UserId:            "151686710111094784",
+		return &getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition{
+			Id:             id,
+			Name:           "swo-client-go [test-alert]",
+			Description:    &description,
+			Enabled:        false,
+			OrganizationId: "140638900734749696",
+			User: &getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionUser{
+				Id: "151686710111094784",
+			},
 			Severity:          "INFO",
 			Triggered:         false,
 			TargetEntityTypes: []string{"DeviceVolume"},
-			MuteInfo: getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionMuteInfo{
+			MuteInfo: getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionMuteInfo{
 				Muted: false,
 			},
-			Actions:             []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction{},
+			Actions:             []getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction{},
 			TriggerResetActions: false,
 			ConditionType:       "ENTITY_METRIC",
-			FlatCondition: []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpression{
+			FlatCondition: []getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpression{
 				{
 					Id: "935b93f6-f94f-4b25-98a6-e66bbf80eaee",
-					Links: []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionLinksNamedLinks{
+					Links: []ReadAlertConditionLinkResult{
 						{
 							Name: "operands",
 							Values: []string{
@@ -99,7 +101,7 @@ var (
 							},
 						},
 					},
-					Value: &getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionValueFlatAlertConditionNode{
+					Value: &ReadAlertConditionValueResult{
 						FieldName: nil,
 						Operator:  &operatorGT,
 						Type:      "binaryOperator",
@@ -108,7 +110,7 @@ var (
 				},
 				{
 					Id: "0f9212ff-c437-4496-aabd-72a3d0c4dea0",
-					Links: []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionLinksNamedLinks{
+					Links: []ReadAlertConditionLinkResult{
 						{
 							Name: "operands",
 							Values: []string{
@@ -117,7 +119,7 @@ var (
 							},
 						},
 					},
-					Value: &getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionValueFlatAlertConditionNode{
+					Value: &ReadAlertConditionValueResult{
 						FieldName: nil,
 						Operator:  &operatorMAX,
 						Type:      "aggregationOperator",
@@ -126,8 +128,8 @@ var (
 				},
 				{
 					Id:    "9b3f1343-4936-40d2-bb2c-7ee8a7612f46",
-					Links: []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionLinksNamedLinks{},
-					Value: &getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionValueFlatAlertConditionNode{
+					Links: []ReadAlertConditionLinkResult{},
+					Value: &ReadAlertConditionValueResult{
 						FieldName: nil,
 						Operator:  nil,
 						Type:      "constantValue",
@@ -136,8 +138,8 @@ var (
 				},
 				{
 					Id:    "8fc84a11-dece-4561-9b36-573c4e38929f",
-					Links: []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionLinksNamedLinks{},
-					Value: &getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionValueFlatAlertConditionNode{
+					Links: []ReadAlertConditionLinkResult{},
+					Value: &ReadAlertConditionValueResult{
 						FieldName: &metricFieldName,
 						Operator:  nil,
 						Type:      "metricField",
@@ -146,8 +148,8 @@ var (
 				},
 				{
 					Id:    "fa655d66-673c-444c-b368-4c173585699d",
-					Links: []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionLinksNamedLinks{},
-					Value: &getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpressionValueFlatAlertConditionNode{
+					Links: []ReadAlertConditionLinkResult{},
+					Value: &ReadAlertConditionValueResult{
 						FieldName: nil,
 						Operator:  nil,
 						Type:      "constantValue",
@@ -165,8 +167,8 @@ var (
 			Enabled:        true,
 			OrganizationId: "140638900734749696",
 			Severity:       "INFO",
-			Actions:        []updateAlertDefinitionAlertMutationsUpdateAlertDefinitionActionsAlertAction{},
-			FlatCondition: []updateAlertDefinitionAlertMutationsUpdateAlertDefinitionFlatConditionFlatAlertConditionExpression{
+			Actions:        []updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction{},
+			FlatCondition: []updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionFlatConditionFlatAlertConditionExpression{
 				{
 					Id: "935b93f6-f94f-4b25-98a6-e66bbf80eaee",
 				},
@@ -192,13 +194,13 @@ func TestCreateAlert(t *testing.T) {
 	defer teardown()
 
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		gqlInput, err := getGraphQLInput[__createAlertDefinitionInput](r)
+		gqlInput, err := getGraphQLInput[__createAlertDefinitionMutationInput](r)
 		if err != nil {
 			t.Errorf("Swo.CreateAlert returned error: %v", err)
 		}
 
-		sendGraphQLResponse(t, w, createAlertDefinitionResponse{
-			AlertMutations: createAlertDefinitionAlertMutations{
+		sendGraphQLResponse(t, w, createAlertDefinitionMutationResponse{
+			AlertMutations: createAlertDefinitionMutationAlertMutations{
 				CreateAlertDefinition: mockCreateAlertDefinitionResult(mockAlertId, gqlInput.Definition.Name, *gqlInput.Definition.Description),
 			},
 		})
@@ -222,16 +224,16 @@ func TestReadAlert(t *testing.T) {
 	defer teardown()
 
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		gqlInput, err := getGraphQLInput[__getAlertDefinitionsInput](r)
+		gqlInput, err := getGraphQLInput[__getAlertDefinitionByIdInput](r)
 		if err != nil {
 			t.Errorf("Swo.ReadAlert returned error: %v", err)
 		}
 
-		sendGraphQLResponse(t, w, getAlertDefinitionsResponse{
-			AlertQueries: getAlertDefinitionsAlertQueries{
-				AlertDefinitions: getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResult{
-					AlertDefinitions: []getAlertDefinitionsAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition{
-						*mockReadAlertDefinitionResult(*gqlInput.Filter.Id, mockAlertDescription),
+		sendGraphQLResponse(t, w, getAlertDefinitionByIdResponse{
+			AlertQueries: getAlertDefinitionByIdAlertQueries{
+				AlertDefinitions: getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResult{
+					AlertDefinitions: []getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition{
+						*mockReadAlertDefinitionResult(gqlInput.Id, mockAlertDescription),
 					},
 				},
 			},
@@ -258,7 +260,7 @@ func TestUpdateAlert(t *testing.T) {
 	input := mockAlertDefinitionInput(mockAlertName, mockAlertDescription)
 
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		gqlInput, err := getGraphQLInput[__updateAlertDefinitionInput](r)
+		gqlInput, err := getGraphQLInput[__updateAlertDefinitionMutationInput](r)
 		if err != nil {
 			t.Errorf("Swo.ReadAlert returned error: %v", err)
 		}
@@ -270,7 +272,7 @@ func TestUpdateAlert(t *testing.T) {
 			t.Errorf("Request input = %+v, want %+v", got, want)
 		}
 
-		sendGraphQLResponse(t, w, updateAlertDefinitionAlertMutations{
+		sendGraphQLResponse(t, w, updateAlertDefinitionMutationAlertMutations{
 			UpdateAlertDefinition: mockUpdateAlertDefinitionResult(gqlInput.UpdateAlertDefinitionId, got.Name, *got.Description),
 		})
 	})
@@ -285,12 +287,12 @@ func TestDeleteAlert(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
 
-	input := deleteAlertDefinitionAlertMutations{
+	input := deleteAlertDefinitionMutationAlertMutations{
 		DeleteAlertDefinition: &mockAlertId,
 	}
 
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		gqlInput, err := getGraphQLInput[__deleteAlertDefinitionInput](r)
+		gqlInput, err := getGraphQLInput[__deleteAlertDefinitionMutationInput](r)
 		if err != nil {
 			t.Errorf("Swo.DeleteAlert returned error: %v", err)
 		}
@@ -302,8 +304,8 @@ func TestDeleteAlert(t *testing.T) {
 			t.Errorf("Swo.DeleteAlert: got = %s, want %s", got, want)
 		}
 
-		sendGraphQLResponse(t, w, deleteAlertDefinitionResponse{
-			AlertMutations: deleteAlertDefinitionAlertMutations{
+		sendGraphQLResponse(t, w, deleteAlertDefinitionMutationResponse{
+			AlertMutations: deleteAlertDefinitionMutationAlertMutations{
 				DeleteAlertDefinition: &mockAlertId,
 			},
 		})

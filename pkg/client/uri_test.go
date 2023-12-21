@@ -3,8 +3,8 @@ package client
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
+	"os"
 	"testing"
 
 	"github.com/Khan/genqlient/graphql"
@@ -19,7 +19,7 @@ func TestSwoService_ReadUri(t *testing.T) {
 	// marshalling the response correct due using the (json:"-") ignore flag. This is a
 	// workaround that uses a raw string as the response instead of the actual response type.
 	// See the getUriByIdEntitiesEntityQueries type in the generated code for more info.
-	inputJson, err := ioutil.ReadFile("uri_test_read.json")
+	inputJson, err := os.ReadFile("uri_test_read.json")
 	if err != nil {
 		t.Error(err)
 	}
