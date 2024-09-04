@@ -2,8 +2,10 @@
 linters:
   disable-all: true
   enable:
-    - ireturn
-    - err113
+    # err113 will fail because dynamic errors are defined in several places.
+    #- err113
+    # ireturn will fail because all pkg clients return interfaces.
+    #- ireturn
     - gosec
     - errcheck
     - nilnil

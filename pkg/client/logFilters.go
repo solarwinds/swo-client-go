@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 )
@@ -35,7 +36,7 @@ func (as *LogFilterService) Create(ctx context.Context, input CreateExclusionFil
 	if createFilter.Success == false {
 		err := fmt.Sprintf("create LogFilter failed. code=%s message=%s", createFilter.Code, createFilter.Message)
 		log.Print(err)
-		return nil, fmt.Errorf(err)
+		return nil, errors.New(err)
 	}
 
 	filter := createFilter.ExclusionFilter
