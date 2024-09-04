@@ -8,14 +8,9 @@ import (
 	swo "github.com/solarwinds/swo-client-go/pkg/client"
 )
 
-var (
-	apiTokenVar = "SWO_API_TOKEN"
-	baseUrlVar  = "SWO_BASE_URL"
-)
-
 func Setup() (context.Context, *swo.Client) {
-	baseUrl := getEnvVar(baseUrlVar)
-	apiToken := getEnvVar(apiTokenVar)
+	baseUrl := getEnvVar("SWO_BASE_URL")
+	apiToken := getEnvVar("SWO_API_TOKEN")
 
 	ctx := context.Background()
 

@@ -1,6 +1,7 @@
 package client
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -227,5 +228,58 @@ func TestSwoService_LogFilterServerErrors(t *testing.T) {
 	err = client.LogFilterService().Delete(ctx, "123")
 	if err == nil {
 		t.Error("Swo.LogFilterServerErrors expected an error response")
+	}
+}
+
+func TestSwoService_LogFilterDupicateEntryError(t *testing.T) {
+	ctx, client, server, _, teardown := setup()
+	defer teardown()
+
+	input := &CreateExclusionFilterInput{
+		Name:        "swo-client-go - logFilter",
+		Description: "logFilter description",
+		Expressions: []CreateExclusionFilterExpressionInput{
+			{
+				Kind:       ExclusionFilterExpressionKindString,
+				Expression: "test string",
+			},
+		},
+	}
+
+	message := "Global filter for this org already exists"
+
+	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		gqlInput, err := getGraphQLInput[__createLogFilterInput](r)
+		if err != nil {
+			t.Errorf("Swo.LogFilterDupicateEntryError error: %v", err)
+		}
+
+		got := gqlInput.Input
+		want := input
+
+		if !testObjects(t, got, *want) {
+			t.Errorf("Request got = %+v, want = %+v", got, want)
+		}
+
+		sendGraphQLResponse(t, w, createLogFilterResponse{
+			CreateExclusionFilter: createLogFilterCreateExclusionFilterCreateExclusionFilterResponse{
+				Code:            ExclusionFilterResponseCodeDuplicateEntry,
+				Success:         false,
+				Message:         message,
+				ExclusionFilter: nil,
+			},
+		})
+	})
+
+	_, err := client.LogFilterService().Create(ctx, *input)
+
+	if err == nil {
+		t.Error("Swo.LogFilterDupicateEntryError expected an error response")
+	}
+
+	want := fmt.Errorf("create LogFilter failed. code=%s message=%s", ExclusionFilterResponseCodeDuplicateEntry, message)
+
+	if !testObjects(t, err.Error(), want.Error()) {
+		t.Errorf("Swo.LogFilterDupicateEntryError returned %+v, want %+v", err, want)
 	}
 }
