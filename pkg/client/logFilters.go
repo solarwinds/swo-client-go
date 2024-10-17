@@ -2,6 +2,8 @@ package client
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"log"
 )
 
@@ -30,10 +32,16 @@ func (as *LogFilterService) Create(ctx context.Context, input CreateExclusionFil
 		return nil, err
 	}
 
-	result := resp.CreateExclusionFilter.ExclusionFilter
-	log.Printf("create LogFilter success. id=%s", result.Id)
+	createFilter := resp.CreateExclusionFilter
+	if createFilter.Success == false {
+		err := fmt.Sprintf("create LogFilter failed. code=%s message=%s", createFilter.Code, createFilter.Message)
+		log.Print(err)
+		return nil, errors.New(err)
+	}
 
-	return result, nil
+	filter := createFilter.ExclusionFilter
+	log.Printf("create LogFilter success. id=%s", filter.Id)
+	return filter, nil
 }
 
 // Returns the LogFilter entity with the given Id.

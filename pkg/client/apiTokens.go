@@ -2,6 +2,8 @@ package client
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"log"
 )
 
@@ -58,7 +60,7 @@ func (as *ApiTokenService) Read(ctx context.Context, id string) (*ReadApiTokenRe
 	}
 
 	if len(resp.User.CurrentOrganization.Tokens) == 0 {
-		return nil, nil
+		return nil, errors.New(fmt.Sprintf("api token not found. id=%s", id))
 	}
 
 	return &resp.User.CurrentOrganization.Tokens[0], nil
