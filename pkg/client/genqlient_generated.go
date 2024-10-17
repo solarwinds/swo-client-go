@@ -10327,29 +10327,29 @@ mutation createAlertDefinitionMutation ($definition: AlertDefinitionInput!) {
 `
 
 func createAlertDefinitionMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	definition AlertDefinitionInput,
 ) (*createAlertDefinitionMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "createAlertDefinitionMutation",
 		Query:  createAlertDefinitionMutation_Operation,
 		Variables: &__createAlertDefinitionMutationInput{
 			Definition: definition,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data createAlertDefinitionMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ createAlertDefinitionMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by createDashboard.
@@ -10399,29 +10399,29 @@ mutation createDashboard ($input: CreateDashboardInput!) {
 `
 
 func createDashboard(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input CreateDashboardInput,
 ) (*createDashboardResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "createDashboard",
 		Query:  createDashboard_Operation,
 		Variables: &__createDashboardInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data createDashboardResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ createDashboardResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by createLogFilter.
@@ -10449,29 +10449,29 @@ mutation createLogFilter ($input: CreateExclusionFilterInput!) {
 `
 
 func createLogFilter(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input CreateExclusionFilterInput,
 ) (*createLogFilterResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "createLogFilter",
 		Query:  createLogFilter_Operation,
 		Variables: &__createLogFilterInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data createLogFilterResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ createLogFilterResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by createNotification.
@@ -10495,29 +10495,29 @@ mutation createNotification ($configuration: createNotificationServiceConfigurat
 `
 
 func createNotification(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	configuration CreateNotificationServiceConfigurationInput,
 ) (*createNotificationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "createNotification",
 		Query:  createNotification_Operation,
 		Variables: &__createNotificationInput{
 			Configuration: configuration,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data createNotificationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ createNotificationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by createTokenMutation.
@@ -10540,29 +10540,29 @@ mutation createTokenMutation ($input: CreateTokenInput!) {
 `
 
 func createTokenMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input CreateTokenInput,
 ) (*createTokenMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "createTokenMutation",
 		Query:  createTokenMutation_Operation,
 		Variables: &__createTokenMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data createTokenMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ createTokenMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by createUriMutation.
@@ -10579,29 +10579,29 @@ mutation createUriMutation ($input: CreateUriInput!) {
 `
 
 func createUriMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input CreateUriInput,
 ) (*createUriMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "createUriMutation",
 		Query:  createUriMutation_Operation,
 		Variables: &__createUriMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data createUriMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ createUriMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by createWebsiteMutation.
@@ -10616,29 +10616,29 @@ mutation createWebsiteMutation ($input: CreateWebsiteInput!) {
 `
 
 func createWebsiteMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input CreateWebsiteInput,
 ) (*createWebsiteMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "createWebsiteMutation",
 		Query:  createWebsiteMutation_Operation,
 		Variables: &__createWebsiteMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data createWebsiteMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ createWebsiteMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by deleteAlertDefinitionMutation.
@@ -10651,29 +10651,29 @@ mutation deleteAlertDefinitionMutation ($deleteAlertDefinitionId: ID!) {
 `
 
 func deleteAlertDefinitionMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	deleteAlertDefinitionId string,
 ) (*deleteAlertDefinitionMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "deleteAlertDefinitionMutation",
 		Query:  deleteAlertDefinitionMutation_Operation,
 		Variables: &__deleteAlertDefinitionMutationInput{
 			DeleteAlertDefinitionId: deleteAlertDefinitionId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data deleteAlertDefinitionMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ deleteAlertDefinitionMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by deleteDashboard.
@@ -10688,29 +10688,29 @@ mutation deleteDashboard ($input: DeleteDashboardInput!) {
 `
 
 func deleteDashboard(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input DeleteDashboardInput,
 ) (*deleteDashboardResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "deleteDashboard",
 		Query:  deleteDashboard_Operation,
 		Variables: &__deleteDashboardInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data deleteDashboardResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ deleteDashboardResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by deleteLogFilter.
@@ -10727,29 +10727,29 @@ mutation deleteLogFilter ($input: DeleteExclusionFilterInput!) {
 `
 
 func deleteLogFilter(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input DeleteExclusionFilterInput,
 ) (*deleteLogFilterResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "deleteLogFilter",
 		Query:  deleteLogFilter_Operation,
 		Variables: &__deleteLogFilterInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data deleteLogFilterResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ deleteLogFilterResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by deleteNotification.
@@ -10764,29 +10764,29 @@ mutation deleteNotification ($input: DeleteNotificationServiceConfigurationInput
 `
 
 func deleteNotification(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input DeleteNotificationServiceConfigurationInput,
 ) (*deleteNotificationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "deleteNotification",
 		Query:  deleteNotification_Operation,
 		Variables: &__deleteNotificationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data deleteNotificationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ deleteNotificationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by deleteTokenMutation.
@@ -10801,29 +10801,29 @@ mutation deleteTokenMutation ($input: DeleteTokenInput!) {
 `
 
 func deleteTokenMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input DeleteTokenInput,
 ) (*deleteTokenMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "deleteTokenMutation",
 		Query:  deleteTokenMutation_Operation,
 		Variables: &__deleteTokenMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data deleteTokenMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ deleteTokenMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by deleteUriMutation.
@@ -10840,29 +10840,29 @@ mutation deleteUriMutation ($input: DeleteUriInput!) {
 `
 
 func deleteUriMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input DeleteUriInput,
 ) (*deleteUriMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "deleteUriMutation",
 		Query:  deleteUriMutation_Operation,
 		Variables: &__deleteUriMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data deleteUriMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ deleteUriMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by deleteWebsiteMutation.
@@ -10879,29 +10879,29 @@ mutation deleteWebsiteMutation ($input: DeleteWebsiteInput!) {
 `
 
 func deleteWebsiteMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input DeleteWebsiteInput,
 ) (*deleteWebsiteMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "deleteWebsiteMutation",
 		Query:  deleteWebsiteMutation_Operation,
 		Variables: &__deleteWebsiteMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data deleteWebsiteMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ deleteWebsiteMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getAlertDefinitionById.
@@ -10985,29 +10985,29 @@ query getAlertDefinitionById ($id: ID!) {
 `
 
 func getAlertDefinitionById(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	id string,
 ) (*getAlertDefinitionByIdResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getAlertDefinitionById",
 		Query:  getAlertDefinitionById_Operation,
 		Variables: &__getAlertDefinitionByIdInput{
 			Id: id,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getAlertDefinitionByIdResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getAlertDefinitionByIdResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getApiTokenById.
@@ -11040,29 +11040,29 @@ query getApiTokenById ($id: String!) {
 `
 
 func getApiTokenById(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	id string,
 ) (*getApiTokenByIdResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getApiTokenById",
 		Query:  getApiTokenById_Operation,
 		Variables: &__getApiTokenByIdInput{
 			Id: id,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getApiTokenByIdResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getApiTokenByIdResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getDashboardById.
@@ -11109,29 +11109,29 @@ query getDashboardById ($id: ID!) {
 `
 
 func getDashboardById(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	id string,
 ) (*getDashboardByIdResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getDashboardById",
 		Query:  getDashboardById_Operation,
 		Variables: &__getDashboardByIdInput{
 			Id: id,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getDashboardByIdResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getDashboardByIdResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getLogFilterById.
@@ -11151,29 +11151,29 @@ query getLogFilterById ($input: GetExclusionFilterInput!) {
 `
 
 func getLogFilterById(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input GetExclusionFilterInput,
 ) (*getLogFilterByIdResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getLogFilterById",
 		Query:  getLogFilterById_Operation,
 		Variables: &__getLogFilterByIdInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getLogFilterByIdResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getLogFilterByIdResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getNotification.
@@ -11196,12 +11196,12 @@ query getNotification ($configurationId: String!, $configurationType: String!) {
 `
 
 func getNotification(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	configurationId string,
 	configurationType string,
 ) (*getNotificationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getNotification",
 		Query:  getNotification_Operation,
 		Variables: &__getNotificationInput{
@@ -11209,18 +11209,18 @@ func getNotification(
 			ConfigurationType: configurationType,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getNotificationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getNotificationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getUriById.
@@ -11274,29 +11274,29 @@ query getUriById ($id: ID!) {
 `
 
 func getUriById(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	id string,
 ) (*getUriByIdResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getUriById",
 		Query:  getUriById_Operation,
 		Variables: &__getUriByIdInput{
 			Id: id,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getUriByIdResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getUriByIdResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by getWebsiteById.
@@ -11352,29 +11352,29 @@ query getWebsiteById ($id: ID!) {
 `
 
 func getWebsiteById(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	id string,
 ) (*getWebsiteByIdResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "getWebsiteById",
 		Query:  getWebsiteById_Operation,
 		Variables: &__getWebsiteByIdInput{
 			Id: id,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data getWebsiteByIdResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ getWebsiteByIdResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by updateAlertDefinitionMutation.
@@ -11421,12 +11421,12 @@ mutation updateAlertDefinitionMutation ($definition: AlertDefinitionInput!, $upd
 `
 
 func updateAlertDefinitionMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	definition AlertDefinitionInput,
 	updateAlertDefinitionId string,
 ) (*updateAlertDefinitionMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "updateAlertDefinitionMutation",
 		Query:  updateAlertDefinitionMutation_Operation,
 		Variables: &__updateAlertDefinitionMutationInput{
@@ -11434,18 +11434,18 @@ func updateAlertDefinitionMutation(
 			UpdateAlertDefinitionId: updateAlertDefinitionId,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data updateAlertDefinitionMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ updateAlertDefinitionMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by updateDashboard.
@@ -11480,29 +11480,29 @@ mutation updateDashboard ($input: UpdateDashboardInput!) {
 `
 
 func updateDashboard(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input UpdateDashboardInput,
 ) (*updateDashboardResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "updateDashboard",
 		Query:  updateDashboard_Operation,
 		Variables: &__updateDashboardInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data updateDashboardResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ updateDashboardResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by updateLogFilter.
@@ -11519,29 +11519,29 @@ mutation updateLogFilter ($input: UpdateExclusionFilterInput!) {
 `
 
 func updateLogFilter(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input UpdateExclusionFilterInput,
 ) (*updateLogFilterResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "updateLogFilter",
 		Query:  updateLogFilter_Operation,
 		Variables: &__updateLogFilterInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data updateLogFilterResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ updateLogFilterResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by updateNotification.
@@ -11565,29 +11565,29 @@ mutation updateNotification ($configuration: UpdateNotificationServiceConfigurat
 `
 
 func updateNotification(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	configuration UpdateNotificationServiceConfigurationInput,
 ) (*updateNotificationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "updateNotification",
 		Query:  updateNotification_Operation,
 		Variables: &__updateNotificationInput{
 			Configuration: configuration,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data updateNotificationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ updateNotificationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by updateTokenMutation.
@@ -11611,29 +11611,29 @@ mutation updateTokenMutation ($input: UpdateTokenInput!) {
 `
 
 func updateTokenMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input UpdateTokenInput,
 ) (*updateTokenMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "updateTokenMutation",
 		Query:  updateTokenMutation_Operation,
 		Variables: &__updateTokenMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data updateTokenMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ updateTokenMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by updateUriMutation.
@@ -11650,29 +11650,29 @@ mutation updateUriMutation ($input: UpdateUriInput!) {
 `
 
 func updateUriMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input UpdateUriInput,
 ) (*updateUriMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "updateUriMutation",
 		Query:  updateUriMutation_Operation,
 		Variables: &__updateUriMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data updateUriMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ updateUriMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
 
 // The query or mutation executed by updateWebsiteMutation.
@@ -11689,27 +11689,27 @@ mutation updateWebsiteMutation ($input: UpdateWebsiteInput!) {
 `
 
 func updateWebsiteMutation(
-	ctx context.Context,
-	client graphql.Client,
+	ctx_ context.Context,
+	client_ graphql.Client,
 	input UpdateWebsiteInput,
 ) (*updateWebsiteMutationResponse, error) {
-	req := &graphql.Request{
+	req_ := &graphql.Request{
 		OpName: "updateWebsiteMutation",
 		Query:  updateWebsiteMutation_Operation,
 		Variables: &__updateWebsiteMutationInput{
 			Input: input,
 		},
 	}
-	var err error
+	var err_ error
 
-	var data updateWebsiteMutationResponse
-	resp := &graphql.Response{Data: &data}
+	var data_ updateWebsiteMutationResponse
+	resp_ := &graphql.Response{Data: &data_}
 
-	err = client.MakeRequest(
-		ctx,
-		req,
-		resp,
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
 	)
 
-	return &data, err
+	return &data_, err_
 }
