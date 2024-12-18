@@ -19,3 +19,5 @@ bindings:
     type: time.Time
   JSON:
     type: any
+  TestIntervalInSeconds:
+    type: github.com/solarwinds/swo-client-go/types.TestIntervalInSeconds

@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/Khan/genqlient/graphql"
+	"github.com/solarwinds/swo-client-go/types"
 )
 
 type AlertActionInput struct {
@@ -274,8 +275,8 @@ type AvailabilityCheckSettingsInput struct {
 	CheckForString *CheckForStringInput `json:"checkForString"`
 	// Configure how often availability tests should be performed.
 	//
-	// Provide a number of seconds that is divisible by 60 and no greater than 14400 (4 hours).
-	TestIntervalInSeconds int `json:"testIntervalInSeconds"`
+	// Provide a number of seconds that is one of 60, 300, 600, 900, 1800, 3600, 7200, 14400.
+	TestIntervalInSeconds types.TestIntervalInSeconds `json:"testIntervalInSeconds"`
 	// Configure which protocols need availability tests to be performed. At least one protocol must
 	// be provided.
 	Protocols []WebsiteProtocol `json:"protocols"`
@@ -318,7 +319,7 @@ func (v *AvailabilityCheckSettingsInput) GetCheckForString() *CheckForStringInpu
 }
 
 // GetTestIntervalInSeconds returns AvailabilityCheckSettingsInput.TestIntervalInSeconds, and is useful for accessing the field via an interface.
-func (v *AvailabilityCheckSettingsInput) GetTestIntervalInSeconds() int {
+func (v *AvailabilityCheckSettingsInput) GetTestIntervalInSeconds() types.TestIntervalInSeconds {
 	return v.TestIntervalInSeconds
 }
 
@@ -1041,8 +1042,8 @@ type UriTestDefinitionsInput struct {
 	TestFrom ProbeLocationInput `json:"testFrom"`
 	// Configure how often availability tests should be performed.
 	//
-	// Provide a number of seconds that is divisible by 60 and no greater than 14400 (4 hours).
-	TestIntervalInSeconds int `json:"testIntervalInSeconds"`
+	// Provide a number of seconds that is one of 60, 300, 600, 900, 1800, 3600, 7200, 14400.
+	TestIntervalInSeconds types.TestIntervalInSeconds `json:"testIntervalInSeconds"`
 }
 
 // GetPlatformOptions returns UriTestDefinitionsInput.PlatformOptions, and is useful for accessing the field via an interface.
@@ -1054,7 +1055,9 @@ func (v *UriTestDefinitionsInput) GetPlatformOptions() *ProbePlatformOptionsInpu
 func (v *UriTestDefinitionsInput) GetTestFrom() ProbeLocationInput { return v.TestFrom }
 
 // GetTestIntervalInSeconds returns UriTestDefinitionsInput.TestIntervalInSeconds, and is useful for accessing the field via an interface.
-func (v *UriTestDefinitionsInput) GetTestIntervalInSeconds() int { return v.TestIntervalInSeconds }
+func (v *UriTestDefinitionsInput) GetTestIntervalInSeconds() types.TestIntervalInSeconds {
+	return v.TestIntervalInSeconds
+}
 
 type WebsiteProtocol string
 
@@ -6184,7 +6187,7 @@ func (v *getUriByIdEntitiesEntityQueriesByIdUriTcpOptions) GetStringToSend() *st
 type getUriByIdEntitiesEntityQueriesByIdUriTestDefinitions struct {
 	TestFromLocation      *ProbeLocationType                                                                  `json:"testFromLocation"`
 	LocationOptions       []getUriByIdEntitiesEntityQueriesByIdUriTestDefinitionsLocationOptionsProbeLocation `json:"locationOptions"`
-	TestIntervalInSeconds *int                                                                                `json:"testIntervalInSeconds"`
+	TestIntervalInSeconds *types.TestIntervalInSeconds                                                        `json:"testIntervalInSeconds"`
 	PlatformOptions       *getUriByIdEntitiesEntityQueriesByIdUriTestDefinitionsPlatformOptions               `json:"platformOptions"`
 }
 
@@ -6199,7 +6202,7 @@ func (v *getUriByIdEntitiesEntityQueriesByIdUriTestDefinitions) GetLocationOptio
 }
 
 // GetTestIntervalInSeconds returns getUriByIdEntitiesEntityQueriesByIdUriTestDefinitions.TestIntervalInSeconds, and is useful for accessing the field via an interface.
-func (v *getUriByIdEntitiesEntityQueriesByIdUriTestDefinitions) GetTestIntervalInSeconds() *int {
+func (v *getUriByIdEntitiesEntityQueriesByIdUriTestDefinitions) GetTestIntervalInSeconds() *types.TestIntervalInSeconds {
 	return v.TestIntervalInSeconds
 }
 
@@ -9433,7 +9436,7 @@ type getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailab
 	LocationOptions       []getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringLocationOptionsProbeLocation    `json:"locationOptions"`
 	PlatformOptions       *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringPlatformOptions                  `json:"platformOptions"`
 	TestFromLocation      *ProbeLocationType                                                                                                          `json:"testFromLocation"`
-	TestIntervalInSeconds *int                                                                                                                        `json:"testIntervalInSeconds"`
+	TestIntervalInSeconds *types.TestIntervalInSeconds                                                                                                `json:"testIntervalInSeconds"`
 	CheckForString        *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringCheckForStringCheckForStringType `json:"checkForString"`
 	Ssl                   *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoringSslSslMonitoring                 `json:"ssl"`
 }
@@ -9459,7 +9462,7 @@ func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAva
 }
 
 // GetTestIntervalInSeconds returns getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring.TestIntervalInSeconds, and is useful for accessing the field via an interface.
-func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetTestIntervalInSeconds() *int {
+func (v *getWebsiteByIdEntitiesEntityQueriesByIdWebsiteMonitoringAvailabilityAvailabilityMonitoring) GetTestIntervalInSeconds() *types.TestIntervalInSeconds {
 	return v.TestIntervalInSeconds
 }
 

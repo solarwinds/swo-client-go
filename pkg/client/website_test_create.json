@@ -3,27 +3,17 @@
   "url": "www.solarwinds.com",
   "availabilityCheckSettings": {
     "testIntervalInSeconds": 900,
-    "protocols": [
-      "HTTP",
-      "HTTPS"
-    ],
+    "protocols": ["HTTP", "HTTPS"],
     "testFrom": {
       "type": "REGION",
-      "values": [
-        "NA",
-        "AS",
-        "SA",
-        "OC"
-      ]
+      "values": ["NA", "AS", "SA", "OC"]
     },
     "checkForString": {
       "operator": "CONTAINS",
       "value": "solarwinds"
     },
     "platformOptions": {
-      "probePlatforms": [
-        "AWS"
-      ],
+      "probePlatforms": ["AWS"],
       "testFromAll": false
     },
     "ssl": {
