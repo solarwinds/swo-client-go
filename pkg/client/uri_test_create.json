@@ -13,11 +13,19 @@
   "testDefinitions": {
     "testFrom": {
       "type": "REGION",
-      "values": ["NA", "AS", "SA", "OC", "EU"]
+      "values": [
+        "NA",
+        "AS",
+        "SA",
+        "OC",
+        "EU"
+      ]
     },
     "testIntervalInSeconds": 3600,
     "platformOptions": {
-      "probePlatforms": ["AWS"],
+      "probePlatforms": [
+        "AWS"
+      ],
       "testFromAll": false
     }
   }
