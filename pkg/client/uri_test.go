@@ -117,6 +117,9 @@ func TestSwoService_UpdateUri(t *testing.T) {
 		Id:         "123",
 		Name:       "swo-client-go - uri",
 		IpOrDomain: "www.solarwinds.com",
+		TestDefinitions: UriTestDefinitionsInput{
+			TestIntervalInSeconds: 1800,
+		},
 	}
 
 	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
