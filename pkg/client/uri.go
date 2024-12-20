@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+
+	"github.com/cenkalti/backoff/v5"
 )
 
 type UriService service
@@ -42,12 +44,26 @@ func (as *UriService) Create(ctx context.Context, input CreateUriInput) (*Create
 func (as *UriService) Read(ctx context.Context, id string) (*ReadUriResult, error) {
 	log.Printf("read uri request. id=%s", id)
 
-	resp, err := getUriById(ctx, as.client.gql, id)
+	operation := func() (getUriByIdEntitiesEntityQueriesByIdEntity, error) {
+		resp, err := getUriById(ctx, as.client.gql, id)
+
+		if err != nil {
+			return nil, err
+		}
+
+		if resp.Entities.ById == nil {
+			return nil, backoff.RetryAfter(1)
+		}
+
+		return *resp.Entities.ById, nil
+	}
+
+	uriPtr, err := backoff.Retry(ctx, operation, backoff.WithBackOff(backoff.NewExponentialBackOff()))
+
 	if err != nil {
 		return nil, err
 	}
 
-	uriPtr := *resp.Entities.ById
 	if uri, ok := uriPtr.(*ReadUriResult); !ok {
 		return nil, fmt.Errorf("unexpected type %T", uri)
 	} else {
