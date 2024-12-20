@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/Khan/genqlient/graphql"
-	"github.com/cenkalti/backoff/v5"
 	"github.com/solarwinds/swo-client-go/types"
 )
 
