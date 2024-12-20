@@ -44,6 +44,72 @@ query getUriById($id: ID!) {
   }
 }
 
+query getUriWithMonitoring($id: ID!) {
+  entities {
+    byId(id: $id) {
+      ... on Uri {
+        ...UriWithMonitoring
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment UriWithMonitoring on Uri {
+  name
+  host
+  httpPathAndQuery
+  options {
+    isPingEnabled
+    isHttpEnabled
+    isTcpEnabled
+    __typename
+  }
+  httpOptions {
+    checkForString {
+      operator
+      value
+      __typename
+    }
+    protocols
+    customHeaders {
+      name
+      value
+      __typename
+    }
+    __typename
+  }
+  tcpOptions {
+    port
+    stringToSend
+    stringToExpect
+    __typename
+  }
+  testDefinitions {
+    testIntervalInSeconds
+    testFromLocation
+    locationOptions {
+      type
+      value
+      __typename
+    }
+    platformOptions {
+      testFromAll
+      platforms
+      __typename
+    }
+    __typename
+  }
+  tags {
+    key
+    value
+    __typename
+  }
+  __typename
+}
+
 mutation createUriMutation($input: CreateUriInput!) {
   dem {
     createUri(input: $input) {

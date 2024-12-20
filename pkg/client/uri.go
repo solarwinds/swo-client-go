@@ -12,7 +12,7 @@ type UriService service
 
 type CreateUriResult = createUriMutationDemDemMutationsCreateUriCreateUriResponse
 type UpdateUriResult = updateUriMutationDemDemMutationsUpdateUriUpdateUriResponse
-type ReadUriResult = getUriByIdEntitiesEntityQueriesByIdUri
+type ReadUriResult = getUriWithMonitoringEntitiesEntityQueriesByIdEntity
 
 type UriCommunicator interface {
 	Create(context.Context, CreateUriInput) (*CreateUriResult, error)
@@ -41,11 +41,11 @@ func (as *UriService) Create(ctx context.Context, input CreateUriInput) (*Create
 }
 
 // Returns the Uri entity with the given Id.
-func (as *UriService) Read(ctx context.Context, id string) (*ReadUriResult, error) {
+func (as *UriService) Read(ctx context.Context, id string) (ReadUriResult, error) {
 	log.Printf("read uri request. id=%s", id)
 
-	operation := func() (getUriByIdEntitiesEntityQueriesByIdEntity, error) {
-		resp, err := getUriById(ctx, as.client.gql, id)
+	operation := func() (getUriWithMonitoringEntitiesEntityQueriesByIdEntity, error) {
+		resp, err := getUriWithMonitoring(ctx, as.client.gql, id)
 
 		if err != nil {
 			return nil, err
@@ -64,7 +64,7 @@ func (as *UriService) Read(ctx context.Context, id string) (*ReadUriResult, erro
 		return nil, err
 	}
 
-	if uri, ok := uriPtr.(*ReadUriResult); !ok {
+	if uri, ok := uriPtr.(ReadUriResult); !ok {
 		return nil, fmt.Errorf("unexpected type %T", uri)
 	} else {
 		return uri, nil
