@@ -58,7 +58,7 @@ func (as *UriService) Read(ctx context.Context, id string) (*ReadUriResult, erro
 		return *resp.Entities.ById, nil
 	}
 
-	uriPtr, err := backoff.Retry(ctx, operation, backoff.WithBackOff(backoff.NewExponentialBackOff()))
+	uriPtr, err := backoff.Retry(ctx, operation, backoff.WithBackOff(backoff.NewExponentialBackOff()), backoff.WithMaxElapsedTime(5))
 
 	if err != nil {
 		return nil, err
