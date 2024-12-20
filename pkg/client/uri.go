@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/cenkalti/backoff/v5"
@@ -11,11 +12,11 @@ type UriService service
 
 type CreateUriResult = createUriMutationDemDemMutationsCreateUriCreateUriResponse
 type UpdateUriResult = updateUriMutationDemDemMutationsUpdateUriUpdateUriResponse
-type ReadUriResult = getUriWithMonitoringEntitiesEntityQueriesByIdEntity
+type ReadUriResult = getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri
 
 type UriCommunicator interface {
 	Create(context.Context, CreateUriInput) (*CreateUriResult, error)
-	Read(context.Context, string) (ReadUriResult, error)
+	Read(context.Context, string) (*ReadUriResult, error)
 	Update(context.Context, UpdateUriInput) error
 	Delete(context.Context, string) error
 }
@@ -40,11 +41,11 @@ func (as *UriService) Create(ctx context.Context, input CreateUriInput) (*Create
 }
 
 // Returns the Uri entity with the given Id.
-func (as *UriService) Read(ctx context.Context, id string) (ReadUriResult, error) {
+func (as *UriService) Read(ctx context.Context, id string) (*ReadUriResult, error) {
 	log.Printf("read uri request. id=%s", id)
 
-	operation := func() (getUriWithMonitoringEntitiesEntityQueriesByIdEntity, error) {
-		resp, err := getUriWithMonitoring(ctx, as.client.gql, id)
+	operation := func() (getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity, error) {
+		resp, err := getUriByIdWithMonitoring(ctx, as.client.gql, id)
 
 		if err != nil {
 			return nil, err
@@ -63,7 +64,11 @@ func (as *UriService) Read(ctx context.Context, id string) (ReadUriResult, error
 		return nil, err
 	}
 
-	return uriPtr, nil
+	if uri, ok := uriPtr.(*ReadUriResult); !ok {
+		return nil, fmt.Errorf("unexpected type %T", uri)
+	} else {
+		return uri, nil
+	}
 }
 
 // Updates the Uri with input for the given id.

@@ -1523,13 +1523,13 @@ type __getUriByIdInput struct {
 // GetId returns __getUriByIdInput.Id, and is useful for accessing the field via an interface.
 func (v *__getUriByIdInput) GetId() string { return v.Id }
 
-// __getUriWithMonitoringInput is used internally by genqlient
-type __getUriWithMonitoringInput struct {
+// __getUriByIdWithMonitoringInput is used internally by genqlient
+type __getUriByIdWithMonitoringInput struct {
 	Id string `json:"id"`
 }
 
-// GetId returns __getUriWithMonitoringInput.Id, and is useful for accessing the field via an interface.
-func (v *__getUriWithMonitoringInput) GetId() string { return v.Id }
+// GetId returns __getUriByIdWithMonitoringInput.Id, and is useful for accessing the field via an interface.
+func (v *__getUriByIdWithMonitoringInput) GetId() string { return v.Id }
 
 // __getWebsiteByIdInput is used internally by genqlient
 type __getWebsiteByIdInput struct {
@@ -6661,34 +6661,34 @@ type getUriByIdResponse struct {
 // GetEntities returns getUriByIdResponse.Entities, and is useful for accessing the field via an interface.
 func (v *getUriByIdResponse) GetEntities() getUriByIdEntitiesEntityQueries { return v.Entities }
 
-// getUriWithMonitoringEntitiesEntityQueries includes the requested fields of the GraphQL type EntityQueries.
-type getUriWithMonitoringEntitiesEntityQueries struct {
+// getUriByIdWithMonitoringEntitiesEntityQueries includes the requested fields of the GraphQL type EntityQueries.
+type getUriByIdWithMonitoringEntitiesEntityQueries struct {
 	// Get Entity by ID. If "timeRange" argument is passed it set a "time context" for the whole query and override any "intervalSec" values in metric scalars
 	// metric directives. If the "timeRange" is not defined the default "intervalSec" value from the schema is used.
-	ById     *getUriWithMonitoringEntitiesEntityQueriesByIdEntity `json:"-"`
-	Typename *string                                              `json:"__typename"`
+	ById     *getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity `json:"-"`
+	Typename *string                                                  `json:"__typename"`
 }
 
-// GetById returns getUriWithMonitoringEntitiesEntityQueries.ById, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueries) GetById() *getUriWithMonitoringEntitiesEntityQueriesByIdEntity {
+// GetById returns getUriByIdWithMonitoringEntitiesEntityQueries.ById, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueries) GetById() *getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity {
 	return v.ById
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueries.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueries) GetTypename() *string { return v.Typename }
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueries.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueries) GetTypename() *string { return v.Typename }
 
-func (v *getUriWithMonitoringEntitiesEntityQueries) UnmarshalJSON(b []byte) error {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueries) UnmarshalJSON(b []byte) error {
 
 	if string(b) == "null" {
 		return nil
 	}
 
 	var firstPass struct {
-		*getUriWithMonitoringEntitiesEntityQueries
+		*getUriByIdWithMonitoringEntitiesEntityQueries
 		ById json.RawMessage `json:"byId"`
 		graphql.NoUnmarshalJSON
 	}
-	firstPass.getUriWithMonitoringEntitiesEntityQueries = v
+	firstPass.getUriByIdWithMonitoringEntitiesEntityQueries = v
 
 	err := json.Unmarshal(b, &firstPass)
 	if err != nil {
@@ -6699,25 +6699,25 @@ func (v *getUriWithMonitoringEntitiesEntityQueries) UnmarshalJSON(b []byte) erro
 		dst := &v.ById
 		src := firstPass.ById
 		if len(src) != 0 && string(src) != "null" {
-			*dst = new(getUriWithMonitoringEntitiesEntityQueriesByIdEntity)
-			err = __unmarshalgetUriWithMonitoringEntitiesEntityQueriesByIdEntity(
+			*dst = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity)
+			err = __unmarshalgetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity(
 				src, *dst)
 			if err != nil {
 				return fmt.Errorf(
-					"unable to unmarshal getUriWithMonitoringEntitiesEntityQueries.ById: %w", err)
+					"unable to unmarshal getUriByIdWithMonitoringEntitiesEntityQueries.ById: %w", err)
 			}
 		}
 	}
 	return nil
 }
 
-type __premarshalgetUriWithMonitoringEntitiesEntityQueries struct {
+type __premarshalgetUriByIdWithMonitoringEntitiesEntityQueries struct {
 	ById json.RawMessage `json:"byId"`
 
 	Typename *string `json:"__typename"`
 }
 
-func (v *getUriWithMonitoringEntitiesEntityQueries) MarshalJSON() ([]byte, error) {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueries) MarshalJSON() ([]byte, error) {
 	premarshaled, err := v.__premarshalJSON()
 	if err != nil {
 		return nil, err
@@ -6725,8 +6725,8 @@ func (v *getUriWithMonitoringEntitiesEntityQueries) MarshalJSON() ([]byte, error
 	return json.Marshal(premarshaled)
 }
 
-func (v *getUriWithMonitoringEntitiesEntityQueries) __premarshalJSON() (*__premarshalgetUriWithMonitoringEntitiesEntityQueries, error) {
-	var retval __premarshalgetUriWithMonitoringEntitiesEntityQueries
+func (v *getUriByIdWithMonitoringEntitiesEntityQueries) __premarshalJSON() (*__premarshalgetUriByIdWithMonitoringEntitiesEntityQueries, error) {
+	var retval __premarshalgetUriByIdWithMonitoringEntitiesEntityQueries
 
 	{
 
@@ -6734,11 +6734,11 @@ func (v *getUriWithMonitoringEntitiesEntityQueries) __premarshalJSON() (*__prema
 		src := v.ById
 		if src != nil {
 			var err error
-			*dst, err = __marshalgetUriWithMonitoringEntitiesEntityQueriesByIdEntity(
+			*dst, err = __marshalgetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity(
 				src)
 			if err != nil {
 				return nil, fmt.Errorf(
-					"unable to marshal getUriWithMonitoringEntitiesEntityQueries.ById: %w", err)
+					"unable to marshal getUriByIdWithMonitoringEntitiesEntityQueries.ById: %w", err)
 			}
 		}
 	}
@@ -6746,946 +6746,948 @@ func (v *getUriWithMonitoringEntitiesEntityQueries) __premarshalJSON() (*__prema
 	return &retval, nil
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance includes the requested fields of the GraphQL type ApacheInstance.
-type getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance includes the requested fields of the GraphQL type ApacheInstance.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdApplication includes the requested fields of the GraphQL type Application.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication includes the requested fields of the GraphQL type Application.
 // The GraphQL type's documentation follows.
 //
 // Entity represents Application from "Server and Application Monitor" in HCO (collected by Network Collector)
-type getUriWithMonitoringEntitiesEntityQueriesByIdApplication struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdApplication.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdApplication) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent includes the requested fields of the GraphQL type ApplicationComponent.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent includes the requested fields of the GraphQL type ApplicationComponent.
 // The GraphQL type's documentation follows.
 //
 // Application Component entity represents component of application from "Server and Application Monitor" in HCO (collected by Network Collector)
-type getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession includes the requested fields of the GraphQL type AsaRemoteAccessSession.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession includes the requested fields of the GraphQL type AsaRemoteAccessSession.
 // The GraphQL type's documentation follows.
 //
 // ASA Firewall RemoteAccessSession entity.
-type getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel includes the requested fields of the GraphQL type AsaSiteToSiteTunnel.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel includes the requested fields of the GraphQL type AsaSiteToSiteTunnel.
 // The GraphQL type's documentation follows.
 //
 // ASA Firewall SiteToSiteTunnel entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway includes the requested fields of the GraphQL type AwsApiGateway.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway includes the requested fields of the GraphQL type AwsApiGateway.
 // The GraphQL type's documentation follows.
 //
 // AWS API GATEWAY
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB includes the requested fields of the GraphQL type AwsApplicationELB.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB includes the requested fields of the GraphQL type AwsApplicationELB.
 // The GraphQL type's documentation follows.
 //
 // AWS Application load balancer
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster includes the requested fields of the GraphQL type AwsAuroraCluster.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster includes the requested fields of the GraphQL type AwsAuroraCluster.
 // The GraphQL type's documentation follows.
 //
 // AWS Aurora Cluster
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance includes the requested fields of the GraphQL type AwsAuroraInstance.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance includes the requested fields of the GraphQL type AwsAuroraInstance.
 // The GraphQL type's documentation follows.
 //
 // AWS Aurora Instance
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup includes the requested fields of the GraphQL type AwsAutoScalingGroup.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup includes the requested fields of the GraphQL type AwsAutoScalingGroup.
 // The GraphQL type's documentation follows.
 //
 // AWS Auto Scaling Group entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution includes the requested fields of the GraphQL type AwsCloudFrontDistribution.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution includes the requested fields of the GraphQL type AwsCloudFrontDistribution.
 // The GraphQL type's documentation follows.
 //
 // AWS CloudFront entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS includes the requested fields of the GraphQL type AwsEBS.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS includes the requested fields of the GraphQL type AwsEBS.
 // The GraphQL type's documentation follows.
 //
 // EBS entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS includes the requested fields of the GraphQL type AwsEFS.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS includes the requested fields of the GraphQL type AwsEFS.
 // The GraphQL type's documentation follows.
 //
 // ElasticFileSystem
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB includes the requested fields of the GraphQL type AwsELB.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB includes the requested fields of the GraphQL type AwsELB.
 // The GraphQL type's documentation follows.
 //
 // AWS Elastic load balancer (Classic Load Balancer)
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment includes the requested fields of the GraphQL type AwsElasticBeanstalkEnvironment.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment includes the requested fields of the GraphQL type AwsElasticBeanstalkEnvironment.
 // The GraphQL type's documentation follows.
 //
 // AwsElasticBeanstalkEnvironment entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx includes the requested fields of the GraphQL type AwsFsx.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx includes the requested fields of the GraphQL type AwsFsx.
 // The GraphQL type's documentation follows.
 //
 // AWS FSx
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda includes the requested fields of the GraphQL type AwsLambda.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda includes the requested fields of the GraphQL type AwsLambda.
 // The GraphQL type's documentation follows.
 //
 // AWS Lambda Entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway includes the requested fields of the GraphQL type AwsNatGateway.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway includes the requested fields of the GraphQL type AwsNatGateway.
 // The GraphQL type's documentation follows.
 //
 // AWS NAT Gateway
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection includes the requested fields of the GraphQL type AwsOpenSearchCollection.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection includes the requested fields of the GraphQL type AwsOpenSearchCollection.
 // The GraphQL type's documentation follows.
 //
 // AWS Open Search Serverless Collection
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain includes the requested fields of the GraphQL type AwsOpenSearchDomain.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain includes the requested fields of the GraphQL type AwsOpenSearchDomain.
 // The GraphQL type's documentation follows.
 //
 // AWS OpenSearch Service Domain
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline includes the requested fields of the GraphQL type AwsOpenSearchIngestionPipeline.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline includes the requested fields of the GraphQL type AwsOpenSearchIngestionPipeline.
 // The GraphQL type's documentation follows.
 //
 // AWS Open Search Ingestion Pipeline
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS includes the requested fields of the GraphQL type AwsRDS.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS includes the requested fields of the GraphQL type AwsRDS.
 // The GraphQL type's documentation follows.
 //
 // AWS RDS
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3 includes the requested fields of the GraphQL type AwsS3.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3 includes the requested fields of the GraphQL type AwsS3.
 // The GraphQL type's documentation follows.
 //
 // AWS S3
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3 struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3 struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3) GetTypename() *string { return v.Typename }
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3) GetTypename() *string {
+	return v.Typename
+}
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic includes the requested fields of the GraphQL type AwsSNSTopic.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic includes the requested fields of the GraphQL type AwsSNSTopic.
 // The GraphQL type's documentation follows.
 //
 // AWS SNS entities for Topic
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS includes the requested fields of the GraphQL type AwsSQS.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS includes the requested fields of the GraphQL type AwsSQS.
 // The GraphQL type's documentation follows.
 //
 // AWS Simple Queue Service
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily includes the requested fields of the GraphQL type AwsTransferFamily.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily includes the requested fields of the GraphQL type AwsTransferFamily.
 // The GraphQL type's documentation follows.
 //
 // AWS Transfer Family
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway includes the requested fields of the GraphQL type AwsTransitGateway.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway includes the requested fields of the GraphQL type AwsTransitGateway.
 // The GraphQL type's documentation follows.
 //
 // AWS Transit Gateway
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN includes the requested fields of the GraphQL type AwsVPN.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN includes the requested fields of the GraphQL type AwsVPN.
 // The GraphQL type's documentation follows.
 //
 // AWS VPN (Virtual Private Network)
-type getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService includes the requested fields of the GraphQL type AzureAppService.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService includes the requested fields of the GraphQL type AzureAppService.
 // The GraphQL type's documentation follows.
 //
 // Azure App Service
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage includes the requested fields of the GraphQL type AzureBlobStorage.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage includes the requested fields of the GraphQL type AzureBlobStorage.
 // The GraphQL type's documentation follows.
 //
 // Azure Blob Storage
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn includes the requested fields of the GraphQL type AzureCdn.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn includes the requested fields of the GraphQL type AzureCdn.
 // The GraphQL type's documentation follows.
 //
 // Azure CDN entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb includes the requested fields of the GraphQL type AzureCosmosDb.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb includes the requested fields of the GraphQL type AzureCosmosDb.
 // The GraphQL type's documentation follows.
 //
 // Azure Cosmos DB
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName includes the requested fields of the GraphQL type AzureDatabasesName.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName includes the requested fields of the GraphQL type AzureDatabasesName.
 // The GraphQL type's documentation follows.
 //
 // Add Entity description here
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs includes the requested fields of the GraphQL type AzureEventHubs.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs includes the requested fields of the GraphQL type AzureEventHubs.
 // The GraphQL type's documentation follows.
 //
 // Azure Event Hubs entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles includes the requested fields of the GraphQL type AzureFiles.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles includes the requested fields of the GraphQL type AzureFiles.
 // The GraphQL type's documentation follows.
 //
 // AZURE FILES
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor includes the requested fields of the GraphQL type AzureFrontDoor.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor includes the requested fields of the GraphQL type AzureFrontDoor.
 // The GraphQL type's documentation follows.
 //
 // Azure Front Door entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction includes the requested fields of the GraphQL type AzureFunction.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction includes the requested fields of the GraphQL type AzureFunction.
 // The GraphQL type's documentation follows.
 //
 // Azure Function
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault includes the requested fields of the GraphQL type AzureKeyVault.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault includes the requested fields of the GraphQL type AzureKeyVault.
 // The GraphQL type's documentation follows.
 //
 // Azure Key Vault entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer includes the requested fields of the GraphQL type AzureLoadBalancer.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer includes the requested fields of the GraphQL type AzureLoadBalancer.
 // The GraphQL type's documentation follows.
 //
 // Azure LoadBalancer entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus includes the requested fields of the GraphQL type AzureServiceBus.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus includes the requested fields of the GraphQL type AzureServiceBus.
 // The GraphQL type's documentation follows.
 //
 // Azure Service Bus Entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase includes the requested fields of the GraphQL type AzureSqlDatabase.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase includes the requested fields of the GraphQL type AzureSqlDatabase.
 // The GraphQL type's documentation follows.
 //
 // Add Entity description here
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet includes the requested fields of the GraphQL type AzureVirtualMachineScaleSet.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet includes the requested fields of the GraphQL type AzureVirtualMachineScaleSet.
 // The GraphQL type's documentation follows.
 //
 // Azure VirtualMachine ScaleSet
-type getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount includes the requested fields of the GraphQL type CloudAccount.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount includes the requested fields of the GraphQL type CloudAccount.
 // The GraphQL type's documentation follows.
 //
 // Cloud Account entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdContainer includes the requested fields of the GraphQL type Container.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer includes the requested fields of the GraphQL type Container.
 // The GraphQL type's documentation follows.
 //
 // Container entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdContainer struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdContainer.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdContainer) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance includes the requested fields of the GraphQL type DatabaseInstance.
-type getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance includes the requested fields of the GraphQL type DatabaseInstance.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume includes the requested fields of the GraphQL type DeviceVolume.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume includes the requested fields of the GraphQL type DeviceVolume.
 // The GraphQL type's documentation follows.
 //
 // DeviceVolume entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdEntity includes the requested fields of the GraphQL interface Entity.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity includes the requested fields of the GraphQL interface Entity.
 //
-// getUriWithMonitoringEntitiesEntityQueriesByIdEntity is implemented by the following types:
-// getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance
-// getUriWithMonitoringEntitiesEntityQueriesByIdApplication
-// getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent
-// getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession
-// getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway
-// getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase
-// getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet
-// getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount
-// getUriWithMonitoringEntitiesEntityQueriesByIdContainer
-// getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance
-// getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume
-// getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan
-// getUriWithMonitoringEntitiesEntityQueriesByIdHAMember
-// getUriWithMonitoringEntitiesEntityQueriesByIdHAPool
-// getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor
-// getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine
-// getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup
-// getUriWithMonitoringEntitiesEntityQueriesByIdHost
-// getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer
-// getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet
-// getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint
-// getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice
-// getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface
-// getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice
-// getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance
-// getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession
-// getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel
-// getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort
-// getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint
-// getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress
-// getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint
-// getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface
-// getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel
-// getUriWithMonitoringEntitiesEntityQueriesByIdService
-// getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance
-// getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication
-// getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost
-// getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint
-// getUriWithMonitoringEntitiesEntityQueriesByIdTransaction
-// getUriWithMonitoringEntitiesEntityQueriesByIdUri
-// getUriWithMonitoringEntitiesEntityQueriesByIdVCenter
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding
-// getUriWithMonitoringEntitiesEntityQueriesByIdVlan
-// getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice
-// getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap
-// getUriWithMonitoringEntitiesEntityQueriesByIdWebsite
-// getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient
-// getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity is implemented by the following types:
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdService
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface
 // The GraphQL type's documentation follows.
 //
 // Base interface for all entities
-type getUriWithMonitoringEntitiesEntityQueriesByIdEntity interface {
-	implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity()
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity interface {
+	implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity()
 	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
 	GetTypename() *string
 }
 
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdApplication) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdContainer) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHAMember) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHAPool) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHost) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdService) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdService) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdTransaction) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVCenter) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVlan) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdWebsite) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface) implementsGraphQLInterfacegetUriWithMonitoringEntitiesEntityQueriesByIdEntity() {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface) implementsGraphQLInterfacegetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity() {
 }
 
-func __unmarshalgetUriWithMonitoringEntitiesEntityQueriesByIdEntity(b []byte, v *getUriWithMonitoringEntitiesEntityQueriesByIdEntity) error {
+func __unmarshalgetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity(b []byte, v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity) error {
 	if string(b) == "null" {
 		return nil
 	}
@@ -7700,1139 +7702,1139 @@ func __unmarshalgetUriWithMonitoringEntitiesEntityQueriesByIdEntity(b []byte, v 
 
 	switch tn.TypeName {
 	case "ApacheInstance":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance)
 		return json.Unmarshal(b, *v)
 	case "Application":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdApplication)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication)
 		return json.Unmarshal(b, *v)
 	case "ApplicationComponent":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent)
 		return json.Unmarshal(b, *v)
 	case "AsaRemoteAccessSession":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession)
 		return json.Unmarshal(b, *v)
 	case "AsaSiteToSiteTunnel":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel)
 		return json.Unmarshal(b, *v)
 	case "AwsApiGateway":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway)
 		return json.Unmarshal(b, *v)
 	case "AwsApplicationELB":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB)
 		return json.Unmarshal(b, *v)
 	case "AwsAuroraCluster":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster)
 		return json.Unmarshal(b, *v)
 	case "AwsAuroraInstance":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance)
 		return json.Unmarshal(b, *v)
 	case "AwsAutoScalingGroup":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup)
 		return json.Unmarshal(b, *v)
 	case "AwsCloudFrontDistribution":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution)
 		return json.Unmarshal(b, *v)
 	case "AwsEBS":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS)
 		return json.Unmarshal(b, *v)
 	case "AwsEFS":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS)
 		return json.Unmarshal(b, *v)
 	case "AwsELB":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB)
 		return json.Unmarshal(b, *v)
 	case "AwsElasticBeanstalkEnvironment":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment)
 		return json.Unmarshal(b, *v)
 	case "AwsFsx":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx)
 		return json.Unmarshal(b, *v)
 	case "AwsLambda":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda)
 		return json.Unmarshal(b, *v)
 	case "AwsNatGateway":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway)
 		return json.Unmarshal(b, *v)
 	case "AwsOpenSearchCollection":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection)
 		return json.Unmarshal(b, *v)
 	case "AwsOpenSearchDomain":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain)
 		return json.Unmarshal(b, *v)
 	case "AwsOpenSearchIngestionPipeline":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline)
 		return json.Unmarshal(b, *v)
 	case "AwsRDS":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS)
 		return json.Unmarshal(b, *v)
 	case "AwsS3":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3)
 		return json.Unmarshal(b, *v)
 	case "AwsSNSTopic":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic)
 		return json.Unmarshal(b, *v)
 	case "AwsSQS":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS)
 		return json.Unmarshal(b, *v)
 	case "AwsTransferFamily":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily)
 		return json.Unmarshal(b, *v)
 	case "AwsTransitGateway":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway)
 		return json.Unmarshal(b, *v)
 	case "AwsVPN":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN)
 		return json.Unmarshal(b, *v)
 	case "AzureAppService":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService)
 		return json.Unmarshal(b, *v)
 	case "AzureBlobStorage":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage)
 		return json.Unmarshal(b, *v)
 	case "AzureCdn":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn)
 		return json.Unmarshal(b, *v)
 	case "AzureCosmosDb":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb)
 		return json.Unmarshal(b, *v)
 	case "AzureDatabasesName":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName)
 		return json.Unmarshal(b, *v)
 	case "AzureEventHubs":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs)
 		return json.Unmarshal(b, *v)
 	case "AzureFiles":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles)
 		return json.Unmarshal(b, *v)
 	case "AzureFrontDoor":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor)
 		return json.Unmarshal(b, *v)
 	case "AzureFunction":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction)
 		return json.Unmarshal(b, *v)
 	case "AzureKeyVault":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault)
 		return json.Unmarshal(b, *v)
 	case "AzureLoadBalancer":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer)
 		return json.Unmarshal(b, *v)
 	case "AzureServiceBus":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus)
 		return json.Unmarshal(b, *v)
 	case "AzureSqlDatabase":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase)
 		return json.Unmarshal(b, *v)
 	case "AzureVirtualMachineScaleSet":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet)
 		return json.Unmarshal(b, *v)
 	case "CloudAccount":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount)
 		return json.Unmarshal(b, *v)
 	case "Container":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdContainer)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer)
 		return json.Unmarshal(b, *v)
 	case "DatabaseInstance":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance)
 		return json.Unmarshal(b, *v)
 	case "DeviceVolume":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume)
 		return json.Unmarshal(b, *v)
 	case "EntityGroup":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup)
 		return json.Unmarshal(b, *v)
 	case "F5GTMWideIP":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP)
 		return json.Unmarshal(b, *v)
 	case "F5LTMPool":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool)
 		return json.Unmarshal(b, *v)
 	case "F5LTMPoolMember":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember)
 		return json.Unmarshal(b, *v)
 	case "F5LTMServer":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer)
 		return json.Unmarshal(b, *v)
 	case "F5LTMVirtualIPAddress":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress)
 		return json.Unmarshal(b, *v)
 	case "F5LTMVirtualServer":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer)
 		return json.Unmarshal(b, *v)
 	case "F5SystemFailover":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover)
 		return json.Unmarshal(b, *v)
 	case "F5SystemModule":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule)
 		return json.Unmarshal(b, *v)
 	case "F5SystemVlan":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan)
 		return json.Unmarshal(b, *v)
 	case "HAMember":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdHAMember)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember)
 		return json.Unmarshal(b, *v)
 	case "HAPool":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdHAPool)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool)
 		return json.Unmarshal(b, *v)
 	case "HardwareSensor":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor)
 		return json.Unmarshal(b, *v)
 	case "HcoEngine":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine)
 		return json.Unmarshal(b, *v)
 	case "HcoGroup":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup)
 		return json.Unmarshal(b, *v)
 	case "Host":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdHost)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost)
 		return json.Unmarshal(b, *v)
 	case "IISWebServer":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer)
 		return json.Unmarshal(b, *v)
 	case "IpAddress":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress)
 		return json.Unmarshal(b, *v)
 	case "KubernetesCluster":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster)
 		return json.Unmarshal(b, *v)
 	case "KubernetesContainer":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer)
 		return json.Unmarshal(b, *v)
 	case "KubernetesCronJob":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob)
 		return json.Unmarshal(b, *v)
 	case "KubernetesDaemonSet":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet)
 		return json.Unmarshal(b, *v)
 	case "KubernetesDeployment":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment)
 		return json.Unmarshal(b, *v)
 	case "KubernetesJob":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob)
 		return json.Unmarshal(b, *v)
 	case "KubernetesNamespace":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace)
 		return json.Unmarshal(b, *v)
 	case "KubernetesNode":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode)
 		return json.Unmarshal(b, *v)
 	case "KubernetesPersistentVolume":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume)
 		return json.Unmarshal(b, *v)
 	case "KubernetesPersistentVolumeClaim":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim)
 		return json.Unmarshal(b, *v)
 	case "KubernetesPod":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod)
 		return json.Unmarshal(b, *v)
 	case "KubernetesPodInstance":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance)
 		return json.Unmarshal(b, *v)
 	case "KubernetesReplicaSet":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet)
 		return json.Unmarshal(b, *v)
 	case "KubernetesService":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService)
 		return json.Unmarshal(b, *v)
 	case "KubernetesStatefulSet":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet)
 		return json.Unmarshal(b, *v)
 	case "NetPathEndpoint":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint)
 		return json.Unmarshal(b, *v)
 	case "NetworkDevice":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice)
 		return json.Unmarshal(b, *v)
 	case "NetworkInterface":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface)
 		return json.Unmarshal(b, *v)
 	case "NetworkShadowDevice":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice)
 		return json.Unmarshal(b, *v)
 	case "NginxInstance":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance)
 		return json.Unmarshal(b, *v)
 	case "PaloAltoRemoteAccessSession":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession)
 		return json.Unmarshal(b, *v)
 	case "PaloAltoSiteToSiteTunnel":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel)
 		return json.Unmarshal(b, *v)
 	case "PhysicalPort":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort)
 		return json.Unmarshal(b, *v)
 	case "PhysicalPortEndpoint":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint)
 		return json.Unmarshal(b, *v)
 	case "PhysicalPortIpAddress":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress)
 		return json.Unmarshal(b, *v)
 	case "PhysicalPortToEndpoint":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint)
 		return json.Unmarshal(b, *v)
 	case "SdWanEdgeInterface":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface)
 		return json.Unmarshal(b, *v)
 	case "SdWanTunnel":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel)
 		return json.Unmarshal(b, *v)
 	case "Service":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdService)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdService)
 		return json.Unmarshal(b, *v)
 	case "ServiceInstance":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance)
 		return json.Unmarshal(b, *v)
 	case "SyslogApplication":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication)
 		return json.Unmarshal(b, *v)
 	case "SyslogHost":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost)
 		return json.Unmarshal(b, *v)
 	case "ThinAccessPoint":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint)
 		return json.Unmarshal(b, *v)
 	case "Transaction":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdTransaction)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction)
 		return json.Unmarshal(b, *v)
 	case "Uri":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdUri)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri)
 		return json.Unmarshal(b, *v)
 	case "VCenter":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVCenter)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter)
 		return json.Unmarshal(b, *v)
 	case "VirtualCluster":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster)
 		return json.Unmarshal(b, *v)
 	case "VirtualDatacenter":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter)
 		return json.Unmarshal(b, *v)
 	case "VirtualDatastore":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore)
 		return json.Unmarshal(b, *v)
 	case "VirtualHost":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost)
 		return json.Unmarshal(b, *v)
 	case "VirtualMachine":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine)
 		return json.Unmarshal(b, *v)
 	case "VirtualRoutingForwarding":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding)
 		return json.Unmarshal(b, *v)
 	case "Vlan":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVlan)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan)
 		return json.Unmarshal(b, *v)
 	case "VlanDevice":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice)
 		return json.Unmarshal(b, *v)
 	case "VlanPortInterfaceMap":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap)
 		return json.Unmarshal(b, *v)
 	case "Website":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdWebsite)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite)
 		return json.Unmarshal(b, *v)
 	case "WirelessClient":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient)
 		return json.Unmarshal(b, *v)
 	case "WirelessInterface":
-		*v = new(getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface)
+		*v = new(getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface)
 		return json.Unmarshal(b, *v)
 	case "":
 		return fmt.Errorf(
 			"response was missing Entity.__typename")
 	default:
 		return fmt.Errorf(
-			`unexpected concrete type for getUriWithMonitoringEntitiesEntityQueriesByIdEntity: "%v"`, tn.TypeName)
+			`unexpected concrete type for getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity: "%v"`, tn.TypeName)
 	}
 }
 
-func __marshalgetUriWithMonitoringEntitiesEntityQueriesByIdEntity(v *getUriWithMonitoringEntitiesEntityQueriesByIdEntity) ([]byte, error) {
+func __marshalgetUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity(v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity) ([]byte, error) {
 
 	var typename string
 	switch v := (*v).(type) {
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance:
 		typename = "ApacheInstance"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdApacheInstance
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdApacheInstance
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdApplication:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication:
 		typename = "Application"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdApplication
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplication
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent:
 		typename = "ApplicationComponent"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdApplicationComponent
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdApplicationComponent
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession:
 		typename = "AsaRemoteAccessSession"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaRemoteAccessSession
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel:
 		typename = "AsaSiteToSiteTunnel"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAsaSiteToSiteTunnel
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway:
 		typename = "AwsApiGateway"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApiGateway
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB:
 		typename = "AwsApplicationELB"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsApplicationELB
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster:
 		typename = "AwsAuroraCluster"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraCluster
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance:
 		typename = "AwsAuroraInstance"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAuroraInstance
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup:
 		typename = "AwsAutoScalingGroup"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsAutoScalingGroup
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution:
 		typename = "AwsCloudFrontDistribution"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsCloudFrontDistribution
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS:
 		typename = "AwsEBS"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsEBS
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEBS
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS:
 		typename = "AwsEFS"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsEFS
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsEFS
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB:
 		typename = "AwsELB"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsELB
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsELB
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment:
 		typename = "AwsElasticBeanstalkEnvironment"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsElasticBeanstalkEnvironment
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx:
 		typename = "AwsFsx"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsFsx
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsFsx
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda:
 		typename = "AwsLambda"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsLambda
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsLambda
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway:
 		typename = "AwsNatGateway"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsNatGateway
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection:
 		typename = "AwsOpenSearchCollection"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchCollection
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain:
 		typename = "AwsOpenSearchDomain"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchDomain
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline:
 		typename = "AwsOpenSearchIngestionPipeline"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsOpenSearchIngestionPipeline
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS:
 		typename = "AwsRDS"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsRDS
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsRDS
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3:
 		typename = "AwsS3"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsS3
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsS3
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic:
 		typename = "AwsSNSTopic"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSNSTopic
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS:
 		typename = "AwsSQS"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsSQS
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsSQS
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily:
 		typename = "AwsTransferFamily"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransferFamily
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway:
 		typename = "AwsTransitGateway"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsTransitGateway
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN:
 		typename = "AwsVPN"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAwsVPN
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAwsVPN
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService:
 		typename = "AzureAppService"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureAppService
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureAppService
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage:
 		typename = "AzureBlobStorage"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureBlobStorage
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn:
 		typename = "AzureCdn"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureCdn
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCdn
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb:
 		typename = "AzureCosmosDb"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureCosmosDb
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName:
 		typename = "AzureDatabasesName"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureDatabasesName
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs:
 		typename = "AzureEventHubs"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureEventHubs
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles:
 		typename = "AzureFiles"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureFiles
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFiles
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor:
 		typename = "AzureFrontDoor"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFrontDoor
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction:
 		typename = "AzureFunction"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureFunction
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureFunction
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault:
 		typename = "AzureKeyVault"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureKeyVault
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer:
 		typename = "AzureLoadBalancer"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureLoadBalancer
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus:
 		typename = "AzureServiceBus"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureServiceBus
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase:
 		typename = "AzureSqlDatabase"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureSqlDatabase
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet:
 		typename = "AzureVirtualMachineScaleSet"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdAzureVirtualMachineScaleSet
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount:
 		typename = "CloudAccount"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdCloudAccount
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdCloudAccount
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdContainer:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer:
 		typename = "Container"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdContainer
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdContainer
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance:
 		typename = "DatabaseInstance"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdDatabaseInstance
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume:
 		typename = "DeviceVolume"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdDeviceVolume
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdDeviceVolume
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup:
 		typename = "EntityGroup"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP:
 		typename = "F5GTMWideIP"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool:
 		typename = "F5LTMPool"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember:
 		typename = "F5LTMPoolMember"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer:
 		typename = "F5LTMServer"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress:
 		typename = "F5LTMVirtualIPAddress"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer:
 		typename = "F5LTMVirtualServer"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover:
 		typename = "F5SystemFailover"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule:
 		typename = "F5SystemModule"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan:
 		typename = "F5SystemVlan"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdHAMember:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember:
 		typename = "HAMember"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdHAMember
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdHAPool:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool:
 		typename = "HAPool"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdHAPool
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor:
 		typename = "HardwareSensor"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine:
 		typename = "HcoEngine"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup:
 		typename = "HcoGroup"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdHost:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost:
 		typename = "Host"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdHost
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer:
 		typename = "IISWebServer"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress:
 		typename = "IpAddress"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster:
 		typename = "KubernetesCluster"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer:
 		typename = "KubernetesContainer"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob:
 		typename = "KubernetesCronJob"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet:
 		typename = "KubernetesDaemonSet"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment:
 		typename = "KubernetesDeployment"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob:
 		typename = "KubernetesJob"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace:
 		typename = "KubernetesNamespace"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode:
 		typename = "KubernetesNode"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume:
 		typename = "KubernetesPersistentVolume"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim:
 		typename = "KubernetesPersistentVolumeClaim"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod:
 		typename = "KubernetesPod"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance:
 		typename = "KubernetesPodInstance"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet:
 		typename = "KubernetesReplicaSet"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService:
 		typename = "KubernetesService"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet:
 		typename = "KubernetesStatefulSet"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint:
 		typename = "NetPathEndpoint"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice:
 		typename = "NetworkDevice"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface:
 		typename = "NetworkInterface"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice:
 		typename = "NetworkShadowDevice"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance:
 		typename = "NginxInstance"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession:
 		typename = "PaloAltoRemoteAccessSession"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel:
 		typename = "PaloAltoSiteToSiteTunnel"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort:
 		typename = "PhysicalPort"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint:
 		typename = "PhysicalPortEndpoint"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress:
 		typename = "PhysicalPortIpAddress"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint:
 		typename = "PhysicalPortToEndpoint"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface:
 		typename = "SdWanEdgeInterface"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel:
 		typename = "SdWanTunnel"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdService:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdService:
 		typename = "Service"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdService
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdService
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance:
 		typename = "ServiceInstance"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication:
 		typename = "SyslogApplication"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost:
 		typename = "SyslogHost"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint:
 		typename = "ThinAccessPoint"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdTransaction:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction:
 		typename = "Transaction"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdTransaction
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdUri:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri:
 		typename = "Uri"
 
 		premarshaled, err := v.__premarshalJSON()
@@ -8841,831 +8843,835 @@ func __marshalgetUriWithMonitoringEntitiesEntityQueriesByIdEntity(v *getUriWithM
 		}
 		result := struct {
 			TypeName string `json:"__typename"`
-			*__premarshalgetUriWithMonitoringEntitiesEntityQueriesByIdUri
+			*__premarshalgetUriByIdWithMonitoringEntitiesEntityQueriesByIdUri
 		}{typename, premarshaled}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVCenter:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter:
 		typename = "VCenter"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVCenter
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster:
 		typename = "VirtualCluster"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter:
 		typename = "VirtualDatacenter"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore:
 		typename = "VirtualDatastore"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost:
 		typename = "VirtualHost"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine:
 		typename = "VirtualMachine"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding:
 		typename = "VirtualRoutingForwarding"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVlan:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan:
 		typename = "Vlan"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVlan
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice:
 		typename = "VlanDevice"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap:
 		typename = "VlanPortInterfaceMap"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdWebsite:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite:
 		typename = "Website"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdWebsite
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient:
 		typename = "WirelessClient"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient
 		}{typename, v}
 		return json.Marshal(result)
-	case *getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface:
+	case *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface:
 		typename = "WirelessInterface"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface
+			*getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface
 		}{typename, v}
 		return json.Marshal(result)
 	case nil:
 		return []byte("null"), nil
 	default:
 		return nil, fmt.Errorf(
-			`unexpected concrete type for getUriWithMonitoringEntitiesEntityQueriesByIdEntity: "%T"`, v)
+			`unexpected concrete type for getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntity: "%T"`, v)
 	}
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup includes the requested fields of the GraphQL type EntityGroup.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup includes the requested fields of the GraphQL type EntityGroup.
 // The GraphQL type's documentation follows.
 //
 // Entity Group entity that may contain other entities
-type getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdEntityGroup) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdEntityGroup) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP includes the requested fields of the GraphQL type F5GTMWideIP.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP includes the requested fields of the GraphQL type F5GTMWideIP.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5GTMWideIP) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool includes the requested fields of the GraphQL type F5LTMPool.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool includes the requested fields of the GraphQL type F5LTMPool.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPool) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPool) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember includes the requested fields of the GraphQL type F5LTMPoolMember.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember includes the requested fields of the GraphQL type F5LTMPoolMember.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMPoolMember) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer includes the requested fields of the GraphQL type F5LTMServer.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer includes the requested fields of the GraphQL type F5LTMServer.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMServer) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMServer) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress includes the requested fields of the GraphQL type F5LTMVirtualIPAddress.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress includes the requested fields of the GraphQL type F5LTMVirtualIPAddress.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualIPAddress) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer includes the requested fields of the GraphQL type F5LTMVirtualServer.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer includes the requested fields of the GraphQL type F5LTMVirtualServer.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5LTMVirtualServer) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover includes the requested fields of the GraphQL type F5SystemFailover.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover includes the requested fields of the GraphQL type F5SystemFailover.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemFailover) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule includes the requested fields of the GraphQL type F5SystemModule.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule includes the requested fields of the GraphQL type F5SystemModule.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemModule) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemModule) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan includes the requested fields of the GraphQL type F5SystemVlan.
-type getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan includes the requested fields of the GraphQL type F5SystemVlan.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdF5SystemVlan) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdHAMember includes the requested fields of the GraphQL type HAMember.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember includes the requested fields of the GraphQL type HAMember.
 // The GraphQL type's documentation follows.
 //
 // Entity representing a member of an HAPool
-type getUriWithMonitoringEntitiesEntityQueriesByIdHAMember struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdHAMember.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHAMember) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAMember) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdHAPool includes the requested fields of the GraphQL type HAPool.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool includes the requested fields of the GraphQL type HAPool.
 // The GraphQL type's documentation follows.
 //
 // HA pool entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdHAPool struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdHAPool.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHAPool) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHAPool) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor includes the requested fields of the GraphQL type HardwareSensor.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor includes the requested fields of the GraphQL type HardwareSensor.
 // The GraphQL type's documentation follows.
 //
 // Hardware Sensor entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHardwareSensor) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHardwareSensor) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine includes the requested fields of the GraphQL type HcoEngine.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine includes the requested fields of the GraphQL type HcoEngine.
 // The GraphQL type's documentation follows.
 //
 // HcoEngine entity represents Hybrid Cloud Observability polling engine
-type getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHcoEngine) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoEngine) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup includes the requested fields of the GraphQL type HcoGroup.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup includes the requested fields of the GraphQL type HcoGroup.
 // The GraphQL type's documentation follows.
 //
 // HcoGroup entity represents Hybrid Cloud Observability entity group
-type getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHcoGroup) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHcoGroup) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdHost includes the requested fields of the GraphQL type Host.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost includes the requested fields of the GraphQL type Host.
 // The GraphQL type's documentation follows.
 //
 // Host entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdHost struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdHost.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdHost) GetTypename() *string { return v.Typename }
-
-// getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer includes the requested fields of the GraphQL type IISWebServer.
-type getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer struct {
-	Typename *string `json:"__typename"`
-}
-
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdIISWebServer) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdHost) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress includes the requested fields of the GraphQL type IpAddress.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer includes the requested fields of the GraphQL type IISWebServer.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdIISWebServer) GetTypename() *string {
+	return v.Typename
+}
+
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress includes the requested fields of the GraphQL type IpAddress.
 // The GraphQL type's documentation follows.
 //
 // IpAddress entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdIpAddress) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdIpAddress) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster includes the requested fields of the GraphQL type KubernetesCluster.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster includes the requested fields of the GraphQL type KubernetesCluster.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Cluster entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCluster) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer includes the requested fields of the GraphQL type KubernetesContainer.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer includes the requested fields of the GraphQL type KubernetesContainer.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Container entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesContainer) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob includes the requested fields of the GraphQL type KubernetesCronJob.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob includes the requested fields of the GraphQL type KubernetesCronJob.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes CronJob entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesCronJob) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet includes the requested fields of the GraphQL type KubernetesDaemonSet.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet includes the requested fields of the GraphQL type KubernetesDaemonSet.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes DaemonSet entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDaemonSet) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment includes the requested fields of the GraphQL type KubernetesDeployment.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment includes the requested fields of the GraphQL type KubernetesDeployment.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Deployment entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesDeployment) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob includes the requested fields of the GraphQL type KubernetesJob.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob includes the requested fields of the GraphQL type KubernetesJob.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Job entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesJob) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesJob) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace includes the requested fields of the GraphQL type KubernetesNamespace.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace includes the requested fields of the GraphQL type KubernetesNamespace.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Namespace entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNamespace) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode includes the requested fields of the GraphQL type KubernetesNode.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode includes the requested fields of the GraphQL type KubernetesNode.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Node entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesNode) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesNode) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume includes the requested fields of the GraphQL type KubernetesPersistentVolume.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume includes the requested fields of the GraphQL type KubernetesPersistentVolume.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes PersistenVolume entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolume) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim includes the requested fields of the GraphQL type KubernetesPersistentVolumeClaim.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim includes the requested fields of the GraphQL type KubernetesPersistentVolumeClaim.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes PersistenVolumeClaim entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPersistentVolumeClaim) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod includes the requested fields of the GraphQL type KubernetesPod.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod includes the requested fields of the GraphQL type KubernetesPod.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Pod entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPod) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPod) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance includes the requested fields of the GraphQL type KubernetesPodInstance.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance includes the requested fields of the GraphQL type KubernetesPodInstance.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Pod Instance entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesPodInstance) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet includes the requested fields of the GraphQL type KubernetesReplicaSet.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet includes the requested fields of the GraphQL type KubernetesReplicaSet.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes ReplicaSet entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesReplicaSet) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService includes the requested fields of the GraphQL type KubernetesService.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService includes the requested fields of the GraphQL type KubernetesService.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes Service entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesService) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesService) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet includes the requested fields of the GraphQL type KubernetesStatefulSet.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet includes the requested fields of the GraphQL type KubernetesStatefulSet.
 // The GraphQL type's documentation follows.
 //
 // Kubernetes StatefulSet entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdKubernetesStatefulSet) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint includes the requested fields of the GraphQL type NetPathEndpoint.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint includes the requested fields of the GraphQL type NetPathEndpoint.
 // The GraphQL type's documentation follows.
 //
 // NetPath Endpoint entity is a representation of target monitored by NetPath Probe.
-type getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetPathEndpoint) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice includes the requested fields of the GraphQL type NetworkDevice.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice includes the requested fields of the GraphQL type NetworkDevice.
 // The GraphQL type's documentation follows.
 //
 // Network Device entity as a flat representation of Orion SWIS schema for all statistics related to Node
 // with telemetry mapping condition to all telemetry with existing tags 'sw.collector.Nodes.Uri' and 'sw.collector.Nodes.Category'
-type getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkDevice) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkDevice) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface includes the requested fields of the GraphQL type NetworkInterface.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface includes the requested fields of the GraphQL type NetworkInterface.
 // The GraphQL type's documentation follows.
 //
 // Network Interface entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkInterface) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkInterface) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice includes the requested fields of the GraphQL type NetworkShadowDevice.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice includes the requested fields of the GraphQL type NetworkShadowDevice.
 // The GraphQL type's documentation follows.
 //
 // This Entity represents Shadow Node, which is a node where we know just the IP address and nothing else. This entity can be important for displaying topology data.
-type getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNetworkShadowDevice) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance includes the requested fields of the GraphQL type NginxInstance.
-type getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance includes the requested fields of the GraphQL type NginxInstance.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdNginxInstance) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdNginxInstance) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession includes the requested fields of the GraphQL type PaloAltoRemoteAccessSession.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession includes the requested fields of the GraphQL type PaloAltoRemoteAccessSession.
 // The GraphQL type's documentation follows.
 //
 // Palo Alto Firewall Remote Access entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoRemoteAccessSession) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel includes the requested fields of the GraphQL type PaloAltoSiteToSiteTunnel.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel includes the requested fields of the GraphQL type PaloAltoSiteToSiteTunnel.
 // The GraphQL type's documentation follows.
 //
 // Palo Alto Firewall SiteToSiteTunnel entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPaloAltoSiteToSiteTunnel) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort includes the requested fields of the GraphQL type PhysicalPort.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort includes the requested fields of the GraphQL type PhysicalPort.
 // The GraphQL type's documentation follows.
 //
 // PhysicalPort entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPort) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPort) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint includes the requested fields of the GraphQL type PhysicalPortEndpoint.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint includes the requested fields of the GraphQL type PhysicalPortEndpoint.
 // The GraphQL type's documentation follows.
 //
 // PhysicalPortEndpoint entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortEndpoint) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress includes the requested fields of the GraphQL type PhysicalPortIpAddress.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress includes the requested fields of the GraphQL type PhysicalPortIpAddress.
 // The GraphQL type's documentation follows.
 //
 // PhysicalPortIpAddress entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortIpAddress) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint includes the requested fields of the GraphQL type PhysicalPortToEndpoint.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint includes the requested fields of the GraphQL type PhysicalPortToEndpoint.
 // The GraphQL type's documentation follows.
 //
 // PhysicalPortToEndpoint entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdPhysicalPortToEndpoint) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface includes the requested fields of the GraphQL type SdWanEdgeInterface.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface includes the requested fields of the GraphQL type SdWanEdgeInterface.
 // The GraphQL type's documentation follows.
 //
 // SD-WAN Edge Interface entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanEdgeInterface) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel includes the requested fields of the GraphQL type SdWanTunnel.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel includes the requested fields of the GraphQL type SdWanTunnel.
 // The GraphQL type's documentation follows.
 //
 // SD-WAN Tunnel entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSdWanTunnel) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdService includes the requested fields of the GraphQL type Service.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdService includes the requested fields of the GraphQL type Service.
 // The GraphQL type's documentation follows.
 //
 // Service entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdService struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdService struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdService.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdService) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdService.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdService) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance includes the requested fields of the GraphQL type ServiceInstance.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance includes the requested fields of the GraphQL type ServiceInstance.
 // The GraphQL type's documentation follows.
 //
 // Service Instance entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdServiceInstance) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdServiceInstance) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication includes the requested fields of the GraphQL type SyslogApplication.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication includes the requested fields of the GraphQL type SyslogApplication.
 // The GraphQL type's documentation follows.
 //
 // Syslog Application entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdSyslogApplication) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogApplication) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost includes the requested fields of the GraphQL type SyslogHost.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost includes the requested fields of the GraphQL type SyslogHost.
 // The GraphQL type's documentation follows.
 //
 // Syslog Host entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdSyslogHost) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdSyslogHost) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint includes the requested fields of the GraphQL type ThinAccessPoint.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint includes the requested fields of the GraphQL type ThinAccessPoint.
 // The GraphQL type's documentation follows.
 //
 // Thin Access Point
-type getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdThinAccessPoint) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdTransaction includes the requested fields of the GraphQL type Transaction.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction includes the requested fields of the GraphQL type Transaction.
 // The GraphQL type's documentation follows.
 //
 // Transaction entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdTransaction struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdTransaction.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdTransaction) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdTransaction) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdUri includes the requested fields of the GraphQL type Uri.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri includes the requested fields of the GraphQL type Uri.
 // The GraphQL type's documentation follows.
 //
 // Uri entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdUri struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri struct {
 	UriWithMonitoring `json:"-"`
 	Typename          *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetTypename() *string { return v.Typename }
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetTypename() *string {
+	return v.Typename
+}
 
-// GetId returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Id, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetId() string {
+// GetId returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.Id, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetId() string {
 	return v.UriWithMonitoring.Id
 }
 
-// GetName returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Name, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetName() *string {
+// GetName returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.Name, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetName() *string {
 	return v.UriWithMonitoring.Name
 }
 
-// GetHost returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Host, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetHost() string {
+// GetHost returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.Host, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetHost() string {
 	return v.UriWithMonitoring.Host
 }
 
-// GetHttpPathAndQuery returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.HttpPathAndQuery, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetHttpPathAndQuery() *string {
+// GetHttpPathAndQuery returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.HttpPathAndQuery, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetHttpPathAndQuery() *string {
 	return v.UriWithMonitoring.HttpPathAndQuery
 }
 
-// GetOptions returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Options, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetOptions() UriWithMonitoringOptionsUriOptions {
+// GetOptions returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.Options, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetOptions() UriWithMonitoringOptionsUriOptions {
 	return v.UriWithMonitoring.Options
 }
 
-// GetHttpOptions returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.HttpOptions, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetHttpOptions() *UriWithMonitoringHttpOptionsUriHttpOptions {
+// GetHttpOptions returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.HttpOptions, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetHttpOptions() *UriWithMonitoringHttpOptionsUriHttpOptions {
 	return v.UriWithMonitoring.HttpOptions
 }
 
-// GetTcpOptions returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.TcpOptions, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetTcpOptions() *UriWithMonitoringTcpOptionsUriTcpOptions {
+// GetTcpOptions returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.TcpOptions, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetTcpOptions() *UriWithMonitoringTcpOptionsUriTcpOptions {
 	return v.UriWithMonitoring.TcpOptions
 }
 
-// GetTestDefinitions returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.TestDefinitions, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetTestDefinitions() UriWithMonitoringTestDefinitionsUriTestDefinitions {
+// GetTestDefinitions returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.TestDefinitions, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetTestDefinitions() UriWithMonitoringTestDefinitionsUriTestDefinitions {
 	return v.UriWithMonitoring.TestDefinitions
 }
 
-// GetTags returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Tags, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetTags() []UriWithMonitoringTagsKeyValuePair {
+// GetTags returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri.Tags, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) GetTags() []UriWithMonitoringTagsKeyValuePair {
 	return v.UriWithMonitoring.Tags
 }
 
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) UnmarshalJSON(b []byte) error {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) UnmarshalJSON(b []byte) error {
 
 	if string(b) == "null" {
 		return nil
 	}
 
 	var firstPass struct {
-		*getUriWithMonitoringEntitiesEntityQueriesByIdUri
+		*getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri
 		graphql.NoUnmarshalJSON
 	}
-	firstPass.getUriWithMonitoringEntitiesEntityQueriesByIdUri = v
+	firstPass.getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri = v
 
 	err := json.Unmarshal(b, &firstPass)
 	if err != nil {
@@ -9680,7 +9686,7 @@ func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) UnmarshalJSON(b []byt
 	return nil
 }
 
-type __premarshalgetUriWithMonitoringEntitiesEntityQueriesByIdUri struct {
+type __premarshalgetUriByIdWithMonitoringEntitiesEntityQueriesByIdUri struct {
 	Typename *string `json:"__typename"`
 
 	Id string `json:"id"`
@@ -9702,7 +9708,7 @@ type __premarshalgetUriWithMonitoringEntitiesEntityQueriesByIdUri struct {
 	Tags []UriWithMonitoringTagsKeyValuePair `json:"tags"`
 }
 
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) MarshalJSON() ([]byte, error) {
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) MarshalJSON() ([]byte, error) {
 	premarshaled, err := v.__premarshalJSON()
 	if err != nil {
 		return nil, err
@@ -9710,8 +9716,8 @@ func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) MarshalJSON() ([]byte
 	return json.Marshal(premarshaled)
 }
 
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) __premarshalJSON() (*__premarshalgetUriWithMonitoringEntitiesEntityQueriesByIdUri, error) {
-	var retval __premarshalgetUriWithMonitoringEntitiesEntityQueriesByIdUri
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdUri) __premarshalJSON() (*__premarshalgetUriByIdWithMonitoringEntitiesEntityQueriesByIdUri, error) {
+	var retval __premarshalgetUriByIdWithMonitoringEntitiesEntityQueriesByIdUri
 
 	retval.Typename = v.Typename
 	retval.Id = v.UriWithMonitoring.Id
@@ -9726,163 +9732,165 @@ func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) __premarshalJSON() (*
 	return &retval, nil
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVCenter includes the requested fields of the GraphQL type VCenter.
-type getUriWithMonitoringEntitiesEntityQueriesByIdVCenter struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter includes the requested fields of the GraphQL type VCenter.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVCenter.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVCenter) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVCenter) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster includes the requested fields of the GraphQL type VirtualCluster.
-type getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster includes the requested fields of the GraphQL type VirtualCluster.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualCluster) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualCluster) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter includes the requested fields of the GraphQL type VirtualDatacenter.
-type getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter includes the requested fields of the GraphQL type VirtualDatacenter.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatacenter) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore includes the requested fields of the GraphQL type VirtualDatastore.
-type getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore includes the requested fields of the GraphQL type VirtualDatastore.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualDatastore) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost includes the requested fields of the GraphQL type VirtualHost.
-type getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost includes the requested fields of the GraphQL type VirtualHost.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualHost) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualHost) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine includes the requested fields of the GraphQL type VirtualMachine.
-type getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine struct {
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine includes the requested fields of the GraphQL type VirtualMachine.
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualMachine) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualMachine) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding includes the requested fields of the GraphQL type VirtualRoutingForwarding.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding includes the requested fields of the GraphQL type VirtualRoutingForwarding.
 // The GraphQL type's documentation follows.
 //
 // Virtual Routing Forwarding (VRF) entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVirtualRoutingForwarding) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVlan includes the requested fields of the GraphQL type Vlan.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan includes the requested fields of the GraphQL type Vlan.
 // The GraphQL type's documentation follows.
 //
 // Vlan entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdVlan struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVlan.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVlan) GetTypename() *string { return v.Typename }
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlan) GetTypename() *string {
+	return v.Typename
+}
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice includes the requested fields of the GraphQL type VlanDevice.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice includes the requested fields of the GraphQL type VlanDevice.
 // The GraphQL type's documentation follows.
 //
 // VlanDevice entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVlanDevice) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanDevice) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap includes the requested fields of the GraphQL type VlanPortInterfaceMap.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap includes the requested fields of the GraphQL type VlanPortInterfaceMap.
 // The GraphQL type's documentation follows.
 //
 // Vlan port and interface mapping entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdVlanPortInterfaceMap) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdWebsite includes the requested fields of the GraphQL type Website.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite includes the requested fields of the GraphQL type Website.
 // The GraphQL type's documentation follows.
 //
 // Website entity
-type getUriWithMonitoringEntitiesEntityQueriesByIdWebsite struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdWebsite.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdWebsite) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWebsite) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient includes the requested fields of the GraphQL type WirelessClient.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient includes the requested fields of the GraphQL type WirelessClient.
 // The GraphQL type's documentation follows.
 //
 // Thin Access Point
-type getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdWirelessClient) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessClient) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface includes the requested fields of the GraphQL type WirelessInterface.
+// getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface includes the requested fields of the GraphQL type WirelessInterface.
 // The GraphQL type's documentation follows.
 //
 // Thin Access Point
-type getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface struct {
+type getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface struct {
 	Typename *string `json:"__typename"`
 }
 
-// GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface.Typename, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringEntitiesEntityQueriesByIdWirelessInterface) GetTypename() *string {
+// GetTypename returns getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface.Typename, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringEntitiesEntityQueriesByIdWirelessInterface) GetTypename() *string {
 	return v.Typename
 }
 
-// getUriWithMonitoringResponse is returned by getUriWithMonitoring on success.
-type getUriWithMonitoringResponse struct {
+// getUriByIdWithMonitoringResponse is returned by getUriByIdWithMonitoring on success.
+type getUriByIdWithMonitoringResponse struct {
 	// Queries related to entities
-	Entities getUriWithMonitoringEntitiesEntityQueries `json:"entities"`
+	Entities getUriByIdWithMonitoringEntitiesEntityQueries `json:"entities"`
 }
 
-// GetEntities returns getUriWithMonitoringResponse.Entities, and is useful for accessing the field via an interface.
-func (v *getUriWithMonitoringResponse) GetEntities() getUriWithMonitoringEntitiesEntityQueries {
+// GetEntities returns getUriByIdWithMonitoringResponse.Entities, and is useful for accessing the field via an interface.
+func (v *getUriByIdWithMonitoringResponse) GetEntities() getUriByIdWithMonitoringEntitiesEntityQueries {
 	return v.Entities
 }
 
@@ -14801,9 +14809,9 @@ func getUriById(
 	return &data_, err_
 }
 
-// The query or mutation executed by getUriWithMonitoring.
-const getUriWithMonitoring_Operation = `
-query getUriWithMonitoring ($id: ID!) {
+// The query or mutation executed by getUriByIdWithMonitoring.
+const getUriByIdWithMonitoring_Operation = `
+query getUriByIdWithMonitoring ($id: ID!) {
 	entities {
 		byId(id: $id) {
 			... on Uri {
@@ -14870,21 +14878,21 @@ fragment UriWithMonitoring on Uri {
 }
 `
 
-func getUriWithMonitoring(
+func getUriByIdWithMonitoring(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	id string,
-) (*getUriWithMonitoringResponse, error) {
+) (*getUriByIdWithMonitoringResponse, error) {
 	req_ := &graphql.Request{
-		OpName: "getUriWithMonitoring",
-		Query:  getUriWithMonitoring_Operation,
-		Variables: &__getUriWithMonitoringInput{
+		OpName: "getUriByIdWithMonitoring",
+		Query:  getUriByIdWithMonitoring_Operation,
+		Variables: &__getUriByIdWithMonitoringInput{
 			Id: id,
 		},
 	}
 	var err_ error
 
-	var data_ getUriWithMonitoringResponse
+	var data_ getUriByIdWithMonitoringResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(

@@ -44,7 +44,7 @@ query getUriById($id: ID!) {
   }
 }
 
-query getUriWithMonitoring($id: ID!) {
+query getUriByIdWithMonitoring($id: ID!) {
   entities {
     byId(id: $id) {
       ... on Uri {
