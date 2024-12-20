@@ -6,6 +6,10 @@ query getUriById($id: ID!) {
         name
         host
         httpPathAndQuery
+        tags {
+          key
+          value
+        }
         options {
           isPingEnabled
           isHttpEnabled

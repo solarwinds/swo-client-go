@@ -6045,11 +6045,13 @@ type getUriByIdEntitiesEntityQueriesByIdUri struct {
 	// Host dentifies the server where a resource can be found
 	Host string `json:"host"`
 	// HTTP path and query are parts of a URL that come after the host and any port information
-	HttpPathAndQuery *string                                               `json:"httpPathAndQuery"`
-	Options          getUriByIdEntitiesEntityQueriesByIdUriOptions         `json:"options"`
-	HttpOptions      *getUriByIdEntitiesEntityQueriesByIdUriHttpOptions    `json:"httpOptions"`
-	TcpOptions       *getUriByIdEntitiesEntityQueriesByIdUriTcpOptions     `json:"tcpOptions"`
-	TestDefinitions  getUriByIdEntitiesEntityQueriesByIdUriTestDefinitions `json:"testDefinitions"`
+	HttpPathAndQuery *string `json:"httpPathAndQuery"`
+	// Entity tags. Tag is a key-value pair, where there may be only single tag value for the same key.
+	Tags            []getUriByIdEntitiesEntityQueriesByIdUriTagsKeyValuePair `json:"tags"`
+	Options         getUriByIdEntitiesEntityQueriesByIdUriOptions            `json:"options"`
+	HttpOptions     *getUriByIdEntitiesEntityQueriesByIdUriHttpOptions       `json:"httpOptions"`
+	TcpOptions      *getUriByIdEntitiesEntityQueriesByIdUriTcpOptions        `json:"tcpOptions"`
+	TestDefinitions getUriByIdEntitiesEntityQueriesByIdUriTestDefinitions    `json:"testDefinitions"`
 }
 
 // GetTypename returns getUriByIdEntitiesEntityQueriesByIdUri.Typename, and is useful for accessing the field via an interface.
@@ -6067,6 +6069,11 @@ func (v *getUriByIdEntitiesEntityQueriesByIdUri) GetHost() string { return v.Hos
 // GetHttpPathAndQuery returns getUriByIdEntitiesEntityQueriesByIdUri.HttpPathAndQuery, and is useful for accessing the field via an interface.
 func (v *getUriByIdEntitiesEntityQueriesByIdUri) GetHttpPathAndQuery() *string {
 	return v.HttpPathAndQuery
+}
+
+// GetTags returns getUriByIdEntitiesEntityQueriesByIdUri.Tags, and is useful for accessing the field via an interface.
+func (v *getUriByIdEntitiesEntityQueriesByIdUri) GetTags() []getUriByIdEntitiesEntityQueriesByIdUriTagsKeyValuePair {
+	return v.Tags
 }
 
 // GetOptions returns getUriByIdEntitiesEntityQueriesByIdUri.Options, and is useful for accessing the field via an interface.
@@ -6162,6 +6169,21 @@ func (v *getUriByIdEntitiesEntityQueriesByIdUriOptions) GetIsHttpEnabled() bool 
 
 // GetIsTcpEnabled returns getUriByIdEntitiesEntityQueriesByIdUriOptions.IsTcpEnabled, and is useful for accessing the field via an interface.
 func (v *getUriByIdEntitiesEntityQueriesByIdUriOptions) GetIsTcpEnabled() bool { return v.IsTcpEnabled }
+
+// getUriByIdEntitiesEntityQueriesByIdUriTagsKeyValuePair includes the requested fields of the GraphQL type KeyValuePair.
+// The GraphQL type's documentation follows.
+//
+// Generic entity key-value pair property
+type getUriByIdEntitiesEntityQueriesByIdUriTagsKeyValuePair struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+// GetKey returns getUriByIdEntitiesEntityQueriesByIdUriTagsKeyValuePair.Key, and is useful for accessing the field via an interface.
+func (v *getUriByIdEntitiesEntityQueriesByIdUriTagsKeyValuePair) GetKey() string { return v.Key }
+
+// GetValue returns getUriByIdEntitiesEntityQueriesByIdUriTagsKeyValuePair.Value, and is useful for accessing the field via an interface.
+func (v *getUriByIdEntitiesEntityQueriesByIdUriTagsKeyValuePair) GetValue() string { return v.Value }
 
 // getUriByIdEntitiesEntityQueriesByIdUriTcpOptions includes the requested fields of the GraphQL type UriTcpOptions.
 type getUriByIdEntitiesEntityQueriesByIdUriTcpOptions struct {
@@ -11237,6 +11259,10 @@ query getUriById ($id: ID!) {
 				name
 				host
 				httpPathAndQuery
+				tags {
+					key
+					value
+				}
 				options {
 					isPingEnabled
 					isHttpEnabled
