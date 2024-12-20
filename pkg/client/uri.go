@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/cenkalti/backoff/v5"
@@ -16,7 +15,7 @@ type ReadUriResult = getUriWithMonitoringEntitiesEntityQueriesByIdEntity
 
 type UriCommunicator interface {
 	Create(context.Context, CreateUriInput) (*CreateUriResult, error)
-	Read(context.Context, string) (*ReadUriResult, error)
+	Read(context.Context, string) (ReadUriResult, error)
 	Update(context.Context, UpdateUriInput) error
 	Delete(context.Context, string) error
 }
@@ -64,11 +63,7 @@ func (as *UriService) Read(ctx context.Context, id string) (ReadUriResult, error
 		return nil, err
 	}
 
-	if uri, ok := uriPtr.(ReadUriResult); !ok {
-		return nil, fmt.Errorf("unexpected type %T", uri)
-	} else {
-		return uri, nil
-	}
+	return uriPtr, nil
 }
 
 // Updates the Uri with input for the given id.

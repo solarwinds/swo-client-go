@@ -58,6 +58,7 @@ query getUriWithMonitoring($id: ID!) {
 }
 
 fragment UriWithMonitoring on Uri {
+  id
   name
   host
   httpPathAndQuery

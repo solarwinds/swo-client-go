@@ -1064,6 +1064,8 @@ func (v *UriTestDefinitionsInput) GetTestIntervalInSeconds() types.TestIntervalI
 //
 // Uri entity
 type UriWithMonitoring struct {
+	// Unique identifier of an entity
+	Id string `json:"id"`
 	// Entity name
 	// Important: URI is hold by name field on entity
 	Name *string `json:"name"`
@@ -1079,6 +1081,9 @@ type UriWithMonitoring struct {
 	Tags     []UriWithMonitoringTagsKeyValuePair `json:"tags"`
 	Typename *string                             `json:"__typename"`
 }
+
+// GetId returns UriWithMonitoring.Id, and is useful for accessing the field via an interface.
+func (v *UriWithMonitoring) GetId() string { return v.Id }
 
 // GetName returns UriWithMonitoring.Name, and is useful for accessing the field via an interface.
 func (v *UriWithMonitoring) GetName() *string { return v.Name }
@@ -9605,6 +9610,11 @@ type getUriWithMonitoringEntitiesEntityQueriesByIdUri struct {
 // GetTypename returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Typename, and is useful for accessing the field via an interface.
 func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetTypename() *string { return v.Typename }
 
+// GetId returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Id, and is useful for accessing the field via an interface.
+func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetId() string {
+	return v.UriWithMonitoring.Id
+}
+
 // GetName returns getUriWithMonitoringEntitiesEntityQueriesByIdUri.Name, and is useful for accessing the field via an interface.
 func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) GetName() *string {
 	return v.UriWithMonitoring.Name
@@ -9673,6 +9683,8 @@ func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) UnmarshalJSON(b []byt
 type __premarshalgetUriWithMonitoringEntitiesEntityQueriesByIdUri struct {
 	Typename *string `json:"__typename"`
 
+	Id string `json:"id"`
+
 	Name *string `json:"name"`
 
 	Host string `json:"host"`
@@ -9702,6 +9714,7 @@ func (v *getUriWithMonitoringEntitiesEntityQueriesByIdUri) __premarshalJSON() (*
 	var retval __premarshalgetUriWithMonitoringEntitiesEntityQueriesByIdUri
 
 	retval.Typename = v.Typename
+	retval.Id = v.UriWithMonitoring.Id
 	retval.Name = v.UriWithMonitoring.Name
 	retval.Host = v.UriWithMonitoring.Host
 	retval.HttpPathAndQuery = v.UriWithMonitoring.HttpPathAndQuery
@@ -14803,6 +14816,7 @@ query getUriWithMonitoring ($id: ID!) {
 	}
 }
 fragment UriWithMonitoring on Uri {
+	id
 	name
 	host
 	httpPathAndQuery

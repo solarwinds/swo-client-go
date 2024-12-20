@@ -45,7 +45,7 @@ func TestSwoService_ReadUri(t *testing.T) {
 		t.Errorf("Swo.ReadUri returned error: %v", err)
 	}
 
-	var data getUriByIdResponse
+	var data getUriWithMonitoringResponse
 	resp := &graphql.Response{Data: &data}
 
 	// Decode the json test response so we can compare it to the server response.
@@ -54,8 +54,8 @@ func TestSwoService_ReadUri(t *testing.T) {
 	}
 
 	// Pull the wanted value out of the interface.
-	result := *resp.Data.(*getUriByIdResponse).Entities.ById
-	want := result.(*getUriByIdEntitiesEntityQueriesByIdUri)
+	result := *resp.Data.(*getUriWithMonitoringResponse).Entities.ById
+	want := result.(*getUriWithMonitoringEntitiesEntityQueriesByIdUri)
 
 	if !testObjects(t, got, want) {
 		t.Errorf("Swo.ReadUri returned %+v, wanted %+v", got, want)
