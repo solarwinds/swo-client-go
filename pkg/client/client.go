@@ -1,12 +1,17 @@
 package client
 
 import (
+	"bytes"
+	"context"
+	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"time"
 
 	"github.com/Khan/genqlient/graphql"
+	"github.com/cenkalti/backoff/v5"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -36,6 +41,10 @@ type Client struct {
 	requestTimeout time.Duration
 	userAgent      string
 	transport      http.RoundTripper
+
+	// Retry
+	maxInterval time.Duration
+	multiplier  float64
 
 	// GraphQL client
 	gql graphql.Client
@@ -104,6 +113,42 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 	}
 
 	return swoClient, nil
+}
+
+func (c *Client) Do(req *http.Request) (*http.Response, error) {
+	operation := func() (*http.Response, error) {
+		var body []byte
+		var err error
+		if req.Body != nil {
+			body, err = io.ReadAll(req.Body)
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		// Reset the request body for retries
+		req.Body = io.NopCloser(bytes.NewReader(body))
+
+		resp, err := c.Do(req)
+		if err != nil {
+			return nil, err
+		}
+
+		// Retry only on 404
+		if resp.StatusCode == http.StatusNotFound {
+			resp.Body.Close()
+			return nil, errors.New("received 404, retrying")
+		}
+
+		return resp, nil
+	}
+
+	expBackoff := backoff.NewExponentialBackOff()
+
+	expBackoff.MaxInterval = c.maxInterval
+	expBackoff.Multiplier = c.multiplier
+
+	return backoff.Retry(context.TODO(), operation, backoff.WithBackOff(expBackoff))
 }
 
 func initServices(c *Client) error {
