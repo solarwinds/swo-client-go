@@ -1,13 +1,10 @@
 package client
 
 import (
-	"bytes"
 	"context"
 	"fmt"
-	"io"
 	"net/http"
 	"net/url"
-	"strings"
 	"time"
 
 	"github.com/Khan/genqlient/graphql"
@@ -21,6 +18,8 @@ const (
 	defaultRequestTimeout = 30 * time.Second
 	clientIdentifier      = "Swo-Api-Go"
 	requestIdentifier     = "X-Request-Id"
+	expBackoffMaxInterval = 30 * time.Second
+	expBackoffMultiplyer  = 2
 )
 
 // ServiceAccessor defines an interface for talking to via domain-specific service constructs
@@ -62,10 +61,6 @@ type service struct {
 
 type gqlClient struct {
 	httpClient *http.Client
-
-	// Retry
-	maxInterval time.Duration
-	multiplier  float64
 }
 
 // Returns a new SWO API client with functional override options.
@@ -112,8 +107,6 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 			Timeout:   swoClient.requestTimeout,
 			Transport: swoClient.transport,
 		},
-		maxInterval: 30 * time.Second,
-		multiplier:  2,
 	})
 
 	if err = initServices(swoClient); err != nil {
@@ -125,43 +118,27 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 
 func (c *gqlClient) Do(req *http.Request) (*http.Response, error) {
 	operation := func() (*http.Response, error) {
-		var body []byte
 		var err error
-		if req.Body != nil {
-			body, err = io.ReadAll(req.Body)
-			if err != nil {
-				return nil, err
-			}
-		}
 
-		req.Body = io.NopCloser(bytes.NewReader(body))
 		resp, err := c.httpClient.Do(req)
 		if err != nil {
 			return nil, err
 		}
 
-		querySubstring := fmt.Sprintf("query %s", "getWebsiteById")
-		if strings.Contains(string(body), querySubstring) {
-			body, err = io.ReadAll(resp.Body)
-			if err != nil {
-				return nil, err
-			}
+		statusCode := resp.StatusCode
 
-			resp.Body = io.NopCloser(bytes.NewBuffer(body))
-			if len(body) == 0 {
-				return nil, fmt.Errorf("response body is empty")
-			}
+		if statusCode >= 500 && statusCode <= 599 {
+			return nil, fmt.Errorf("5xx returned by graphql client. %d", statusCode)
 		}
 
 		return resp, nil
 	}
 
 	expBackoff := backoff.NewExponentialBackOff()
+	expBackoff.MaxInterval = expBackoffMaxInterval
+	expBackoff.Multiplier = expBackoffMultiplyer
 
-	expBackoff.MaxInterval = c.maxInterval
-	expBackoff.Multiplier = c.multiplier
-
-	return backoff.Retry(context.TODO(), operation, backoff.WithBackOff(expBackoff))
+	return backoff.Retry(context.Background(), operation, backoff.WithBackOff(expBackoff), backoff.WithMaxElapsedTime(2*time.Minute))
 }
 
 func initServices(c *Client) error {
