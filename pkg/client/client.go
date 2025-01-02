@@ -3,11 +3,11 @@ package client
 import (
 	"bytes"
 	"context"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/Khan/genqlient/graphql"
@@ -42,10 +42,6 @@ type Client struct {
 	userAgent      string
 	transport      http.RoundTripper
 
-	// Retry
-	maxInterval time.Duration
-	multiplier  float64
-
 	// GraphQL client
 	gql graphql.Client
 
@@ -62,6 +58,14 @@ type Client struct {
 // Each service derives from the service type.
 type service struct {
 	client *Client
+}
+
+type gqlClient struct {
+	httpClient *http.Client
+
+	// Retry
+	maxInterval time.Duration
+	multiplier  float64
 }
 
 // Returns a new SWO API client with functional override options.
@@ -103,9 +107,13 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 		log.Info("swoclient: debugMode set to true.")
 	}
 
-	swoClient.gql = graphql.NewClient(swoClient.baseURL.String(), &http.Client{
-		Timeout:   swoClient.requestTimeout,
-		Transport: swoClient.transport,
+	swoClient.gql = graphql.NewClient(swoClient.baseURL.String(), &gqlClient{
+		httpClient: &http.Client{
+			Timeout:   swoClient.requestTimeout,
+			Transport: swoClient.transport,
+		},
+		maxInterval: 30 * time.Second,
+		multiplier:  2,
 	})
 
 	if err = initServices(swoClient); err != nil {
@@ -115,7 +123,7 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 	return swoClient, nil
 }
 
-func (c *Client) Do(req *http.Request) (*http.Response, error) {
+func (c *gqlClient) Do(req *http.Request) (*http.Response, error) {
 	operation := func() (*http.Response, error) {
 		var body []byte
 		var err error
@@ -126,18 +134,23 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 			}
 		}
 
-		// Reset the request body for retries
 		req.Body = io.NopCloser(bytes.NewReader(body))
-
-		resp, err := c.Do(req)
+		resp, err := c.httpClient.Do(req)
 		if err != nil {
 			return nil, err
 		}
 
-		// Retry only on 404
-		if resp.StatusCode == http.StatusNotFound {
-			resp.Body.Close()
-			return nil, errors.New("received 404, retrying")
+		querySubstring := fmt.Sprintf("query %s", "getWebsiteById")
+		if strings.Contains(string(body), querySubstring) {
+			body, err = io.ReadAll(resp.Body)
+			if err != nil {
+				return nil, err
+			}
+
+			resp.Body = io.NopCloser(bytes.NewBuffer(body))
+			if len(body) == 0 {
+				return nil, fmt.Errorf("response body is empty")
+			}
 		}
 
 		return resp, nil
