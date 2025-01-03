@@ -47,10 +47,11 @@ func (as *UriService) Read(ctx context.Context, id string) (*ReadUriResult, erro
 		return nil, err
 	}
 
-	uriPtr := *resp.Entities.ById
-	if uriPtr == nil {
-		return nil, fmt.Errorf("entity id not found")
+	if resp.Entities.ById == nil {
+		return nil, ErrEntityIdNil
 	}
+
+	uriPtr := *resp.Entities.ById
 
 	uri, ok := uriPtr.(*ReadUriResult)
 	if !ok {

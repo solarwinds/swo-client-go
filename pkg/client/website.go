@@ -48,10 +48,11 @@ func (as *WebsiteService) Read(ctx context.Context, id string) (*ReadWebsiteResu
 		return nil, err
 	}
 
-	websitePtr := *resp.Entities.ById
-	if websitePtr == nil {
-		return nil, fmt.Errorf("entity id not found")
+	if resp.Entities.ById == nil {
+		return nil, ErrEntityIdNil
 	}
+
+	websitePtr := *resp.Entities.ById
 
 	website, ok := websitePtr.(*ReadWebsiteResult)
 	if !ok {

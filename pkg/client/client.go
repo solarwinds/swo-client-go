@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -20,6 +21,10 @@ const (
 	requestIdentifier     = "X-Request-Id"
 	expBackoffMaxInterval = 30 * time.Second
 	expBackoffMultiplyer  = 2
+)
+
+var (
+	ErrEntityIdNil = errors.New("entity id is nil")
 )
 
 // ServiceAccessor defines an interface for talking to via domain-specific service constructs
@@ -128,7 +133,7 @@ func (c *gqlClient) Do(req *http.Request) (*http.Response, error) {
 		statusCode := resp.StatusCode
 
 		if statusCode >= 500 && statusCode <= 599 {
-			return nil, fmt.Errorf("5xx returned by graphql client. %d", statusCode)
+			return nil, fmt.Errorf("error returned by server: %d", statusCode)
 		}
 
 		return resp, nil
