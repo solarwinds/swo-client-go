@@ -47,12 +47,18 @@ func (as *UriService) Read(ctx context.Context, id string) (*ReadUriResult, erro
 		return nil, err
 	}
 
-	uriPtr := *resp.Entities.ById
-	if uri, ok := uriPtr.(*ReadUriResult); !ok {
-		return nil, fmt.Errorf("unexpected type %T", uri)
-	} else {
-		return uri, nil
+	if resp.Entities.ById == nil {
+		return nil, ErrEntityIdNil
 	}
+
+	uriPtr := *resp.Entities.ById
+
+	uri, ok := uriPtr.(*ReadUriResult)
+	if !ok {
+		return nil, fmt.Errorf("unexpected type %T", uri)
+	}
+
+	return uri, nil
 }
 
 // Updates the Uri with input for the given id.

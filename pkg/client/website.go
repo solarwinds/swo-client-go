@@ -48,12 +48,18 @@ func (as *WebsiteService) Read(ctx context.Context, id string) (*ReadWebsiteResu
 		return nil, err
 	}
 
-	websitePtr := *resp.Entities.ById
-	if website, ok := websitePtr.(*ReadWebsiteResult); !ok {
-		return nil, fmt.Errorf("unexpected type %T", website)
-	} else {
-		return website, nil
+	if resp.Entities.ById == nil {
+		return nil, ErrEntityIdNil
 	}
+
+	websitePtr := *resp.Entities.ById
+
+	website, ok := websitePtr.(*ReadWebsiteResult)
+	if !ok {
+		return nil, fmt.Errorf("unexpected type %T", website)
+	}
+
+	return website, nil
 }
 
 // Updates the website with input for the given id.

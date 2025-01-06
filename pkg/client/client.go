@@ -1,12 +1,15 @@
 package client
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
 	"time"
 
 	"github.com/Khan/genqlient/graphql"
+	"github.com/cenkalti/backoff/v5"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -16,6 +19,12 @@ const (
 	defaultRequestTimeout = 30 * time.Second
 	clientIdentifier      = "Swo-Api-Go"
 	requestIdentifier     = "X-Request-Id"
+	expBackoffMaxInterval = 30 * time.Second
+	expBackoffMultiplyer  = 2
+)
+
+var (
+	ErrEntityIdNil = errors.New("entity id is nil")
 )
 
 // ServiceAccessor defines an interface for talking to via domain-specific service constructs
@@ -53,6 +62,10 @@ type Client struct {
 // Each service derives from the service type.
 type service struct {
 	client *Client
+}
+
+type gqlClient struct {
+	httpClient *http.Client
 }
 
 // Returns a new SWO API client with functional override options.
@@ -94,9 +107,11 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 		log.Info("swoclient: debugMode set to true.")
 	}
 
-	swoClient.gql = graphql.NewClient(swoClient.baseURL.String(), &http.Client{
-		Timeout:   swoClient.requestTimeout,
-		Transport: swoClient.transport,
+	swoClient.gql = graphql.NewClient(swoClient.baseURL.String(), &gqlClient{
+		httpClient: &http.Client{
+			Timeout:   swoClient.requestTimeout,
+			Transport: swoClient.transport,
+		},
 	})
 
 	if err = initServices(swoClient); err != nil {
@@ -104,6 +119,31 @@ func New(apiToken string, opts ...ClientOption) (*Client, error) {
 	}
 
 	return swoClient, nil
+}
+
+func (c *gqlClient) Do(req *http.Request) (*http.Response, error) {
+	operation := func() (*http.Response, error) {
+		var err error
+
+		resp, err := c.httpClient.Do(req)
+		if err != nil {
+			return nil, err
+		}
+
+		statusCode := resp.StatusCode
+
+		if statusCode >= 500 && statusCode <= 599 {
+			return nil, fmt.Errorf("error returned by server: %d", statusCode)
+		}
+
+		return resp, nil
+	}
+
+	expBackoff := backoff.NewExponentialBackOff()
+	expBackoff.MaxInterval = expBackoffMaxInterval
+	expBackoff.Multiplier = expBackoffMultiplyer
+
+	return backoff.Retry(context.Background(), operation, backoff.WithBackOff(expBackoff), backoff.WithMaxElapsedTime(2*time.Minute))
 }
 
 func initServices(c *Client) error {
