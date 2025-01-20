@@ -4,7 +4,7 @@ go 1.23
 
 require (
 	github.com/Khan/genqlient v0.7.0
-	github.com/cenkalti/backoff/v5 v5.0.0
+	github.com/cenkalti/backoff/v5 v5.0.1
 	github.com/google/uuid v1.6.0
 	github.com/sirupsen/logrus v1.9.3
 )
