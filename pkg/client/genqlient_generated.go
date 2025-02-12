@@ -9705,6 +9705,8 @@ type updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition struct {
 	MuteInfo updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionMuteInfo `json:"muteInfo"`
 	// Alert definition creator ID.
 	UserId string `json:"userId"`
+	// Alert definition runbook link.
+	RunbookLink *string `json:"runbookLink"`
 }
 
 // GetActions returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.Actions, and is useful for accessing the field via an interface.
@@ -9780,6 +9782,11 @@ func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetMu
 // GetUserId returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.UserId, and is useful for accessing the field via an interface.
 func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetUserId() string {
 	return v.UserId
+}
+
+// GetRunbookLink returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.RunbookLink, and is useful for accessing the field via an interface.
+func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetRunbookLink() *string {
+	return v.RunbookLink
 }
 
 // updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction includes the requested fields of the GraphQL type AlertAction.
@@ -11444,6 +11451,7 @@ mutation updateAlertDefinitionMutation ($definition: AlertDefinitionInput!, $upd
 				until
 			}
 			userId
+			runbookLink
 		}
 	}
 }
