@@ -13127,6 +13127,7 @@ type Dashboard {
   owner: DashboardOwner
   createdAt: DateTime!
   updatedAt: DateTime!
+  version: Int
 }
 
 type DashboardCategory {
