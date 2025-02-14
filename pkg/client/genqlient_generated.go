@@ -385,6 +385,7 @@ type CreateDashboardInput struct {
 	CategoryId  *string        `json:"categoryId"`
 	Widgets     []WidgetInput  `json:"widgets"`
 	Layout      []LayoutInput  `json:"layout"`
+	Version     *int           `json:"version"`
 }
 
 // GetName returns CreateDashboardInput.Name, and is useful for accessing the field via an interface.
@@ -407,6 +408,9 @@ func (v *CreateDashboardInput) GetWidgets() []WidgetInput { return v.Widgets }
 
 // GetLayout returns CreateDashboardInput.Layout, and is useful for accessing the field via an interface.
 func (v *CreateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
+
+// GetVersion returns CreateDashboardInput.Version, and is useful for accessing the field via an interface.
+func (v *CreateDashboardInput) GetVersion() *int { return v.Version }
 
 type CreateExclusionFilterExpressionInput struct {
 	Kind       ExclusionFilterExpressionKind `json:"kind"`
@@ -800,6 +804,7 @@ type UpdateDashboardInput struct {
 	CategoryId  *string       `json:"categoryId"`
 	Widgets     []WidgetInput `json:"widgets"`
 	Layout      []LayoutInput `json:"layout"`
+	Version     *int          `json:"version"`
 }
 
 // GetId returns UpdateDashboardInput.Id, and is useful for accessing the field via an interface.
@@ -822,6 +827,9 @@ func (v *UpdateDashboardInput) GetWidgets() []WidgetInput { return v.Widgets }
 
 // GetLayout returns UpdateDashboardInput.Layout, and is useful for accessing the field via an interface.
 func (v *UpdateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
+
+// GetVersion returns UpdateDashboardInput.Version, and is useful for accessing the field via an interface.
+func (v *UpdateDashboardInput) GetVersion() *int { return v.Version }
 
 type UpdateExclusionFilterExpressionInput struct {
 	Kind       ExclusionFilterExpressionKind `json:"kind"`

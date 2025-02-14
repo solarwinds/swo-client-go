@@ -12799,6 +12799,7 @@ input CreateDashboardInput {
   categoryId: ID
   widgets: [WidgetInput!]!
   layout: [LayoutInput!]!
+  version: Int
 }
 
 type CreateDashboardResponse {
@@ -30717,6 +30718,7 @@ input UpdateDashboardInput {
   categoryId: ID
   widgets: [WidgetInput!]!
   layout: [LayoutInput!]!
+  version: Int
 }
 
 type UpdateDashboardResponse {
