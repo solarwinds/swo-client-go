@@ -1,10 +1,13 @@
 query getAlertDefinitionById($id: ID!) {
   alertQueries {
-    alertDefinitions(filter: {id: $id}) {
+    alertDefinitions(filter: { id: $id }) {
       alertDefinitions {
         actions {
           configurationIds
           type
+          receivingType
+          includeDetails
+          resendIntervalSeconds
         }
         triggerResetActions
         conditionType
@@ -51,7 +54,6 @@ query getAlertDefinitionById($id: ID!) {
             namespace
             query
           }
-
         }
         description
         enabled
@@ -82,6 +84,9 @@ mutation createAlertDefinitionMutation($definition: AlertDefinitionInput!) {
       actions {
         configurationIds
         type
+        receivingType
+        includeDetails
+        resendIntervalSeconds
       }
       flatCondition {
         id
@@ -109,40 +114,43 @@ mutation updateAlertDefinitionMutation(
       definition: $definition
       id: $updateAlertDefinitionId
     ) {
-        actions {
-          configurationIds
-          type
-        }
-        triggerResetActions
-        conditionType
-        flatCondition {
-          id
-          links {
-            name
-            values
-          }
-          value {
-            fieldName
-            operator
-            type
-            query
-          }
-        }
-        description
-        enabled
+      actions {
+        configurationIds
+        type
+        receivingType
+        includeDetails
+        resendIntervalSeconds
+      }
+      triggerResetActions
+      conditionType
+      flatCondition {
         id
-        name
-        organizationId
-        severity
-        triggered
-        triggeredTime
-        targetEntityTypes
-        muteInfo {
-          muted
-          until
+        links {
+          name
+          values
         }
-        userId
-        runbookLink
+        value {
+          fieldName
+          operator
+          type
+          query
+        }
+      }
+      description
+      enabled
+      id
+      name
+      organizationId
+      severity
+      triggered
+      triggeredTime
+      targetEntityTypes
+      muteInfo {
+        muted
+        until
+      }
+      userId
+      runbookLink
     }
   }
 }

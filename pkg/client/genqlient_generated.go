@@ -17,6 +17,13 @@ type AlertActionInput struct {
 	Type string `json:"type"`
 	// List of notification configuration IDs
 	ConfigurationIds []string `json:"configurationIds"`
+	// Type of notification receiving
+	ReceivingType *NotificationReceivingType `json:"receivingType"`
+	// A flag indicates whether include logs/details to notification or not.
+	IncludeDetails *bool `json:"includeDetails"`
+	// How often should the notification be resent in case alert keeps being triggered. Null means notification is sent
+	// only once.
+	ResendIntervalSeconds *int `json:"resendIntervalSeconds"`
 }
 
 // GetType returns AlertActionInput.Type, and is useful for accessing the field via an interface.
@@ -24,6 +31,15 @@ func (v *AlertActionInput) GetType() string { return v.Type }
 
 // GetConfigurationIds returns AlertActionInput.ConfigurationIds, and is useful for accessing the field via an interface.
 func (v *AlertActionInput) GetConfigurationIds() []string { return v.ConfigurationIds }
+
+// GetReceivingType returns AlertActionInput.ReceivingType, and is useful for accessing the field via an interface.
+func (v *AlertActionInput) GetReceivingType() *NotificationReceivingType { return v.ReceivingType }
+
+// GetIncludeDetails returns AlertActionInput.IncludeDetails, and is useful for accessing the field via an interface.
+func (v *AlertActionInput) GetIncludeDetails() *bool { return v.IncludeDetails }
+
+// GetResendIntervalSeconds returns AlertActionInput.ResendIntervalSeconds, and is useful for accessing the field via an interface.
+func (v *AlertActionInput) GetResendIntervalSeconds() *int { return v.ResendIntervalSeconds }
 
 type AlertConditionMatchFieldRuleInput struct {
 	// Field name to apply filtering rule on
@@ -132,6 +148,10 @@ type AlertConditionNodeInput struct {
 	Namespace *string `json:"namespace"`
 	// Group by specific metric tag(s).
 	GroupByMetricTag []string `json:"groupByMetricTag"`
+	// Fallback static threshold value to be used if dynamic threshold data are not available.
+	FallbackValue *string `json:"fallbackValue"`
+	// Log group IDs according to which Alert definition is scoped.
+	LogGroupIds []string `json:"logGroupIds"`
 }
 
 // GetId returns AlertConditionNodeInput.Id, and is useful for accessing the field via an interface.
@@ -177,6 +197,12 @@ func (v *AlertConditionNodeInput) GetNamespace() *string { return v.Namespace }
 // GetGroupByMetricTag returns AlertConditionNodeInput.GroupByMetricTag, and is useful for accessing the field via an interface.
 func (v *AlertConditionNodeInput) GetGroupByMetricTag() []string { return v.GroupByMetricTag }
 
+// GetFallbackValue returns AlertConditionNodeInput.FallbackValue, and is useful for accessing the field via an interface.
+func (v *AlertConditionNodeInput) GetFallbackValue() *string { return v.FallbackValue }
+
+// GetLogGroupIds returns AlertConditionNodeInput.LogGroupIds, and is useful for accessing the field via an interface.
+func (v *AlertConditionNodeInput) GetLogGroupIds() []string { return v.LogGroupIds }
+
 type AlertDefinitionInput struct {
 	// Alert definition name
 	Name string `json:"name"`
@@ -196,6 +222,10 @@ type AlertDefinitionInput struct {
 	// A flag indicating whether to send a notification when active alert returns to normal.
 	// It will be set to *false* if not specified.
 	TriggerResetActions *bool `json:"triggerResetActions"`
+	// Number of seconds during which the condition must be continually met before an alert is triggered.
+	TriggerDelaySeconds *int `json:"triggerDelaySeconds"`
+	// Id of an alert template used to create this alert.
+	TemplateId *string `json:"templateId"`
 }
 
 // GetName returns AlertDefinitionInput.Name, and is useful for accessing the field via an interface.
@@ -221,6 +251,12 @@ func (v *AlertDefinitionInput) GetActions() []AlertActionInput { return v.Action
 
 // GetTriggerResetActions returns AlertDefinitionInput.TriggerResetActions, and is useful for accessing the field via an interface.
 func (v *AlertDefinitionInput) GetTriggerResetActions() *bool { return v.TriggerResetActions }
+
+// GetTriggerDelaySeconds returns AlertDefinitionInput.TriggerDelaySeconds, and is useful for accessing the field via an interface.
+func (v *AlertDefinitionInput) GetTriggerDelaySeconds() *int { return v.TriggerDelaySeconds }
+
+// GetTemplateId returns AlertDefinitionInput.TemplateId, and is useful for accessing the field via an interface.
+func (v *AlertDefinitionInput) GetTemplateId() *string { return v.TemplateId }
 
 // Generic filtering input.
 type AlertFilterExpressionInput struct {
@@ -681,6 +717,15 @@ func (v *LayoutInput) GetWidth() int { return v.Width }
 
 // GetHeight returns LayoutInput.Height, and is useful for accessing the field via an interface.
 func (v *LayoutInput) GetHeight() int { return v.Height }
+
+// Part of Alert action. Type of notification receiving.
+type NotificationReceivingType string
+
+const (
+	NotificationReceivingTypeNotSpecified NotificationReceivingType = "NOT_SPECIFIED"
+	NotificationReceivingTypeIndividual   NotificationReceivingType = "INDIVIDUAL"
+	NotificationReceivingTypeAggregated   NotificationReceivingType = "AGGREGATED"
+)
 
 type ProbeLocationInput struct {
 	Type ProbeLocationType `json:"type"`
@@ -1452,6 +1497,13 @@ type createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAler
 	ConfigurationIds []string `json:"configurationIds"`
 	// Notification service type (email, MS Teams, Slack, webhook, ...).
 	Type string `json:"type"`
+	// Type of notification receiving
+	ReceivingType *NotificationReceivingType `json:"receivingType"`
+	// A flag indicates whether include logs/details to notification or not.
+	IncludeDetails *bool `json:"includeDetails"`
+	// How often should the notification be resent in case alert keeps being triggered. Null means notification is sent
+	// only once.
+	ResendIntervalSeconds *int `json:"resendIntervalSeconds"`
 }
 
 // GetConfigurationIds returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction.ConfigurationIds, and is useful for accessing the field via an interface.
@@ -1462,6 +1514,21 @@ func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActions
 // GetType returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction.Type, and is useful for accessing the field via an interface.
 func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction) GetType() string {
 	return v.Type
+}
+
+// GetReceivingType returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction.ReceivingType, and is useful for accessing the field via an interface.
+func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction) GetReceivingType() *NotificationReceivingType {
+	return v.ReceivingType
+}
+
+// GetIncludeDetails returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction.IncludeDetails, and is useful for accessing the field via an interface.
+func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction) GetIncludeDetails() *bool {
+	return v.IncludeDetails
+}
+
+// GetResendIntervalSeconds returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction.ResendIntervalSeconds, and is useful for accessing the field via an interface.
+func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction) GetResendIntervalSeconds() *int {
+	return v.ResendIntervalSeconds
 }
 
 // createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionFlatConditionFlatAlertConditionExpression includes the requested fields of the GraphQL type FlatAlertConditionExpression.
@@ -2392,6 +2459,13 @@ type getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAle
 	ConfigurationIds []string `json:"configurationIds"`
 	// Notification service type (email, MS Teams, Slack, webhook, ...).
 	Type string `json:"type"`
+	// Type of notification receiving
+	ReceivingType *NotificationReceivingType `json:"receivingType"`
+	// A flag indicates whether include logs/details to notification or not.
+	IncludeDetails *bool `json:"includeDetails"`
+	// How often should the notification be resent in case alert keeps being triggered. Null means notification is sent
+	// only once.
+	ResendIntervalSeconds *int `json:"resendIntervalSeconds"`
 }
 
 // GetConfigurationIds returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction.ConfigurationIds, and is useful for accessing the field via an interface.
@@ -2402,6 +2476,21 @@ func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResul
 // GetType returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction.Type, and is useful for accessing the field via an interface.
 func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction) GetType() string {
 	return v.Type
+}
+
+// GetReceivingType returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction.ReceivingType, and is useful for accessing the field via an interface.
+func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction) GetReceivingType() *NotificationReceivingType {
+	return v.ReceivingType
+}
+
+// GetIncludeDetails returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction.IncludeDetails, and is useful for accessing the field via an interface.
+func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction) GetIncludeDetails() *bool {
+	return v.IncludeDetails
+}
+
+// GetResendIntervalSeconds returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction.ResendIntervalSeconds, and is useful for accessing the field via an interface.
+func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction) GetResendIntervalSeconds() *int {
+	return v.ResendIntervalSeconds
 }
 
 // getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpression includes the requested fields of the GraphQL type FlatAlertConditionExpression.
@@ -9813,6 +9902,13 @@ type updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAler
 	ConfigurationIds []string `json:"configurationIds"`
 	// Notification service type (email, MS Teams, Slack, webhook, ...).
 	Type string `json:"type"`
+	// Type of notification receiving
+	ReceivingType *NotificationReceivingType `json:"receivingType"`
+	// A flag indicates whether include logs/details to notification or not.
+	IncludeDetails *bool `json:"includeDetails"`
+	// How often should the notification be resent in case alert keeps being triggered. Null means notification is sent
+	// only once.
+	ResendIntervalSeconds *int `json:"resendIntervalSeconds"`
 }
 
 // GetConfigurationIds returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction.ConfigurationIds, and is useful for accessing the field via an interface.
@@ -9823,6 +9919,21 @@ func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActions
 // GetType returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction.Type, and is useful for accessing the field via an interface.
 func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction) GetType() string {
 	return v.Type
+}
+
+// GetReceivingType returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction.ReceivingType, and is useful for accessing the field via an interface.
+func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction) GetReceivingType() *NotificationReceivingType {
+	return v.ReceivingType
+}
+
+// GetIncludeDetails returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction.IncludeDetails, and is useful for accessing the field via an interface.
+func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction) GetIncludeDetails() *bool {
+	return v.IncludeDetails
+}
+
+// GetResendIntervalSeconds returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction.ResendIntervalSeconds, and is useful for accessing the field via an interface.
+func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction) GetResendIntervalSeconds() *int {
+	return v.ResendIntervalSeconds
 }
 
 // updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionFlatConditionFlatAlertConditionExpression includes the requested fields of the GraphQL type FlatAlertConditionExpression.
@@ -10359,6 +10470,9 @@ mutation createAlertDefinitionMutation ($definition: AlertDefinitionInput!) {
 			actions {
 				configurationIds
 				type
+				receivingType
+				includeDetails
+				resendIntervalSeconds
 			}
 			flatCondition {
 				id
@@ -10966,6 +11080,9 @@ query getAlertDefinitionById ($id: ID!) {
 				actions {
 					configurationIds
 					type
+					receivingType
+					includeDetails
+					resendIntervalSeconds
 				}
 				triggerResetActions
 				conditionType
@@ -11442,6 +11559,9 @@ mutation updateAlertDefinitionMutation ($definition: AlertDefinitionInput!, $upd
 			actions {
 				configurationIds
 				type
+				receivingType
+				includeDetails
+				resendIntervalSeconds
 			}
 			triggerResetActions
 			conditionType
