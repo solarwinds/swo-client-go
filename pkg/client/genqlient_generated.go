@@ -421,6 +421,7 @@ type CreateDashboardInput struct {
 	CategoryId  *string        `json:"categoryId"`
 	Widgets     []WidgetInput  `json:"widgets"`
 	Layout      []LayoutInput  `json:"layout"`
+	Version     *int           `json:"version"`
 }
 
 // GetName returns CreateDashboardInput.Name, and is useful for accessing the field via an interface.
@@ -443,6 +444,9 @@ func (v *CreateDashboardInput) GetWidgets() []WidgetInput { return v.Widgets }
 
 // GetLayout returns CreateDashboardInput.Layout, and is useful for accessing the field via an interface.
 func (v *CreateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
+
+// GetVersion returns CreateDashboardInput.Version, and is useful for accessing the field via an interface.
+func (v *CreateDashboardInput) GetVersion() *int { return v.Version }
 
 type CreateExclusionFilterExpressionInput struct {
 	Kind       ExclusionFilterExpressionKind `json:"kind"`
@@ -845,6 +849,7 @@ type UpdateDashboardInput struct {
 	CategoryId  *string       `json:"categoryId"`
 	Widgets     []WidgetInput `json:"widgets"`
 	Layout      []LayoutInput `json:"layout"`
+	Version     *int          `json:"version"`
 }
 
 // GetId returns UpdateDashboardInput.Id, and is useful for accessing the field via an interface.
@@ -867,6 +872,9 @@ func (v *UpdateDashboardInput) GetWidgets() []WidgetInput { return v.Widgets }
 
 // GetLayout returns UpdateDashboardInput.Layout, and is useful for accessing the field via an interface.
 func (v *UpdateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
+
+// GetVersion returns UpdateDashboardInput.Version, and is useful for accessing the field via an interface.
+func (v *UpdateDashboardInput) GetVersion() *int { return v.Version }
 
 type UpdateExclusionFilterExpressionInput struct {
 	Kind       ExclusionFilterExpressionKind `json:"kind"`
@@ -1571,6 +1579,7 @@ func (v *createDashboardCreateDashboardCreateDashboardResponse) GetDashboard() *
 type createDashboardCreateDashboardCreateDashboardResponseDashboard struct {
 	Id              string                                                                        `json:"id"`
 	Name            string                                                                        `json:"name"`
+	Version         *int                                                                          `json:"version"`
 	IsPrivate       *bool                                                                         `json:"isPrivate"`
 	SystemReference *string                                                                       `json:"systemReference"`
 	CreatedAt       time.Time                                                                     `json:"createdAt"`
@@ -1587,6 +1596,11 @@ func (v *createDashboardCreateDashboardCreateDashboardResponseDashboard) GetId()
 // GetName returns createDashboardCreateDashboardCreateDashboardResponseDashboard.Name, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponseDashboard) GetName() string {
 	return v.Name
+}
+
+// GetVersion returns createDashboardCreateDashboardCreateDashboardResponseDashboard.Version, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponseDashboard) GetVersion() *int {
+	return v.Version
 }
 
 // GetIsPrivate returns createDashboardCreateDashboardCreateDashboardResponseDashboard.IsPrivate, and is useful for accessing the field via an interface.
@@ -10084,6 +10098,7 @@ func (v *updateDashboardUpdateDashboardUpdateDashboardResponse) GetDashboard() *
 // updateDashboardUpdateDashboardUpdateDashboardResponseDashboard includes the requested fields of the GraphQL type Dashboard.
 type updateDashboardUpdateDashboardUpdateDashboardResponseDashboard struct {
 	Id        string                                                                        `json:"id"`
+	Version   *int                                                                          `json:"version"`
 	Owner     *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner          `json:"owner"`
 	Widgets   []updateDashboardUpdateDashboardUpdateDashboardResponseDashboardWidgetsWidget `json:"widgets"`
 	Layout    []updateDashboardUpdateDashboardUpdateDashboardResponseDashboardLayout        `json:"layout"`
@@ -10093,6 +10108,11 @@ type updateDashboardUpdateDashboardUpdateDashboardResponseDashboard struct {
 
 // GetId returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboard.Id, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard) GetId() string { return v.Id }
+
+// GetVersion returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboard.Version, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard) GetVersion() *int {
+	return v.Version
+}
 
 // GetOwner returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboard.Owner, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard) GetOwner() *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner {
@@ -10508,6 +10528,7 @@ mutation createDashboard ($input: CreateDashboardInput!) {
 		dashboard {
 			id
 			name
+			version
 			isPrivate
 			systemReference
 			createdAt
@@ -11614,6 +11635,7 @@ mutation updateDashboard ($input: UpdateDashboardInput!) {
 		message
 		dashboard {
 			id
+			version
 			owner {
 				id
 				name

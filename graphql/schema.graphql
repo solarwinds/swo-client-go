@@ -12829,6 +12829,7 @@ input CreateDashboardInput {
   categoryId: ID
   widgets: [WidgetInput!]!
   layout: [LayoutInput!]!
+  version: Int
 }
 
 type CreateDashboardResponse {
@@ -13157,6 +13158,7 @@ type Dashboard {
   owner: DashboardOwner
   createdAt: DateTime!
   updatedAt: DateTime!
+  version: Int
 }
 
 type DashboardCategory {
@@ -30746,6 +30748,7 @@ input UpdateDashboardInput {
   categoryId: ID
   widgets: [WidgetInput!]!
   layout: [LayoutInput!]!
+  version: Int
 }
 
 type UpdateDashboardResponse {

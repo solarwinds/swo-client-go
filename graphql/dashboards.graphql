@@ -6,6 +6,7 @@ mutation createDashboard($input: CreateDashboardInput!) {
     dashboard {
       id
       name
+      version
       isPrivate
       systemReference
       createdAt
@@ -88,6 +89,7 @@ mutation updateDashboard($input: UpdateDashboardInput!) {
     message
     dashboard {
       id
+      version
       owner {
         id
         name
