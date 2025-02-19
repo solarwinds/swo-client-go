@@ -341,11 +341,23 @@ type AlertAction {
   Notification service type (email, MS Teams, Slack, webhook, ...).
   """
   type: String!
-
   """
   Notification configuration IDs.
   """
   configurationIds: [ID!]!
+  """
+  Type of notification receiving
+  """
+  receivingType: NotificationReceivingType
+  """
+  A flag indicates whether include logs/details to notification or not.
+  """
+  includeDetails: Boolean
+  """
+  How often should the notification be resent in case alert keeps being triggered. Null means notification is sent
+  only once.
+  """
+  resendIntervalSeconds: Int
 }
 
 type AlertActionDeletedByCnsEvent implements AlertManagementEvent {
@@ -366,11 +378,23 @@ input AlertActionInput {
   Type of a notification service
   """
   type: String!
-
   """
   List of notification configuration IDs
   """
   configurationIds: [ID!]!
+  """
+  Type of notification receiving
+  """
+  receivingType: NotificationReceivingType = NOT_SPECIFIED
+  """
+  A flag indicates whether include logs/details to notification or not.
+  """
+  includeDetails: Boolean = true
+  """
+  How often should the notification be resent in case alert keeps being triggered. Null means notification is sent
+  only once.
+  """
+  resendIntervalSeconds: Int
 }
 
 """
@@ -670,7 +694,6 @@ input AlertConditionNodeInput {
   Condition node ID.
   """
   id: Int!
-
   """
   Node (operator) type. Supported values:
   - `aggregationOperator` (child of `binaryOperator`)
@@ -684,7 +707,6 @@ input AlertConditionNodeInput {
   - `relationshipOperator` (root, or child of `logicalOperator`, `unaryOperator`)
   """
   type: String!
-
   """
   Operator for combining operands. Supported values:
   - For aggregationOperator: `COUNT`, `MIN`, `MAX`, `AVG`, `SUM`, `LAST`
@@ -694,56 +716,54 @@ input AlertConditionNodeInput {
   - For relationshipOperator: null
   """
   operator: String
-
   """
   Ordered list of child condition nodes IDs.
   """
   operandIds: [Int!]
-
   """
   Entity filter for `metricField`, `queryField` and 'scopeField' nodes. When defined (not null), node is scoped to entity.
   """
   entityFilter: AlertConditionNodeEntityFilterInput
-
   """
   Measurement filter for metric tags
   """
   metricFilter: AlertFilterExpressionInput
-
   """
   Entity metric field for `metricField` nodes
   """
   fieldName: String
-
   """
   Data type for `constantValue` nodes. Supported values: `boolean`, `number`, `string`
   """
   dataType: String
-
   """
   String representation of value for `constantValue` nodes.
   """
   value: String
-
   """
   String representation of values for `constantValue` nodes in case of 'IN' operator
   """
   values: [String!]
-
   """
   Query specification for `queryField` nodes.
   """
   query: String
-
   """
   Events/logs namespace (in Chainsaw) for `queryField` nodes.
   """
   namespace: String
-
   """
   Group by specific metric tag(s).
   """
   groupByMetricTag: [String!]
+  """
+  Fallback static threshold value to be used if dynamic threshold data are not available.
+  """
+  fallbackValue: String
+  """
+  Log group IDs according to which Alert definition is scoped.
+  """
+  logGroupIds: [String!]
 }
 
 """
@@ -992,48 +1012,58 @@ type AlertDefinitionEventData {
   targetEntityTypes: [String!]
 }
 
+"""
+Part of Alert action. Type of notification receiving.
+"""
+enum NotificationReceivingType {
+  NOT_SPECIFIED
+  INDIVIDUAL
+  AGGREGATED
+}
+# noinspection GraphQLTypeRedefinition
 input AlertDefinitionInput {
   """
   Alert definition name
   """
   name: String!
-
   """
   Alert definition description
   """
   description: String
-
   """
   Alert runbook link
   """
   runbookLink: String
-
   """
   Alert definition severity
   """
   severity: AlertSeverity!
-
   """
   Enabled whether Alert definition shall be evaluated
   """
   enabled: Boolean!
-
   """
   Ordered list of condition nodes representing the flatten condition tree.
   The first item is the tree root.
   """
   condition: [AlertConditionNodeInput!]!
-
   """
   List of alert actions that shall be triggered in case of alert **FIRING**
   """
   actions: [AlertActionInput!]
-
   """
   A flag indicating whether to send a notification when active alert returns to normal.
   It will be set to *false* if not specified.
   """
   triggerResetActions: Boolean
+  """
+  Number of seconds during which the condition must be continually met before an alert is triggered.
+  """
+  triggerDelaySeconds: Int
+  """
+  Id of an alert template used to create this alert.
+  """
+  templateId: String
 }
 
 type AlertDefinitionManualResetEvent implements AlertManagementEvent {
