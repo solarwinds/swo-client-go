@@ -69,6 +69,7 @@ func TestService_CreateDashboard(t *testing.T) {
 					},
 					CreatedAt: dashboardsMockData.fieldUpdatedAt,
 					UpdatedAt: dashboardsMockData.fieldUpdatedAt,
+					Version:   nil,
 				},
 			},
 		})
@@ -87,6 +88,7 @@ func TestService_CreateDashboard(t *testing.T) {
 		},
 		CreatedAt: dashboardsMockData.fieldUpdatedAt,
 		UpdatedAt: dashboardsMockData.fieldUpdatedAt,
+		Version:   nil,
 	}
 
 	if !testObjects(t, got, want) {
@@ -198,7 +200,8 @@ func TestService_UpdateDashboard(t *testing.T) {
 				Success: true,
 				Message: "",
 				Dashboard: &updateDashboardUpdateDashboardUpdateDashboardResponseDashboard{
-					Id: got.Id,
+					Id:      got.Id,
+					Version: nil,
 				},
 			},
 		})
