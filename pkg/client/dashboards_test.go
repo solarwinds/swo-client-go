@@ -16,12 +16,14 @@ var (
 		fieldOwnerId    string
 		fieldOwnerName  string
 		fieldCategoryId string
+		versionId       int
 	}{
 		"swo-client-go - title",
 		time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
 		"123456789",
 		"owner name",
 		"123",
+		2,
 	}
 )
 
@@ -69,7 +71,7 @@ func TestService_CreateDashboard(t *testing.T) {
 					},
 					CreatedAt: dashboardsMockData.fieldUpdatedAt,
 					UpdatedAt: dashboardsMockData.fieldUpdatedAt,
-					Version:   nil,
+					Version:   &dashboardsMockData.versionId,
 				},
 			},
 		})
@@ -88,7 +90,7 @@ func TestService_CreateDashboard(t *testing.T) {
 		},
 		CreatedAt: dashboardsMockData.fieldUpdatedAt,
 		UpdatedAt: dashboardsMockData.fieldUpdatedAt,
-		Version:   nil,
+		Version:   &dashboardsMockData.versionId,
 	}
 
 	if !testObjects(t, got, want) {
@@ -168,6 +170,7 @@ func TestService_UpdateDashboard(t *testing.T) {
 	ctx, client, server, _, teardown := setup()
 	defer teardown()
 
+	versionId := 2
 	input := UpdateDashboardInput{
 		Id:         "123",
 		Name:       dashboardsMockData.fieldName,
@@ -201,7 +204,7 @@ func TestService_UpdateDashboard(t *testing.T) {
 				Message: "",
 				Dashboard: &updateDashboardUpdateDashboardUpdateDashboardResponseDashboard{
 					Id:      got.Id,
-					Version: nil,
+					Version: &versionId,
 				},
 			},
 		})
