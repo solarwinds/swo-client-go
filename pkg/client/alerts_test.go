@@ -88,6 +88,7 @@ var (
 			},
 			Actions:             []getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionActionsAlertAction{},
 			TriggerResetActions: false,
+			TriggerDelaySeconds: 300,
 			ConditionType:       "ENTITY_METRIC",
 			FlatCondition: []getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinitionFlatConditionFlatAlertConditionExpression{
 				{

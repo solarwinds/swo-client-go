@@ -1421,6 +1421,9 @@ type createAlertDefinitionMutationAlertMutationsCreateAlertDefinition struct {
 	Severity AlertSeverity `json:"severity"`
 	// Indication whether to send a notification when active alert returns to normal.
 	TriggerResetActions bool `json:"triggerResetActions"`
+	// Number of seconds during which the condition must be continually met before an alert is triggered.
+	// The value has to be divisible by 60.
+	TriggerDelaySeconds int `json:"triggerDelaySeconds"`
 	// Alert definition condition type.
 	ConditionType ConditionType `json:"conditionType"`
 	// Timestamp (in the ISO-8601 date and time format in UTC) indicating when the Alert definition condition was updated for the last time.
@@ -1475,6 +1478,11 @@ func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinition) GetSe
 // GetTriggerResetActions returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinition.TriggerResetActions, and is useful for accessing the field via an interface.
 func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinition) GetTriggerResetActions() bool {
 	return v.TriggerResetActions
+}
+
+// GetTriggerDelaySeconds returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinition.TriggerDelaySeconds, and is useful for accessing the field via an interface.
+func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinition) GetTriggerDelaySeconds() int {
+	return v.TriggerDelaySeconds
 }
 
 // GetConditionType returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinition.ConditionType, and is useful for accessing the field via an interface.
@@ -2354,6 +2362,9 @@ type getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAle
 	// Timestamp (in the ISO-8601 date and time format in UTC) indicating when the Alert definition was triggered
 	// (*null* if the Alert definition is currently not triggered).
 	TriggeredTime *string `json:"triggeredTime"`
+	// Number of seconds during which the condition must be continually met before an alert is triggered.
+	// The value has to be divisible by 60.
+	TriggerDelaySeconds int `json:"triggerDelaySeconds"`
 	// Entity types targeted by the Alert definition.
 	TargetEntityTypes []string `json:"targetEntityTypes"`
 	// Information if notifications for the Alert definition are muted (suppressed).
@@ -2427,6 +2438,11 @@ func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResul
 // GetTriggeredTime returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition.TriggeredTime, and is useful for accessing the field via an interface.
 func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition) GetTriggeredTime() *string {
 	return v.TriggeredTime
+}
+
+// GetTriggerDelaySeconds returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition.TriggerDelaySeconds, and is useful for accessing the field via an interface.
+func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition) GetTriggerDelaySeconds() int {
+	return v.TriggerDelaySeconds
 }
 
 // GetTargetEntityTypes returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition.TargetEntityTypes, and is useful for accessing the field via an interface.
@@ -9802,6 +9818,9 @@ type updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition struct {
 	// Timestamp (in the ISO-8601 date and time format in UTC) indicating when the Alert definition was triggered
 	// (*null* if the Alert definition is currently not triggered).
 	TriggeredTime *string `json:"triggeredTime"`
+	// Number of seconds during which the condition must be continually met before an alert is triggered.
+	// The value has to be divisible by 60.
+	TriggerDelaySeconds int `json:"triggerDelaySeconds"`
 	// Entity types targeted by the Alert definition.
 	TargetEntityTypes []string `json:"targetEntityTypes"`
 	// Information if notifications for the Alert definition are muted (suppressed).
@@ -9870,6 +9889,11 @@ func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetTr
 // GetTriggeredTime returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.TriggeredTime, and is useful for accessing the field via an interface.
 func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetTriggeredTime() *string {
 	return v.TriggeredTime
+}
+
+// GetTriggerDelaySeconds returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.TriggerDelaySeconds, and is useful for accessing the field via an interface.
+func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetTriggerDelaySeconds() int {
+	return v.TriggerDelaySeconds
 }
 
 // GetTargetEntityTypes returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.TargetEntityTypes, and is useful for accessing the field via an interface.
@@ -10485,6 +10509,7 @@ mutation createAlertDefinitionMutation ($definition: AlertDefinitionInput!) {
 			runbookLink
 			severity
 			triggerResetActions
+			triggerDelaySeconds
 			conditionType
 			conditionUpdatedAt
 		}
@@ -11139,6 +11164,7 @@ query getAlertDefinitionById ($id: ID!) {
 				severity
 				triggered
 				triggeredTime
+				triggerDelaySeconds
 				targetEntityTypes
 				muteInfo {
 					muted
@@ -11586,6 +11612,7 @@ mutation updateAlertDefinitionMutation ($definition: AlertDefinitionInput!, $upd
 			severity
 			triggered
 			triggeredTime
+			triggerDelaySeconds
 			targetEntityTypes
 			muteInfo {
 				muted
