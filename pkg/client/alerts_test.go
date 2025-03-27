@@ -24,11 +24,14 @@ var (
 
 		fieldName := "Orion.NPM.InterfaceTraffic.InTotalBytes"
 
+		triggerDelaySeconds := 300
+
 		return AlertDefinitionInput{
-			Name:        name,
-			Description: &description,
-			Enabled:     true,
-			Severity:    AlertSeverityInfo,
+			Name:                name,
+			Description:         &description,
+			Enabled:             true,
+			Severity:            AlertSeverityInfo,
+			TriggerDelaySeconds: &triggerDelaySeconds,
 			Condition: []AlertConditionNodeInput{
 				{Id: 0, Type: "binaryOperator", Operator: &operatorGt, OperandIds: []int{1, 4}},
 				{Id: 1, Type: "aggregationOperator", Operator: &operatorMax, OperandIds: []int{2, 3}, MetricFilter: &alertExpression},
@@ -40,13 +43,14 @@ var (
 	}
 	mockCreateAlertDefinitionResult = func(id string, name string, description string) *CreateAlertDefinitionResult {
 		return &CreateAlertDefinitionResult{
-			Id:             id,
-			Name:           name,
-			Description:    &description,
-			Enabled:        true,
-			OrganizationId: "140638900734749696",
-			Severity:       "INFO",
-			Actions:        []createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction{},
+			Id:                  id,
+			Name:                name,
+			Description:         &description,
+			Enabled:             true,
+			OrganizationId:      "140638900734749696",
+			Severity:            "INFO",
+			TriggerDelaySeconds: 300,
+			Actions:             []createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionActionsAlertAction{},
 			FlatCondition: []createAlertDefinitionMutationAlertMutationsCreateAlertDefinitionFlatConditionFlatAlertConditionExpression{
 				{
 					Id: "935b93f6-f94f-4b25-98a6-e66bbf80eaee",
@@ -162,13 +166,14 @@ var (
 	}
 	mockUpdateAlertDefinitionResult = func(id string, name string, description string) *UpdateAlertDefinitionResult {
 		return &UpdateAlertDefinitionResult{
-			Id:             id,
-			Name:           name,
-			Description:    &description,
-			Enabled:        true,
-			OrganizationId: "140638900734749696",
-			Severity:       "INFO",
-			Actions:        []updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction{},
+			Id:                  id,
+			Name:                name,
+			Description:         &description,
+			Enabled:             true,
+			OrganizationId:      "140638900734749696",
+			Severity:            "INFO",
+			TriggerDelaySeconds: 600,
+			Actions:             []updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionActionsAlertAction{},
 			FlatCondition: []updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinitionFlatConditionFlatAlertConditionExpression{
 				{
 					Id: "935b93f6-f94f-4b25-98a6-e66bbf80eaee",
