@@ -889,6 +889,12 @@ type AlertDefinition {
   triggerResetActions: Boolean!
 
   """
+  Number of seconds during which the condition must be continually met before an alert is triggered.
+  The value has to be divisible by 60.
+  """
+  triggerDelaySeconds: Int!
+
+  """
   Alert definition actions (notifications) to be triggered in a case of a new active alert, or when active alert
   returns to normal.
   """

@@ -12,6 +12,7 @@
   }
   ],
   "triggerResetActions": false,
+  "triggerDelaySeconds": 300,
   "condition": [
     {
         "id": 0,
