@@ -12,8 +12,10 @@ The resources that are currently supported are:
 * Websites (uptime checks)
 * Uris (uptime checks)
 
+## Requirements
+- [Go](https://golang.org/doc/install) >= 1.22.5
+
 ## Installation ##
-Currently, **swo-client-go requires Go version 1.20 or greater**.
 swo-client-go is compatible with modern Go releases in module mode, with Go installed:
 
 ```bash
@@ -103,9 +105,6 @@ See the ./example directory for working examples of using the api.
 
 ### Issues/Bugs
 Please report bugs and request enhancements in the [Issues area](https://github.com/solarwinds/swo-client-go/issues) of this repo.
-
-## Requirements
-- [Go](https://golang.org/doc/install) >= 1.18
 
 ## Building The Client
 1. Clone the repository
