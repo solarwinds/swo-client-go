@@ -13,7 +13,7 @@ The resources that are currently supported are:
 * Uris (uptime checks)
 
 ## Requirements
-- [Go](https://golang.org/doc/install) >= 1.22.5
+- [Go](https://golang.org/doc/install) >= 1.23.0
 
 ## Installation ##
 swo-client-go is compatible with modern Go releases in module mode, with Go installed:
