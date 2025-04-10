@@ -81,6 +81,13 @@ const (
 	AlertConditionMatchRuleTypeMatches  AlertConditionMatchRuleType = "MATCHES"
 )
 
+var AllAlertConditionMatchRuleType = []AlertConditionMatchRuleType{
+	AlertConditionMatchRuleTypeEq,
+	AlertConditionMatchRuleTypeNe,
+	AlertConditionMatchRuleTypeContains,
+	AlertConditionMatchRuleTypeMatches,
+}
+
 type AlertConditionNodeEntityFilterInput struct {
 	// Filter by Entity types
 	Types []string `json:"types"`
@@ -297,6 +304,12 @@ const (
 	AlertSeverityCritical AlertSeverity = "CRITICAL"
 )
 
+var AllAlertSeverity = []AlertSeverity{
+	AlertSeverityInfo,
+	AlertSeverityWarning,
+	AlertSeverityCritical,
+}
+
 type AvailabilityCheckSettingsInput struct {
 	// Use this field to configure whether availability tests should check for presence or absence of a
 	// particular string on a page.
@@ -399,6 +412,11 @@ const (
 	CheckStringOperatorDoesNotContain CheckStringOperator = "DOES_NOT_CONTAIN"
 )
 
+var AllCheckStringOperator = []CheckStringOperator{
+	CheckStringOperatorContains,
+	CheckStringOperatorDoesNotContain,
+}
+
 // *DEPRECATED:* `ConditionType` is now described by metadata composed of `[AlertConditionScope]`, `AlertConditionDataSource` and `[AlertConditionDataType]`.
 // Alert definition condition types
 type ConditionType string
@@ -413,7 +431,18 @@ const (
 	ConditionTypeUnknown          ConditionType = "UNKNOWN"
 )
 
+var AllConditionType = []ConditionType{
+	ConditionTypeEntityMetric,
+	ConditionTypeStandaloneMetric,
+	ConditionTypeEntityLogQuery,
+	ConditionTypeLogQuery,
+	ConditionTypeAnomalyEvents,
+	ConditionTypeKubernetesEvents,
+	ConditionTypeUnknown,
+}
+
 type CreateDashboardInput struct {
+	Version     *int           `json:"version"`
 	Name        string         `json:"name"`
 	Description *string        `json:"description"`
 	IsPrivate   *bool          `json:"isPrivate"`
@@ -421,8 +450,10 @@ type CreateDashboardInput struct {
 	CategoryId  *string        `json:"categoryId"`
 	Widgets     []WidgetInput  `json:"widgets"`
 	Layout      []LayoutInput  `json:"layout"`
-	Version     *int           `json:"version"`
 }
+
+// GetVersion returns CreateDashboardInput.Version, and is useful for accessing the field via an interface.
+func (v *CreateDashboardInput) GetVersion() *int { return v.Version }
 
 // GetName returns CreateDashboardInput.Name, and is useful for accessing the field via an interface.
 func (v *CreateDashboardInput) GetName() string { return v.Name }
@@ -444,9 +475,6 @@ func (v *CreateDashboardInput) GetWidgets() []WidgetInput { return v.Widgets }
 
 // GetLayout returns CreateDashboardInput.Layout, and is useful for accessing the field via an interface.
 func (v *CreateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
-
-// GetVersion returns CreateDashboardInput.Version, and is useful for accessing the field via an interface.
-func (v *CreateDashboardInput) GetVersion() *int { return v.Version }
 
 type CreateExclusionFilterExpressionInput struct {
 	Kind       ExclusionFilterExpressionKind `json:"kind"`
@@ -607,6 +635,11 @@ const (
 	DashboardModeAnalysis DashboardMode = "Analysis"
 )
 
+var AllDashboardMode = []DashboardMode{
+	DashboardModeStandard,
+	DashboardModeAnalysis,
+}
+
 type DeleteDashboardInput struct {
 	Id string `json:"id"`
 }
@@ -658,6 +691,11 @@ const (
 	ExclusionFilterExpressionKindString ExclusionFilterExpressionKind = "STRING"
 )
 
+var AllExclusionFilterExpressionKind = []ExclusionFilterExpressionKind{
+	ExclusionFilterExpressionKindRegex,
+	ExclusionFilterExpressionKindString,
+}
+
 type ExclusionFilterResponseCode string
 
 const (
@@ -668,6 +706,15 @@ const (
 	ExclusionFilterResponseCodeDuplicateEntry        ExclusionFilterResponseCode = "DUPLICATE_ENTRY"
 	ExclusionFilterResponseCodeInternalServerError   ExclusionFilterResponseCode = "INTERNAL_SERVER_ERROR"
 )
+
+var AllExclusionFilterResponseCode = []ExclusionFilterResponseCode{
+	ExclusionFilterResponseCodeOk,
+	ExclusionFilterResponseCodeNotFound,
+	ExclusionFilterResponseCodeInvalidRegex,
+	ExclusionFilterResponseCodeInvalidTokenSignature,
+	ExclusionFilterResponseCodeDuplicateEntry,
+	ExclusionFilterResponseCodeInternalServerError,
+}
 
 // Allowed entity filtering operators
 type FilterOperation string
@@ -687,6 +734,22 @@ const (
 	FilterOperationNot      FilterOperation = "NOT"
 	FilterOperationExists   FilterOperation = "EXISTS"
 )
+
+var AllFilterOperation = []FilterOperation{
+	FilterOperationEq,
+	FilterOperationNe,
+	FilterOperationGt,
+	FilterOperationGe,
+	FilterOperationLt,
+	FilterOperationLe,
+	FilterOperationContains,
+	FilterOperationMatches,
+	FilterOperationIn,
+	FilterOperationAnd,
+	FilterOperationOr,
+	FilterOperationNot,
+	FilterOperationExists,
+}
 
 type GetExclusionFilterInput struct {
 	Id string `json:"id"`
@@ -727,6 +790,12 @@ const (
 	NotificationReceivingTypeAggregated   NotificationReceivingType = "AGGREGATED"
 )
 
+var AllNotificationReceivingType = []NotificationReceivingType{
+	NotificationReceivingTypeNotSpecified,
+	NotificationReceivingTypeIndividual,
+	NotificationReceivingTypeAggregated,
+}
+
 type ProbeLocationInput struct {
 	Type ProbeLocationType `json:"type"`
 	// A list of probe location values of the selected `type`. At least one value matching an existing
@@ -748,6 +817,12 @@ const (
 	ProbeLocationTypeCity    ProbeLocationType = "CITY"
 )
 
+var AllProbeLocationType = []ProbeLocationType{
+	ProbeLocationTypeRegion,
+	ProbeLocationTypeCountry,
+	ProbeLocationTypeCity,
+}
+
 type ProbePlatform string
 
 const (
@@ -755,6 +830,12 @@ const (
 	ProbePlatformAzure       ProbePlatform = "AZURE"
 	ProbePlatformGoogleCloud ProbePlatform = "GOOGLE_CLOUD"
 )
+
+var AllProbePlatform = []ProbePlatform{
+	ProbePlatformAws,
+	ProbePlatformAzure,
+	ProbePlatformGoogleCloud,
+}
 
 type ProbePlatformOptionsInput struct {
 	// Cloud platforms of the synthetic probes to be used for availability tests.
@@ -829,6 +910,12 @@ const (
 	TokenAccessLevelRead   TokenAccessLevel = "READ"
 	TokenAccessLevelFull   TokenAccessLevel = "FULL"
 )
+
+var AllTokenAccessLevel = []TokenAccessLevel{
+	TokenAccessLevelRecord,
+	TokenAccessLevelRead,
+	TokenAccessLevelFull,
+}
 
 type TokenAttributeInput struct {
 	Key   string `json:"key"`
@@ -1118,6 +1205,11 @@ const (
 	WebsiteProtocolHttp  WebsiteProtocol = "HTTP"
 	WebsiteProtocolHttps WebsiteProtocol = "HTTPS"
 )
+
+var AllWebsiteProtocol = []WebsiteProtocol{
+	WebsiteProtocolHttp,
+	WebsiteProtocolHttps,
+}
 
 type WidgetInput struct {
 	Id         string  `json:"id"`
@@ -1593,7 +1685,7 @@ type createDashboardCreateDashboardCreateDashboardResponseDashboard struct {
 	CreatedAt       time.Time                                                                     `json:"createdAt"`
 	UpdatedAt       time.Time                                                                     `json:"updatedAt"`
 	Category        *createDashboardCreateDashboardCreateDashboardResponseDashboardCategory       `json:"category"`
-	Owner           *createDashboardCreateDashboardCreateDashboardResponseDashboardOwner          `json:"owner"`
+	OwnerId         *string                                                                       `json:"ownerId"`
 	Widgets         []createDashboardCreateDashboardCreateDashboardResponseDashboardWidgetsWidget `json:"widgets"`
 	Layout          []createDashboardCreateDashboardCreateDashboardResponseDashboardLayout        `json:"layout"`
 }
@@ -1636,9 +1728,9 @@ func (v *createDashboardCreateDashboardCreateDashboardResponseDashboard) GetCate
 	return v.Category
 }
 
-// GetOwner returns createDashboardCreateDashboardCreateDashboardResponseDashboard.Owner, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseDashboard) GetOwner() *createDashboardCreateDashboardCreateDashboardResponseDashboardOwner {
-	return v.Owner
+// GetOwnerId returns createDashboardCreateDashboardCreateDashboardResponseDashboard.OwnerId, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponseDashboard) GetOwnerId() *string {
+	return v.OwnerId
 }
 
 // GetWidgets returns createDashboardCreateDashboardCreateDashboardResponseDashboard.Widgets, and is useful for accessing the field via an interface.
@@ -1653,12 +1745,11 @@ func (v *createDashboardCreateDashboardCreateDashboardResponseDashboard) GetLayo
 
 // createDashboardCreateDashboardCreateDashboardResponseDashboardCategory includes the requested fields of the GraphQL type DashboardCategory.
 type createDashboardCreateDashboardCreateDashboardResponseDashboardCategory struct {
-	Id        string                                                                       `json:"id"`
-	Name      string                                                                       `json:"name"`
-	Type      string                                                                       `json:"type"`
-	Owner     *createDashboardCreateDashboardCreateDashboardResponseDashboardCategoryOwner `json:"owner"`
-	CreatedAt time.Time                                                                    `json:"createdAt"`
-	UpdatedAt time.Time                                                                    `json:"updatedAt"`
+	Id        string    `json:"id"`
+	Name      string    `json:"name"`
+	Type      string    `json:"type"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // GetId returns createDashboardCreateDashboardCreateDashboardResponseDashboardCategory.Id, and is useful for accessing the field via an interface.
@@ -1676,11 +1767,6 @@ func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardCategory)
 	return v.Type
 }
 
-// GetOwner returns createDashboardCreateDashboardCreateDashboardResponseDashboardCategory.Owner, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardCategory) GetOwner() *createDashboardCreateDashboardCreateDashboardResponseDashboardCategoryOwner {
-	return v.Owner
-}
-
 // GetCreatedAt returns createDashboardCreateDashboardCreateDashboardResponseDashboardCategory.CreatedAt, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardCategory) GetCreatedAt() time.Time {
 	return v.CreatedAt
@@ -1689,22 +1775,6 @@ func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardCategory)
 // GetUpdatedAt returns createDashboardCreateDashboardCreateDashboardResponseDashboardCategory.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardCategory) GetUpdatedAt() time.Time {
 	return v.UpdatedAt
-}
-
-// createDashboardCreateDashboardCreateDashboardResponseDashboardCategoryOwner includes the requested fields of the GraphQL type CategoryOwner.
-type createDashboardCreateDashboardCreateDashboardResponseDashboardCategoryOwner struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
-}
-
-// GetId returns createDashboardCreateDashboardCreateDashboardResponseDashboardCategoryOwner.Id, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardCategoryOwner) GetId() string {
-	return v.Id
-}
-
-// GetName returns createDashboardCreateDashboardCreateDashboardResponseDashboardCategoryOwner.Name, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardCategoryOwner) GetName() string {
-	return v.Name
 }
 
 // createDashboardCreateDashboardCreateDashboardResponseDashboardLayout includes the requested fields of the GraphQL type Layout.
@@ -1735,22 +1805,6 @@ func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardLayout) G
 // GetWidth returns createDashboardCreateDashboardCreateDashboardResponseDashboardLayout.Width, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardLayout) GetWidth() int {
 	return v.Width
-}
-
-// createDashboardCreateDashboardCreateDashboardResponseDashboardOwner includes the requested fields of the GraphQL type DashboardOwner.
-type createDashboardCreateDashboardCreateDashboardResponseDashboardOwner struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
-}
-
-// GetId returns createDashboardCreateDashboardCreateDashboardResponseDashboardOwner.Id, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardOwner) GetId() string {
-	return v.Id
-}
-
-// GetName returns createDashboardCreateDashboardCreateDashboardResponseDashboardOwner.Name, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardOwner) GetName() string {
-	return v.Name
 }
 
 // createDashboardCreateDashboardCreateDashboardResponseDashboardWidgetsWidget includes the requested fields of the GraphQL type Widget.
@@ -3012,7 +3066,7 @@ type getDashboardByIdDashboardsDashboardQueriesByIdDashboard struct {
 	CreatedAt       time.Time                                                              `json:"createdAt"`
 	UpdatedAt       time.Time                                                              `json:"updatedAt"`
 	Category        *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory       `json:"category"`
-	Owner           *getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner          `json:"owner"`
+	OwnerId         *string                                                                `json:"ownerId"`
 	Widgets         []getDashboardByIdDashboardsDashboardQueriesByIdDashboardWidgetsWidget `json:"widgets"`
 	Layout          []getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout        `json:"layout"`
 }
@@ -3048,9 +3102,9 @@ func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboard) GetCategory() 
 	return v.Category
 }
 
-// GetOwner returns getDashboardByIdDashboardsDashboardQueriesByIdDashboard.Owner, and is useful for accessing the field via an interface.
-func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboard) GetOwner() *getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner {
-	return v.Owner
+// GetOwnerId returns getDashboardByIdDashboardsDashboardQueriesByIdDashboard.OwnerId, and is useful for accessing the field via an interface.
+func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboard) GetOwnerId() *string {
+	return v.OwnerId
 }
 
 // GetWidgets returns getDashboardByIdDashboardsDashboardQueriesByIdDashboard.Widgets, and is useful for accessing the field via an interface.
@@ -3065,12 +3119,11 @@ func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboard) GetLayout() []
 
 // getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory includes the requested fields of the GraphQL type DashboardCategory.
 type getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory struct {
-	Id        string                                                                `json:"id"`
-	Name      string                                                                `json:"name"`
-	Type      string                                                                `json:"type"`
-	Owner     *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategoryOwner `json:"owner"`
-	CreatedAt time.Time                                                             `json:"createdAt"`
-	UpdatedAt time.Time                                                             `json:"updatedAt"`
+	Id        string    `json:"id"`
+	Name      string    `json:"name"`
+	Type      string    `json:"type"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // GetId returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory.Id, and is useful for accessing the field via an interface.
@@ -3086,11 +3139,6 @@ func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory) GetTyp
 	return v.Type
 }
 
-// GetOwner returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory.Owner, and is useful for accessing the field via an interface.
-func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory) GetOwner() *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategoryOwner {
-	return v.Owner
-}
-
 // GetCreatedAt returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory.CreatedAt, and is useful for accessing the field via an interface.
 func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory) GetCreatedAt() time.Time {
 	return v.CreatedAt
@@ -3099,22 +3147,6 @@ func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory) GetCre
 // GetUpdatedAt returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory) GetUpdatedAt() time.Time {
 	return v.UpdatedAt
-}
-
-// getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategoryOwner includes the requested fields of the GraphQL type CategoryOwner.
-type getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategoryOwner struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
-}
-
-// GetId returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategoryOwner.Id, and is useful for accessing the field via an interface.
-func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategoryOwner) GetId() string {
-	return v.Id
-}
-
-// GetName returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategoryOwner.Name, and is useful for accessing the field via an interface.
-func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategoryOwner) GetName() string {
-	return v.Name
 }
 
 // getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout includes the requested fields of the GraphQL type Layout.
@@ -3143,20 +3175,6 @@ func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout) GetHeigh
 // GetWidth returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout.Width, and is useful for accessing the field via an interface.
 func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout) GetWidth() int {
 	return v.Width
-}
-
-// getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner includes the requested fields of the GraphQL type DashboardOwner.
-type getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
-}
-
-// GetId returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner.Id, and is useful for accessing the field via an interface.
-func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner) GetId() string { return v.Id }
-
-// GetName returns getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner.Name, and is useful for accessing the field via an interface.
-func (v *getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner) GetName() string {
-	return v.Name
 }
 
 // getDashboardByIdDashboardsDashboardQueriesByIdDashboardWidgetsWidget includes the requested fields of the GraphQL type Widget.
@@ -10123,7 +10141,7 @@ func (v *updateDashboardUpdateDashboardUpdateDashboardResponse) GetDashboard() *
 type updateDashboardUpdateDashboardUpdateDashboardResponseDashboard struct {
 	Id        string                                                                        `json:"id"`
 	Version   *int                                                                          `json:"version"`
-	Owner     *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner          `json:"owner"`
+	OwnerId   *string                                                                       `json:"ownerId"`
 	Widgets   []updateDashboardUpdateDashboardUpdateDashboardResponseDashboardWidgetsWidget `json:"widgets"`
 	Layout    []updateDashboardUpdateDashboardUpdateDashboardResponseDashboardLayout        `json:"layout"`
 	CreatedAt time.Time                                                                     `json:"createdAt"`
@@ -10138,9 +10156,9 @@ func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard) GetVers
 	return v.Version
 }
 
-// GetOwner returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboard.Owner, and is useful for accessing the field via an interface.
-func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard) GetOwner() *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner {
-	return v.Owner
+// GetOwnerId returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboard.OwnerId, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard) GetOwnerId() *string {
+	return v.OwnerId
 }
 
 // GetWidgets returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboard.Widgets, and is useful for accessing the field via an interface.
@@ -10191,22 +10209,6 @@ func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardLayout) G
 // GetHeight returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboardLayout.Height, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardLayout) GetHeight() int {
 	return v.Height
-}
-
-// updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner includes the requested fields of the GraphQL type DashboardOwner.
-type updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
-}
-
-// GetId returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner.Id, and is useful for accessing the field via an interface.
-func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner) GetId() string {
-	return v.Id
-}
-
-// GetName returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner.Name, and is useful for accessing the field via an interface.
-func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardOwner) GetName() string {
-	return v.Name
 }
 
 // updateDashboardUpdateDashboardUpdateDashboardResponseDashboardWidgetsWidget includes the requested fields of the GraphQL type Widget.
@@ -10486,7 +10488,7 @@ type updateWebsiteMutationResponse struct {
 // GetDem returns updateWebsiteMutationResponse.Dem, and is useful for accessing the field via an interface.
 func (v *updateWebsiteMutationResponse) GetDem() updateWebsiteMutationDemDemMutations { return v.Dem }
 
-// The query or mutation executed by createAlertDefinitionMutation.
+// The mutation executed by createAlertDefinitionMutation.
 const createAlertDefinitionMutation_Operation = `
 mutation createAlertDefinitionMutation ($definition: AlertDefinitionInput!) {
 	alertMutations {
@@ -10521,7 +10523,7 @@ func createAlertDefinitionMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	definition AlertDefinitionInput,
-) (*createAlertDefinitionMutationResponse, error) {
+) (data_ *createAlertDefinitionMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "createAlertDefinitionMutation",
 		Query:  createAlertDefinitionMutation_Operation,
@@ -10529,10 +10531,9 @@ func createAlertDefinitionMutation(
 			Definition: definition,
 		},
 	}
-	var err_ error
 
-	var data_ createAlertDefinitionMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &createAlertDefinitionMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10540,10 +10541,10 @@ func createAlertDefinitionMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by createDashboard.
+// The mutation executed by createDashboard.
 const createDashboard_Operation = `
 mutation createDashboard ($input: CreateDashboardInput!) {
 	createDashboard(input: $input) {
@@ -10562,17 +10563,10 @@ mutation createDashboard ($input: CreateDashboardInput!) {
 				id
 				name
 				type
-				owner {
-					id
-					name
-				}
 				createdAt
 				updatedAt
 			}
-			owner {
-				id
-				name
-			}
+			ownerId
 			widgets {
 				id
 				type
@@ -10594,7 +10588,7 @@ func createDashboard(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input CreateDashboardInput,
-) (*createDashboardResponse, error) {
+) (data_ *createDashboardResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "createDashboard",
 		Query:  createDashboard_Operation,
@@ -10602,10 +10596,9 @@ func createDashboard(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ createDashboardResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &createDashboardResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10613,10 +10606,10 @@ func createDashboard(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by createLogFilter.
+// The mutation executed by createLogFilter.
 const createLogFilter_Operation = `
 mutation createLogFilter ($input: CreateExclusionFilterInput!) {
 	createExclusionFilter(input: $input) {
@@ -10644,7 +10637,7 @@ func createLogFilter(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input CreateExclusionFilterInput,
-) (*createLogFilterResponse, error) {
+) (data_ *createLogFilterResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "createLogFilter",
 		Query:  createLogFilter_Operation,
@@ -10652,10 +10645,9 @@ func createLogFilter(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ createLogFilterResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &createLogFilterResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10663,10 +10655,10 @@ func createLogFilter(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by createNotification.
+// The mutation executed by createNotification.
 const createNotification_Operation = `
 mutation createNotification ($configuration: createNotificationServiceConfigurationInput!) {
 	createNotificationServiceConfiguration(configuration: $configuration) {
@@ -10690,7 +10682,7 @@ func createNotification(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	configuration CreateNotificationServiceConfigurationInput,
-) (*createNotificationResponse, error) {
+) (data_ *createNotificationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "createNotification",
 		Query:  createNotification_Operation,
@@ -10698,10 +10690,9 @@ func createNotification(
 			Configuration: configuration,
 		},
 	}
-	var err_ error
 
-	var data_ createNotificationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &createNotificationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10709,10 +10700,10 @@ func createNotification(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by createTokenMutation.
+// The mutation executed by createTokenMutation.
 const createTokenMutation_Operation = `
 mutation createTokenMutation ($input: CreateTokenInput!) {
 	createToken(input: $input) {
@@ -10735,7 +10726,7 @@ func createTokenMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input CreateTokenInput,
-) (*createTokenMutationResponse, error) {
+) (data_ *createTokenMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "createTokenMutation",
 		Query:  createTokenMutation_Operation,
@@ -10743,10 +10734,9 @@ func createTokenMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ createTokenMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &createTokenMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10754,10 +10744,10 @@ func createTokenMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by createUriMutation.
+// The mutation executed by createUriMutation.
 const createUriMutation_Operation = `
 mutation createUriMutation ($input: CreateUriInput!) {
 	dem {
@@ -10774,7 +10764,7 @@ func createUriMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input CreateUriInput,
-) (*createUriMutationResponse, error) {
+) (data_ *createUriMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "createUriMutation",
 		Query:  createUriMutation_Operation,
@@ -10782,10 +10772,9 @@ func createUriMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ createUriMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &createUriMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10793,10 +10782,10 @@ func createUriMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by createWebsiteMutation.
+// The mutation executed by createWebsiteMutation.
 const createWebsiteMutation_Operation = `
 mutation createWebsiteMutation ($input: CreateWebsiteInput!) {
 	dem {
@@ -10811,7 +10800,7 @@ func createWebsiteMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input CreateWebsiteInput,
-) (*createWebsiteMutationResponse, error) {
+) (data_ *createWebsiteMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "createWebsiteMutation",
 		Query:  createWebsiteMutation_Operation,
@@ -10819,10 +10808,9 @@ func createWebsiteMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ createWebsiteMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &createWebsiteMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10830,10 +10818,10 @@ func createWebsiteMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by deleteAlertDefinitionMutation.
+// The mutation executed by deleteAlertDefinitionMutation.
 const deleteAlertDefinitionMutation_Operation = `
 mutation deleteAlertDefinitionMutation ($deleteAlertDefinitionId: ID!) {
 	alertMutations {
@@ -10846,7 +10834,7 @@ func deleteAlertDefinitionMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	deleteAlertDefinitionId string,
-) (*deleteAlertDefinitionMutationResponse, error) {
+) (data_ *deleteAlertDefinitionMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "deleteAlertDefinitionMutation",
 		Query:  deleteAlertDefinitionMutation_Operation,
@@ -10854,10 +10842,9 @@ func deleteAlertDefinitionMutation(
 			DeleteAlertDefinitionId: deleteAlertDefinitionId,
 		},
 	}
-	var err_ error
 
-	var data_ deleteAlertDefinitionMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &deleteAlertDefinitionMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10865,10 +10852,10 @@ func deleteAlertDefinitionMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by deleteDashboard.
+// The mutation executed by deleteDashboard.
 const deleteDashboard_Operation = `
 mutation deleteDashboard ($input: DeleteDashboardInput!) {
 	deleteDashboard(input: $input) {
@@ -10883,7 +10870,7 @@ func deleteDashboard(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input DeleteDashboardInput,
-) (*deleteDashboardResponse, error) {
+) (data_ *deleteDashboardResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "deleteDashboard",
 		Query:  deleteDashboard_Operation,
@@ -10891,10 +10878,9 @@ func deleteDashboard(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ deleteDashboardResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &deleteDashboardResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10902,10 +10888,10 @@ func deleteDashboard(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by deleteLogFilter.
+// The mutation executed by deleteLogFilter.
 const deleteLogFilter_Operation = `
 mutation deleteLogFilter ($input: DeleteExclusionFilterInput!) {
 	deleteExclusionFilter(input: $input) {
@@ -10922,7 +10908,7 @@ func deleteLogFilter(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input DeleteExclusionFilterInput,
-) (*deleteLogFilterResponse, error) {
+) (data_ *deleteLogFilterResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "deleteLogFilter",
 		Query:  deleteLogFilter_Operation,
@@ -10930,10 +10916,9 @@ func deleteLogFilter(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ deleteLogFilterResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &deleteLogFilterResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10941,10 +10926,10 @@ func deleteLogFilter(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by deleteNotification.
+// The mutation executed by deleteNotification.
 const deleteNotification_Operation = `
 mutation deleteNotification ($input: DeleteNotificationServiceConfigurationInput!) {
 	deleteNotificationServiceConfiguration(input: $input) {
@@ -10959,7 +10944,7 @@ func deleteNotification(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input DeleteNotificationServiceConfigurationInput,
-) (*deleteNotificationResponse, error) {
+) (data_ *deleteNotificationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "deleteNotification",
 		Query:  deleteNotification_Operation,
@@ -10967,10 +10952,9 @@ func deleteNotification(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ deleteNotificationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &deleteNotificationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -10978,10 +10962,10 @@ func deleteNotification(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by deleteTokenMutation.
+// The mutation executed by deleteTokenMutation.
 const deleteTokenMutation_Operation = `
 mutation deleteTokenMutation ($input: DeleteTokenInput!) {
 	deleteToken(input: $input) {
@@ -10996,7 +10980,7 @@ func deleteTokenMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input DeleteTokenInput,
-) (*deleteTokenMutationResponse, error) {
+) (data_ *deleteTokenMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "deleteTokenMutation",
 		Query:  deleteTokenMutation_Operation,
@@ -11004,10 +10988,9 @@ func deleteTokenMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ deleteTokenMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &deleteTokenMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11015,10 +10998,10 @@ func deleteTokenMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by deleteUriMutation.
+// The mutation executed by deleteUriMutation.
 const deleteUriMutation_Operation = `
 mutation deleteUriMutation ($input: DeleteUriInput!) {
 	dem {
@@ -11035,7 +11018,7 @@ func deleteUriMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input DeleteUriInput,
-) (*deleteUriMutationResponse, error) {
+) (data_ *deleteUriMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "deleteUriMutation",
 		Query:  deleteUriMutation_Operation,
@@ -11043,10 +11026,9 @@ func deleteUriMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ deleteUriMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &deleteUriMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11054,10 +11036,10 @@ func deleteUriMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by deleteWebsiteMutation.
+// The mutation executed by deleteWebsiteMutation.
 const deleteWebsiteMutation_Operation = `
 mutation deleteWebsiteMutation ($input: DeleteWebsiteInput!) {
 	dem {
@@ -11074,7 +11056,7 @@ func deleteWebsiteMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input DeleteWebsiteInput,
-) (*deleteWebsiteMutationResponse, error) {
+) (data_ *deleteWebsiteMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "deleteWebsiteMutation",
 		Query:  deleteWebsiteMutation_Operation,
@@ -11082,10 +11064,9 @@ func deleteWebsiteMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ deleteWebsiteMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &deleteWebsiteMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11093,10 +11074,10 @@ func deleteWebsiteMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by getAlertDefinitionById.
+// The query executed by getAlertDefinitionById.
 const getAlertDefinitionById_Operation = `
 query getAlertDefinitionById ($id: ID!) {
 	alertQueries {
@@ -11184,7 +11165,7 @@ func getAlertDefinitionById(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	id string,
-) (*getAlertDefinitionByIdResponse, error) {
+) (data_ *getAlertDefinitionByIdResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "getAlertDefinitionById",
 		Query:  getAlertDefinitionById_Operation,
@@ -11192,10 +11173,9 @@ func getAlertDefinitionById(
 			Id: id,
 		},
 	}
-	var err_ error
 
-	var data_ getAlertDefinitionByIdResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &getAlertDefinitionByIdResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11203,10 +11183,10 @@ func getAlertDefinitionById(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by getApiTokenById.
+// The query executed by getApiTokenById.
 const getApiTokenById_Operation = `
 query getApiTokenById ($id: String!) {
 	user {
@@ -11239,7 +11219,7 @@ func getApiTokenById(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	id string,
-) (*getApiTokenByIdResponse, error) {
+) (data_ *getApiTokenByIdResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "getApiTokenById",
 		Query:  getApiTokenById_Operation,
@@ -11247,10 +11227,9 @@ func getApiTokenById(
 			Id: id,
 		},
 	}
-	var err_ error
 
-	var data_ getApiTokenByIdResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &getApiTokenByIdResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11258,10 +11237,10 @@ func getApiTokenById(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by getDashboardById.
+// The query executed by getDashboardById.
 const getDashboardById_Operation = `
 query getDashboardById ($id: ID!) {
 	dashboards {
@@ -11276,17 +11255,10 @@ query getDashboardById ($id: ID!) {
 				id
 				name
 				type
-				owner {
-					id
-					name
-				}
 				createdAt
 				updatedAt
 			}
-			owner {
-				id
-				name
-			}
+			ownerId
 			widgets {
 				id
 				type
@@ -11308,7 +11280,7 @@ func getDashboardById(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	id string,
-) (*getDashboardByIdResponse, error) {
+) (data_ *getDashboardByIdResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "getDashboardById",
 		Query:  getDashboardById_Operation,
@@ -11316,10 +11288,9 @@ func getDashboardById(
 			Id: id,
 		},
 	}
-	var err_ error
 
-	var data_ getDashboardByIdResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &getDashboardByIdResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11327,10 +11298,10 @@ func getDashboardById(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by getLogFilterById.
+// The query executed by getLogFilterById.
 const getLogFilterById_Operation = `
 query getLogFilterById ($input: GetExclusionFilterInput!) {
 	getExclusionFilter(input: $input) {
@@ -11350,7 +11321,7 @@ func getLogFilterById(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input GetExclusionFilterInput,
-) (*getLogFilterByIdResponse, error) {
+) (data_ *getLogFilterByIdResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "getLogFilterById",
 		Query:  getLogFilterById_Operation,
@@ -11358,10 +11329,9 @@ func getLogFilterById(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ getLogFilterByIdResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &getLogFilterByIdResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11369,10 +11339,10 @@ func getLogFilterById(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by getNotification.
+// The query executed by getNotification.
 const getNotification_Operation = `
 query getNotification ($configurationId: String!, $configurationType: String!) {
 	user {
@@ -11396,7 +11366,7 @@ func getNotification(
 	client_ graphql.Client,
 	configurationId string,
 	configurationType string,
-) (*getNotificationResponse, error) {
+) (data_ *getNotificationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "getNotification",
 		Query:  getNotification_Operation,
@@ -11405,10 +11375,9 @@ func getNotification(
 			ConfigurationType: configurationType,
 		},
 	}
-	var err_ error
 
-	var data_ getNotificationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &getNotificationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11416,10 +11385,10 @@ func getNotification(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by getUriById.
+// The query executed by getUriById.
 const getUriById_Operation = `
 query getUriById ($id: ID!) {
 	entities {
@@ -11477,7 +11446,7 @@ func getUriById(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	id string,
-) (*getUriByIdResponse, error) {
+) (data_ *getUriByIdResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "getUriById",
 		Query:  getUriById_Operation,
@@ -11485,10 +11454,9 @@ func getUriById(
 			Id: id,
 		},
 	}
-	var err_ error
 
-	var data_ getUriByIdResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &getUriByIdResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11496,10 +11464,10 @@ func getUriById(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by getWebsiteById.
+// The query executed by getWebsiteById.
 const getWebsiteById_Operation = `
 query getWebsiteById ($id: ID!) {
 	entities {
@@ -11555,7 +11523,7 @@ func getWebsiteById(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	id string,
-) (*getWebsiteByIdResponse, error) {
+) (data_ *getWebsiteByIdResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "getWebsiteById",
 		Query:  getWebsiteById_Operation,
@@ -11563,10 +11531,9 @@ func getWebsiteById(
 			Id: id,
 		},
 	}
-	var err_ error
 
-	var data_ getWebsiteByIdResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &getWebsiteByIdResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11574,10 +11541,10 @@ func getWebsiteById(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by updateAlertDefinitionMutation.
+// The mutation executed by updateAlertDefinitionMutation.
 const updateAlertDefinitionMutation_Operation = `
 mutation updateAlertDefinitionMutation ($definition: AlertDefinitionInput!, $updateAlertDefinitionId: ID!) {
 	alertMutations {
@@ -11630,7 +11597,7 @@ func updateAlertDefinitionMutation(
 	client_ graphql.Client,
 	definition AlertDefinitionInput,
 	updateAlertDefinitionId string,
-) (*updateAlertDefinitionMutationResponse, error) {
+) (data_ *updateAlertDefinitionMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "updateAlertDefinitionMutation",
 		Query:  updateAlertDefinitionMutation_Operation,
@@ -11639,10 +11606,9 @@ func updateAlertDefinitionMutation(
 			UpdateAlertDefinitionId: updateAlertDefinitionId,
 		},
 	}
-	var err_ error
 
-	var data_ updateAlertDefinitionMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &updateAlertDefinitionMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11650,10 +11616,10 @@ func updateAlertDefinitionMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by updateDashboard.
+// The mutation executed by updateDashboard.
 const updateDashboard_Operation = `
 mutation updateDashboard ($input: UpdateDashboardInput!) {
 	updateDashboard(input: $input) {
@@ -11663,10 +11629,7 @@ mutation updateDashboard ($input: UpdateDashboardInput!) {
 		dashboard {
 			id
 			version
-			owner {
-				id
-				name
-			}
+			ownerId
 			widgets {
 				id
 				type
@@ -11689,7 +11652,7 @@ func updateDashboard(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input UpdateDashboardInput,
-) (*updateDashboardResponse, error) {
+) (data_ *updateDashboardResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "updateDashboard",
 		Query:  updateDashboard_Operation,
@@ -11697,10 +11660,9 @@ func updateDashboard(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ updateDashboardResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &updateDashboardResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11708,10 +11670,10 @@ func updateDashboard(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by updateLogFilter.
+// The mutation executed by updateLogFilter.
 const updateLogFilter_Operation = `
 mutation updateLogFilter ($input: UpdateExclusionFilterInput!) {
 	updateExclusionFilter(input: $input) {
@@ -11728,7 +11690,7 @@ func updateLogFilter(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input UpdateExclusionFilterInput,
-) (*updateLogFilterResponse, error) {
+) (data_ *updateLogFilterResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "updateLogFilter",
 		Query:  updateLogFilter_Operation,
@@ -11736,10 +11698,9 @@ func updateLogFilter(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ updateLogFilterResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &updateLogFilterResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11747,10 +11708,10 @@ func updateLogFilter(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by updateNotification.
+// The mutation executed by updateNotification.
 const updateNotification_Operation = `
 mutation updateNotification ($configuration: UpdateNotificationServiceConfigurationInput!) {
 	updateNotificationServiceConfiguration(input: $configuration) {
@@ -11774,7 +11735,7 @@ func updateNotification(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	configuration UpdateNotificationServiceConfigurationInput,
-) (*updateNotificationResponse, error) {
+) (data_ *updateNotificationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "updateNotification",
 		Query:  updateNotification_Operation,
@@ -11782,10 +11743,9 @@ func updateNotification(
 			Configuration: configuration,
 		},
 	}
-	var err_ error
 
-	var data_ updateNotificationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &updateNotificationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11793,10 +11753,10 @@ func updateNotification(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by updateTokenMutation.
+// The mutation executed by updateTokenMutation.
 const updateTokenMutation_Operation = `
 mutation updateTokenMutation ($input: UpdateTokenInput!) {
 	updateToken(input: $input) {
@@ -11820,7 +11780,7 @@ func updateTokenMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input UpdateTokenInput,
-) (*updateTokenMutationResponse, error) {
+) (data_ *updateTokenMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "updateTokenMutation",
 		Query:  updateTokenMutation_Operation,
@@ -11828,10 +11788,9 @@ func updateTokenMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ updateTokenMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &updateTokenMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11839,10 +11798,10 @@ func updateTokenMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by updateUriMutation.
+// The mutation executed by updateUriMutation.
 const updateUriMutation_Operation = `
 mutation updateUriMutation ($input: UpdateUriInput!) {
 	dem {
@@ -11859,7 +11818,7 @@ func updateUriMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input UpdateUriInput,
-) (*updateUriMutationResponse, error) {
+) (data_ *updateUriMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "updateUriMutation",
 		Query:  updateUriMutation_Operation,
@@ -11867,10 +11826,9 @@ func updateUriMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ updateUriMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &updateUriMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11878,10 +11836,10 @@ func updateUriMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }
 
-// The query or mutation executed by updateWebsiteMutation.
+// The mutation executed by updateWebsiteMutation.
 const updateWebsiteMutation_Operation = `
 mutation updateWebsiteMutation ($input: UpdateWebsiteInput!) {
 	dem {
@@ -11898,7 +11856,7 @@ func updateWebsiteMutation(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	input UpdateWebsiteInput,
-) (*updateWebsiteMutationResponse, error) {
+) (data_ *updateWebsiteMutationResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "updateWebsiteMutation",
 		Query:  updateWebsiteMutation_Operation,
@@ -11906,10 +11864,9 @@ func updateWebsiteMutation(
 			Input: input,
 		},
 	}
-	var err_ error
 
-	var data_ updateWebsiteMutationResponse
-	resp_ := &graphql.Response{Data: &data_}
+	data_ = &updateWebsiteMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
 		ctx_,
@@ -11917,5 +11874,5 @@ func updateWebsiteMutation(
 		resp_,
 	)
 
-	return &data_, err_
+	return data_, err_
 }

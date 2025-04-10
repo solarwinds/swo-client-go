@@ -12447,11 +12447,6 @@ input CategoryFilter {
   ownerId: ID
 }
 
-type CategoryOwner {
-  id: ID!
-  name: String!
-}
-
 enum CategoryType {
   system
   custom
@@ -12828,6 +12823,7 @@ type CreateCategoryResponse {
 }
 
 input CreateDashboardInput {
+  version: Int
   name: String!
   description: String
   isPrivate: Boolean
@@ -12835,7 +12831,6 @@ input CreateDashboardInput {
   categoryId: ID
   widgets: [WidgetInput!]!
   layout: [LayoutInput!]!
-  version: Int
 }
 
 type CreateDashboardResponse {
@@ -13152,27 +13147,41 @@ input CustomHeaderInput {
 
 type Dashboard {
   id: ID!
-  name: String!
-  description: String
-  category: DashboardCategory
-  systemReference: ID
-  isPrivate: Boolean
-  mode: DashboardMode
-  widgets: [Widget!]!
-  layout: [Layout!]!
-  ownerId: ID @deprecated
-  owner: DashboardOwner
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  # Configuration version of the dashboard (`null` implies version 1)
   version: Int
+  # Name of the dashboard
+  name: String!
+  # Optional description of the dashboard
+  description: String
+  # Dashboard can be assigned to a category
+  category: DashboardCategory
+  # An identifier that serves as a key to retrieve the dashboard configuration from another source
+  systemReference: ID
+  # Private dashboards can only be viewed by the owner
+  isPrivate: Boolean
+  # What mode the dashboard are in can be `Standard` or `Analysis` mode.
+  mode: DashboardMode
+  # Configuration of widgets
+  widgets: [Widget!]!
+  # Layout of the widgets on the dashboard
+  layout: [Layout!]!
+  # ID of the owner
+  ownerId: ID
+  # Date/time of the dashboard creation
+  createdAt: DateTime!
+  # Date/time of the dashboard update
+  updatedAt: DateTime!
 }
+
 
 type DashboardCategory {
   id: ID!
   name: String!
+  # type of the category
   type: String!
-  owner: CategoryOwner
+  # Date/time of the category creation
   createdAt: DateTime!
+  # Date/time of the category update
   updatedAt: DateTime!
 }
 
@@ -13181,20 +13190,15 @@ type DashboardCategoryQueries {
 }
 
 input DashboardFilter {
-  ownerId: ID
   categoryId: ID
   isSystem: Boolean
   mode: DashboardMode
+  isOwnedByCurrentUser: Boolean
 }
 
 enum DashboardMode {
   Standard
   Analysis
-}
-
-type DashboardOwner {
-  id: ID!
-  name: String!
 }
 
 type DashboardQueries {
@@ -26619,15 +26623,27 @@ type SavedLogSearchResponse implements MutationResponseInterface {
 
 type SavedSearch {
   id: ID!
+  # Name of the search
   name: String!
+  # search query
   query: String!
+  # An identifier of the search object id
   objectId: String
+  # An identifier of the search group id
+  groupId: String
+  # An identifier of the search context
   context: SavedSearchContext!
+  # Private searchs can only be viewed by the owner
   isPrivate: Boolean!
-  owner: SavedSearchOwner!
+  # Id of the search owner
+  ownerId: ID!
+  # Date/time of the search creation
   lastSearchedAt: DateTime
+  # Date/time of the search creation
   createdAt: DateTime!
+  # Date/time of the search update
   updatedAt: DateTime!
+  # Whether this search is static or user provided
   static: Boolean!
 }
 
@@ -26651,16 +26667,12 @@ enum SavedSearchContext {
 }
 
 input SavedSearchFilter {
-  ownerId: ID
   context: SavedSearchContext
   objectId: String
+  groupId: String
   isPrivate: Boolean
   type: SavedSearchType
-}
-
-type SavedSearchOwner {
-  id: ID!
-  name: String!
+  isOwnedByCurrentUser: Boolean
 }
 
 type SavedSearchQueries {
@@ -26993,14 +27005,23 @@ type SearchCategoriesResult {
 
 type SearchDashboard {
   id: ID!
+  # Name of the dashboard
   name: String!
+  # Optional description of the dashboard
   description: String
+  # Dashboard can be assigned to a category
   category: DashboardCategory
+  # An identifier that serves as a key to retrieve the dashboard configuration from another source
   systemReference: ID
+  # Private dashboards can only be viewed by the owner
   isPrivate: Boolean
+  # What mode the dashboard are in can be `Standard` or `Analysis` mode.
   mode: DashboardMode
-  owner: DashboardOwner
+  # ID of the owner
+  ownerId: ID
+  # Date/time of the dashboard creation
   createdAt: DateTime!
+  # Date/time of the dashboard update
   updatedAt: DateTime!
 }
 
