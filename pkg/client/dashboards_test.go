@@ -64,11 +64,8 @@ func TestService_CreateDashboard(t *testing.T) {
 				Success: true,
 				Message: "",
 				Dashboard: &createDashboardCreateDashboardCreateDashboardResponseDashboard{
-					Id: id,
-					Owner: &createDashboardCreateDashboardCreateDashboardResponseDashboardOwner{
-						Id:   dashboardsMockData.fieldOwnerId,
-						Name: dashboardsMockData.fieldOwnerName,
-					},
+					Id:        id,
+					OwnerId:   &dashboardsMockData.fieldOwnerId,
 					CreatedAt: dashboardsMockData.fieldUpdatedAt,
 					UpdatedAt: dashboardsMockData.fieldUpdatedAt,
 					Version:   &dashboardsMockData.versionId,
@@ -83,11 +80,8 @@ func TestService_CreateDashboard(t *testing.T) {
 	}
 
 	want := &CreateDashboardResult{
-		Id: id,
-		Owner: &createDashboardCreateDashboardCreateDashboardResponseDashboardOwner{
-			Id:   dashboardsMockData.fieldOwnerId,
-			Name: dashboardsMockData.fieldOwnerName,
-		},
+		Id:        id,
+		OwnerId:   &dashboardsMockData.fieldOwnerId,
 		CreatedAt: dashboardsMockData.fieldUpdatedAt,
 		UpdatedAt: dashboardsMockData.fieldUpdatedAt,
 		Version:   &dashboardsMockData.versionId,
@@ -119,10 +113,7 @@ func TestService_ReadDashboard(t *testing.T) {
 					Category: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory{
 						Id: dashboardsMockData.fieldCategoryId,
 					},
-					Owner: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner{
-						Id:   dashboardsMockData.fieldOwnerId,
-						Name: dashboardsMockData.fieldOwnerName,
-					},
+					OwnerId: &dashboardsMockData.fieldOwnerId,
 					Layout: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout{
 						{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},
 					},
@@ -149,10 +140,7 @@ func TestService_ReadDashboard(t *testing.T) {
 		Category: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory{
 			Id: dashboardsMockData.fieldCategoryId,
 		},
-		Owner: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner{
-			Id:   dashboardsMockData.fieldOwnerId,
-			Name: dashboardsMockData.fieldOwnerName,
-		},
+		OwnerId: &dashboardsMockData.fieldOwnerId,
 		Layout: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout{
 			{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},
 		},
@@ -305,10 +293,7 @@ func TestDashboard_Marshal(t *testing.T) {
 		IsPrivate: &isPrivate,
 		CreatedAt: dashboardsMockData.fieldUpdatedAt,
 		UpdatedAt: dashboardsMockData.fieldUpdatedAt,
-		Owner: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardOwner{
-			Id:   dashboardsMockData.fieldOwnerId,
-			Name: dashboardsMockData.fieldOwnerName,
-		},
+		OwnerId:   &dashboardsMockData.fieldOwnerId,
 		Layout: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout{
 			{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},
 		},
@@ -324,10 +309,7 @@ func TestDashboard_Marshal(t *testing.T) {
 		"isPrivate": false,
 		"createdAt": "%s",
 		"updatedAt": "%s",
-		"owner": {
-			"id": "%s",
-			"name": "%s"
-		},
+		"ownerId": "%s",
 		"layout": [
 			{ "id": "123", "x": 0, "y": 0, "height": 2, "width": 2 }
 		],
@@ -339,8 +321,7 @@ func TestDashboard_Marshal(t *testing.T) {
 		dashboardsMockData.fieldName,
 		dashboardsMockData.fieldUpdatedAt.Format(time.RFC3339),
 		dashboardsMockData.fieldUpdatedAt.Format(time.RFC3339),
-		dashboardsMockData.fieldOwnerId,
-		dashboardsMockData.fieldOwnerName)
+		dashboardsMockData.fieldOwnerId)
 
 	testJSONMarshal(t, got, want)
 }

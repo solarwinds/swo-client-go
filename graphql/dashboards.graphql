@@ -15,17 +15,10 @@ mutation createDashboard($input: CreateDashboardInput!) {
         id
         name
         type
-        owner {
-          id
-          name
-        }
         createdAt
         updatedAt
       }
-      owner {
-        id
-        name
-      }
+      ownerId
       widgets {
         id
         type
@@ -55,17 +48,10 @@ query getDashboardById($id: ID!) {
         id
         name
         type
-        owner {
-          id
-          name
-        }
         createdAt
         updatedAt
       }
-      owner {
-        id
-        name
-      }
+      ownerId
       widgets {
         id
         type
@@ -90,10 +76,7 @@ mutation updateDashboard($input: UpdateDashboardInput!) {
     dashboard {
       id
       version
-      owner {
-        id
-        name
-      }
+      ownerId
       widgets {
         id
         type
