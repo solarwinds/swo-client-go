@@ -5,13 +5,16 @@ import "errors"
 type AlertOperatorType string
 
 const (
-	AlertBinaryOperatorType      AlertOperatorType = "binaryOperator"
-	AlertLogicalOperatorType     AlertOperatorType = "logicalOperator"
-	AlertUnaryOperatorType       AlertOperatorType = "unaryOperator"
-	AlertConstantValueType       AlertOperatorType = "constantValue"
-	AlertAggregationOperatorType AlertOperatorType = "aggregationOperator"
-	AlertMetricFieldType         AlertOperatorType = "metricField"
-	AlertQueryFieldType          AlertOperatorType = "queryField"
+	AlertAggregationOperatorType             AlertOperatorType = "aggregationOperator"
+	AlertBinaryOperatorType                  AlertOperatorType = "binaryOperator"
+	AlertConstantValueType                   AlertOperatorType = "constantValue"
+	AlertLogicalOperatorType                 AlertOperatorType = "logicalOperator"
+	AlertAttributeType                       AlertOperatorType = "attributeField"
+	AlertMetricFieldType                     AlertOperatorType = "metricField"
+	AlertQueryFieldType                      AlertOperatorType = "queryField"
+	AlertRelationshipOperatorType            AlertOperatorType = "relationshipOperator"
+	AlertRelationshipAggregationOperatorType AlertOperatorType = "relationshipAggregationOperator"
+	AlertScopeFieldType                      AlertOperatorType = "scopeField"
 )
 
 type AlertAggregationOperator string
@@ -34,6 +37,7 @@ const (
 	AlertOperatorLt AlertBinaryOperator = "<"
 	AlertOperatorGe AlertBinaryOperator = ">="
 	AlertOperatorLe AlertBinaryOperator = "<="
+	AlertOperatorIn AlertBinaryOperator = "IN"
 )
 
 type AlertLogicalOperator string
@@ -41,12 +45,6 @@ type AlertLogicalOperator string
 const (
 	AlertOperatorAnd AlertLogicalOperator = "AND"
 	AlertOperatorOr  AlertLogicalOperator = "OR"
-)
-
-type AlertUnaryOperator string
-
-const (
-	AlertOperatorNot AlertUnaryOperator = "!"
 )
 
 var (
@@ -66,13 +64,11 @@ var (
 			string(AlertOperatorLt),
 			string(AlertOperatorGe),
 			string(AlertOperatorLe),
+			string(AlertOperatorIn),
 		},
 		AlertLogicalOperatorType: {
 			string(AlertOperatorAnd),
 			string(AlertOperatorOr),
-		},
-		AlertUnaryOperatorType: {
-			string(AlertOperatorNot),
 		},
 	}
 
