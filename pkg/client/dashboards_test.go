@@ -104,20 +104,20 @@ func TestService_ReadDashboard(t *testing.T) {
 
 		sendGraphQLResponse(t, w, getDashboardByIdResponse{
 			Dashboards: &getDashboardByIdDashboardsDashboardQueries{
-				ById: &getDashboardByIdDashboardsDashboardQueriesByIdDashboard{
+				ByIdOrSystemReference: &getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboard{
 					Id:        gqlInput.Id,
 					Name:      dashboardsMockData.fieldName,
 					IsPrivate: Ptr(true),
 					UpdatedAt: dashboardsMockData.fieldUpdatedAt,
 					CreatedAt: dashboardsMockData.fieldUpdatedAt,
-					Category: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory{
+					Category: &getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardCategory{
 						Id: dashboardsMockData.fieldCategoryId,
 					},
 					OwnerId: &dashboardsMockData.fieldOwnerId,
-					Layout: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout{
+					Layout: []getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardLayout{
 						{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},
 					},
-					Widgets: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardWidgetsWidget{
+					Widgets: []getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardWidgetsWidget{
 						{Id: "123", Type: "Proportional"},
 					},
 				},
@@ -137,14 +137,14 @@ func TestService_ReadDashboard(t *testing.T) {
 		IsPrivate: Ptr(true),
 		UpdatedAt: dashboardsMockData.fieldUpdatedAt,
 		CreatedAt: dashboardsMockData.fieldUpdatedAt,
-		Category: &getDashboardByIdDashboardsDashboardQueriesByIdDashboardCategory{
+		Category: &getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardCategory{
 			Id: dashboardsMockData.fieldCategoryId,
 		},
 		OwnerId: &dashboardsMockData.fieldOwnerId,
-		Layout: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout{
+		Layout: []getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardLayout{
 			{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},
 		},
-		Widgets: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardWidgetsWidget{
+		Widgets: []getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardWidgetsWidget{
 			{Id: "123", Type: "Proportional", Properties: nil},
 		},
 	}
@@ -294,10 +294,10 @@ func TestDashboard_Marshal(t *testing.T) {
 		CreatedAt: dashboardsMockData.fieldUpdatedAt,
 		UpdatedAt: dashboardsMockData.fieldUpdatedAt,
 		OwnerId:   &dashboardsMockData.fieldOwnerId,
-		Layout: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout{
+		Layout: []getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardLayout{
 			{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},
 		},
-		Widgets: []getDashboardByIdDashboardsDashboardQueriesByIdDashboardWidgetsWidget{
+		Widgets: []getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardWidgetsWidget{
 			{Id: "123", Type: "Proportional", Properties: &props},
 		},
 	}

@@ -13202,7 +13202,7 @@ enum DashboardMode {
 }
 
 type DashboardQueries {
-  byId(id: ID!): Dashboard
+  byIdOrSystemReference(id: ID!): Dashboard
   search(inputs: SearchDashboardsInput!): SearchDashboardsResult!
   categories: DashboardCategoryQueries
   widgets: WidgetQueries
