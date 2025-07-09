@@ -37,13 +37,15 @@ mutation createDashboard($input: CreateDashboardInput!) {
 
 query getDashboardById($id: ID!) {
   dashboards {
-    byId(id: $id) {
+    byIdOrSystemReference(id: $id) {
       id
-      name
-      isPrivate
+      version
       systemReference
+      name
+      ownerId
       createdAt
       updatedAt
+      isPrivate
       category {
         id
         name
@@ -51,7 +53,6 @@ query getDashboardById($id: ID!) {
         createdAt
         updatedAt
       }
-      ownerId
       widgets {
         id
         type

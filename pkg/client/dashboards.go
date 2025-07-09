@@ -11,9 +11,9 @@ type CreateDashboardResult = createDashboardCreateDashboardCreateDashboardRespon
 type CreateDashboardLayout = createDashboardCreateDashboardCreateDashboardResponseDashboardLayout
 type CreateDashboardWidget = createDashboardCreateDashboardCreateDashboardResponseDashboardWidgetsWidget
 
-type ReadDashboardResult = getDashboardByIdDashboardsDashboardQueriesByIdDashboard
-type ReadDashboardLayout = getDashboardByIdDashboardsDashboardQueriesByIdDashboardLayout
-type ReadDashboardWidget = getDashboardByIdDashboardsDashboardQueriesByIdDashboardWidgetsWidget
+type ReadDashboardResult = getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboard
+type ReadDashboardLayout = getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardLayout
+type ReadDashboardWidget = getDashboardByIdDashboardsDashboardQueriesByIdOrSystemReferenceDashboardWidgetsWidget
 
 type UpdateDashboardResult = updateDashboardUpdateDashboardUpdateDashboardResponseDashboard
 type UpdateDashboardLayout = updateDashboardUpdateDashboardUpdateDashboardResponseDashboardLayout
@@ -67,7 +67,7 @@ func (service *DashboardsService) Read(ctx context.Context, id string) (*ReadDas
 		return nil, err
 	}
 
-	dashboard := resp.Dashboards.ById
+	dashboard := resp.Dashboards.ByIdOrSystemReference
 
 	log.Printf("read dashboard success. name: %s", dashboard.Id)
 
