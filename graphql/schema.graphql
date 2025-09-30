@@ -895,6 +895,11 @@ type AlertDefinition {
   triggerDelaySeconds: Int!
 
   """
+  Number of seconds after which the alert is reset if no metric data is received.
+  """
+  noDataResetSeconds: Int
+
+  """
   Alert definition actions (notifications) to be triggered in a case of a new active alert, or when active alert
   returns to normal.
   """
@@ -920,6 +925,11 @@ type AlertDefinition {
   Timestamp (in the ISO-8601 date and time format in UTC) indicating when the Alert definition was created.
   """
   createdAt: String!
+
+  """
+  Id of an alert template used to create this Alert definition.
+  """
+  templateId: String
 }
 
 type AlertDefinitionAutomaticResetEvent implements AlertManagementEvent {
@@ -1064,8 +1074,13 @@ input AlertDefinitionInput {
   triggerResetActions: Boolean
   """
   Number of seconds during which the condition must be continually met before an alert is triggered.
+  The value has to be divisible by 60.
   """
   triggerDelaySeconds: Int
+  """
+  Number of seconds after which the alert is reset if no metric data is received.
+  """
+  noDataResetSeconds: Int
   """
   Id of an alert template used to create this alert.
   """

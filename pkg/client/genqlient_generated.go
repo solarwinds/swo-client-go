@@ -230,7 +230,10 @@ type AlertDefinitionInput struct {
 	// It will be set to *false* if not specified.
 	TriggerResetActions *bool `json:"triggerResetActions"`
 	// Number of seconds during which the condition must be continually met before an alert is triggered.
+	// The value has to be divisible by 60.
 	TriggerDelaySeconds *int `json:"triggerDelaySeconds"`
+	// Number of seconds after which the alert is reset if no metric data is received.
+	NoDataResetSeconds *int `json:"noDataResetSeconds"`
 	// Id of an alert template used to create this alert.
 	TemplateId *string `json:"templateId"`
 }
@@ -261,6 +264,9 @@ func (v *AlertDefinitionInput) GetTriggerResetActions() *bool { return v.Trigger
 
 // GetTriggerDelaySeconds returns AlertDefinitionInput.TriggerDelaySeconds, and is useful for accessing the field via an interface.
 func (v *AlertDefinitionInput) GetTriggerDelaySeconds() *int { return v.TriggerDelaySeconds }
+
+// GetNoDataResetSeconds returns AlertDefinitionInput.NoDataResetSeconds, and is useful for accessing the field via an interface.
+func (v *AlertDefinitionInput) GetNoDataResetSeconds() *int { return v.NoDataResetSeconds }
 
 // GetTemplateId returns AlertDefinitionInput.TemplateId, and is useful for accessing the field via an interface.
 func (v *AlertDefinitionInput) GetTemplateId() *string { return v.TemplateId }
@@ -1516,6 +1522,10 @@ type createAlertDefinitionMutationAlertMutationsCreateAlertDefinition struct {
 	// Number of seconds during which the condition must be continually met before an alert is triggered.
 	// The value has to be divisible by 60.
 	TriggerDelaySeconds int `json:"triggerDelaySeconds"`
+	// Number of seconds after which the alert is reset if no metric data is received.
+	NoDataResetSeconds *int `json:"noDataResetSeconds"`
+	// Id of an alert template used to create this Alert definition.
+	TemplateId *string `json:"templateId"`
 	// Alert definition condition type.
 	ConditionType ConditionType `json:"conditionType"`
 	// Timestamp (in the ISO-8601 date and time format in UTC) indicating when the Alert definition condition was updated for the last time.
@@ -1575,6 +1585,16 @@ func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinition) GetTr
 // GetTriggerDelaySeconds returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinition.TriggerDelaySeconds, and is useful for accessing the field via an interface.
 func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinition) GetTriggerDelaySeconds() int {
 	return v.TriggerDelaySeconds
+}
+
+// GetNoDataResetSeconds returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinition.NoDataResetSeconds, and is useful for accessing the field via an interface.
+func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinition) GetNoDataResetSeconds() *int {
+	return v.NoDataResetSeconds
+}
+
+// GetTemplateId returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinition.TemplateId, and is useful for accessing the field via an interface.
+func (v *createAlertDefinitionMutationAlertMutationsCreateAlertDefinition) GetTemplateId() *string {
+	return v.TemplateId
 }
 
 // GetConditionType returns createAlertDefinitionMutationAlertMutationsCreateAlertDefinition.ConditionType, and is useful for accessing the field via an interface.
@@ -2419,6 +2439,10 @@ type getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAle
 	// Number of seconds during which the condition must be continually met before an alert is triggered.
 	// The value has to be divisible by 60.
 	TriggerDelaySeconds int `json:"triggerDelaySeconds"`
+	// Number of seconds after which the alert is reset if no metric data is received.
+	NoDataResetSeconds *int `json:"noDataResetSeconds"`
+	// Id of an alert template used to create this Alert definition.
+	TemplateId *string `json:"templateId"`
 	// Entity types targeted by the Alert definition.
 	TargetEntityTypes []string `json:"targetEntityTypes"`
 	// Information if notifications for the Alert definition are muted (suppressed).
@@ -2497,6 +2521,16 @@ func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResul
 // GetTriggerDelaySeconds returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition.TriggerDelaySeconds, and is useful for accessing the field via an interface.
 func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition) GetTriggerDelaySeconds() int {
 	return v.TriggerDelaySeconds
+}
+
+// GetNoDataResetSeconds returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition.NoDataResetSeconds, and is useful for accessing the field via an interface.
+func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition) GetNoDataResetSeconds() *int {
+	return v.NoDataResetSeconds
+}
+
+// GetTemplateId returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition.TemplateId, and is useful for accessing the field via an interface.
+func (v *getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition) GetTemplateId() *string {
+	return v.TemplateId
 }
 
 // GetTargetEntityTypes returns getAlertDefinitionByIdAlertQueriesAlertDefinitionsAlertDefinitionsResultAlertDefinitionsAlertDefinition.TargetEntityTypes, and is useful for accessing the field via an interface.
@@ -9857,6 +9891,10 @@ type updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition struct {
 	// Number of seconds during which the condition must be continually met before an alert is triggered.
 	// The value has to be divisible by 60.
 	TriggerDelaySeconds int `json:"triggerDelaySeconds"`
+	// Number of seconds after which the alert is reset if no metric data is received.
+	NoDataResetSeconds *int `json:"noDataResetSeconds"`
+	// Id of an alert template used to create this Alert definition.
+	TemplateId *string `json:"templateId"`
 	// Entity types targeted by the Alert definition.
 	TargetEntityTypes []string `json:"targetEntityTypes"`
 	// Information if notifications for the Alert definition are muted (suppressed).
@@ -9930,6 +9968,16 @@ func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetTr
 // GetTriggerDelaySeconds returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.TriggerDelaySeconds, and is useful for accessing the field via an interface.
 func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetTriggerDelaySeconds() int {
 	return v.TriggerDelaySeconds
+}
+
+// GetNoDataResetSeconds returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.NoDataResetSeconds, and is useful for accessing the field via an interface.
+func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetNoDataResetSeconds() *int {
+	return v.NoDataResetSeconds
+}
+
+// GetTemplateId returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.TemplateId, and is useful for accessing the field via an interface.
+func (v *updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition) GetTemplateId() *string {
+	return v.TemplateId
 }
 
 // GetTargetEntityTypes returns updateAlertDefinitionMutationAlertMutationsUpdateAlertDefinition.TargetEntityTypes, and is useful for accessing the field via an interface.
@@ -10530,6 +10578,8 @@ mutation createAlertDefinitionMutation ($definition: AlertDefinitionInput!) {
 			severity
 			triggerResetActions
 			triggerDelaySeconds
+			noDataResetSeconds
+			templateId
 			conditionType
 			conditionUpdatedAt
 		}
@@ -11164,6 +11214,8 @@ query getAlertDefinitionById ($id: ID!) {
 				triggered
 				triggeredTime
 				triggerDelaySeconds
+				noDataResetSeconds
+				templateId
 				targetEntityTypes
 				muteInfo {
 					muted
@@ -11599,6 +11651,8 @@ mutation updateAlertDefinitionMutation ($definition: AlertDefinitionInput!, $upd
 			triggered
 			triggeredTime
 			triggerDelaySeconds
+			noDataResetSeconds
+			templateId
 			targetEntityTypes
 			muteInfo {
 				muted

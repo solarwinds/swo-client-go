@@ -65,6 +65,8 @@ query getAlertDefinitionById($id: ID!) {
         triggered
         triggeredTime
         triggerDelaySeconds
+        noDataResetSeconds
+        templateId
         targetEntityTypes
         muteInfo {
           muted
@@ -101,6 +103,8 @@ mutation createAlertDefinitionMutation($definition: AlertDefinitionInput!) {
       severity
       triggerResetActions
       triggerDelaySeconds
+      noDataResetSeconds
+      templateId
       conditionType
       conditionUpdatedAt
     }
@@ -147,6 +151,8 @@ mutation updateAlertDefinitionMutation(
       triggered
       triggeredTime
       triggerDelaySeconds
+      noDataResetSeconds
+      templateId
       targetEntityTypes
       muteInfo {
         muted
