@@ -278,8 +278,10 @@ func TestUpdateAlert(t *testing.T) {
 			t.Errorf("Request input = %+v, want %+v", got, want)
 		}
 
-		sendGraphQLResponse(t, w, updateAlertDefinitionMutationAlertMutations{
-			UpdateAlertDefinition: mockUpdateAlertDefinitionResult(gqlInput.UpdateAlertDefinitionId, got.Name, *got.Description),
+		sendGraphQLResponse(t, w, updateAlertDefinitionMutationResponse{
+			AlertMutations: updateAlertDefinitionMutationAlertMutations{
+				UpdateAlertDefinition: mockUpdateAlertDefinitionResult(gqlInput.UpdateAlertDefinitionId, got.Name, *got.Description),
+			},
 		})
 	})
 

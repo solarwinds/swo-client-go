@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"fmt"
 	"log"
 )
 
@@ -34,45 +33,43 @@ func newAlertsService(c *Client) *AlertsService {
 	return &AlertsService{c}
 }
 
-// Creates a new alert with the given definition.
+// Create creates a new alert with the given definition.
 func (as *AlertsService) Create(ctx context.Context, input AlertDefinitionInput) (*CreateAlertDefinitionResult, error) {
 	log.Printf("Create alert request. Name: %s", input.Name)
 
 	resp, err := createAlertDefinitionMutation(ctx, as.client.gql, input)
-
 	if err != nil {
 		return nil, err
 	}
 
 	alertDef := resp.AlertMutations.CreateAlertDefinition
-	log.Printf("Create alert success. Id: %s", alertDef.Id)
+	if alertDef == nil {
+		return nil, ErrUnknown
+	}
 
+	log.Printf("Create alert success. Id: %s", alertDef.Id)
 	return alertDef, nil
 }
 
-// Returns the alert identified by the given Id.
+// Read returns the alert identified by the given Id.
 func (as *AlertsService) Read(ctx context.Context, id string) (*ReadAlertDefinitionResult, error) {
 	log.Printf("Read alert request. Id: %s", id)
 
 	resp, err := getAlertDefinitionById(ctx, as.client.gql, id)
-
 	if err != nil {
 		return nil, err
 	}
 
 	alertDefs := resp.AlertQueries.AlertDefinitions.AlertDefinitions
-
 	if len(alertDefs) == 0 {
-		return nil, fmt.Errorf("alert not found. id: %s", id)
+		return nil, ErrNotFound
 	}
 
-	alertDef := resp.AlertQueries.AlertDefinitions.AlertDefinitions[0]
 	log.Printf("Read alert success. Id: %s", id)
-
-	return &alertDef, nil
+	return &alertDefs[0], nil
 }
 
-// Updates the alert with the given id.
+// Update updates the alert with the given id.
 func (as *AlertsService) Update(ctx context.Context, id string, input AlertDefinitionInput) (*UpdateAlertDefinitionResult, error) {
 	log.Printf("Update alert request. Id: %s", id)
 
@@ -81,22 +78,31 @@ func (as *AlertsService) Update(ctx context.Context, id string, input AlertDefin
 		return nil, err
 	}
 
-	log.Printf("Update alert success. Id: %s", id)
+	result := resp.AlertMutations.UpdateAlertDefinition
+	if result == nil {
+		log.Printf("Alert not found. Id: %s", id)
+		return nil, ErrNotFound
+	}
 
-	return resp.AlertMutations.UpdateAlertDefinition, nil
+	log.Printf("Update alert success. Id: %s", id)
+	return result, nil
 }
 
-// Deletes the alert with the given id.
+// Delete deletes the alert with the given id.
 func (as *AlertsService) Delete(ctx context.Context, id string) error {
 	log.Printf("Delete alert request. Id: %s", id)
 
-	_, err := deleteAlertDefinitionMutation(ctx, as.client.gql, id)
-
+	r, err := deleteAlertDefinitionMutation(ctx, as.client.gql, id)
 	if err != nil {
 		return err
 	}
 
-	log.Printf("Delete alert success. Id: %s", id)
+	idPtr := r.AlertMutations.DeleteAlertDefinition
+	if idPtr == nil || *idPtr != id {
+		log.Printf("Alert not found. Id: %s", id)
+		return ErrNotFound
+	}
 
+	log.Printf("Delete alert success. Id: %s", id)
 	return nil
 }
