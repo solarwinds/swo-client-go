@@ -93,10 +93,14 @@ type AlertConditionNodeEntityFilterInput struct {
 	Types []string `json:"types"`
 	// Filter by Entity IDs
 	Ids []string `json:"ids"`
+	// Filter by Entity Group IDs
+	EntityGroupIds []string `json:"entityGroupIds"`
 	// Contextual (smart) search query
 	Query *string `json:"query"`
 	// Filter by Entity fields - multiple fields are joined by `AND`
 	Fields []AlertConditionMatchFieldRuleInput `json:"fields"`
+	// No data reset seconds for the attribute conditions
+	TimeRangeSeconds *int `json:"timeRangeSeconds"`
 }
 
 // GetTypes returns AlertConditionNodeEntityFilterInput.Types, and is useful for accessing the field via an interface.
@@ -105,6 +109,9 @@ func (v *AlertConditionNodeEntityFilterInput) GetTypes() []string { return v.Typ
 // GetIds returns AlertConditionNodeEntityFilterInput.Ids, and is useful for accessing the field via an interface.
 func (v *AlertConditionNodeEntityFilterInput) GetIds() []string { return v.Ids }
 
+// GetEntityGroupIds returns AlertConditionNodeEntityFilterInput.EntityGroupIds, and is useful for accessing the field via an interface.
+func (v *AlertConditionNodeEntityFilterInput) GetEntityGroupIds() []string { return v.EntityGroupIds }
+
 // GetQuery returns AlertConditionNodeEntityFilterInput.Query, and is useful for accessing the field via an interface.
 func (v *AlertConditionNodeEntityFilterInput) GetQuery() *string { return v.Query }
 
@@ -112,6 +119,9 @@ func (v *AlertConditionNodeEntityFilterInput) GetQuery() *string { return v.Quer
 func (v *AlertConditionNodeEntityFilterInput) GetFields() []AlertConditionMatchFieldRuleInput {
 	return v.Fields
 }
+
+// GetTimeRangeSeconds returns AlertConditionNodeEntityFilterInput.TimeRangeSeconds, and is useful for accessing the field via an interface.
+func (v *AlertConditionNodeEntityFilterInput) GetTimeRangeSeconds() *int { return v.TimeRangeSeconds }
 
 // See [docs](https://github.com/solarwindscloud/nighthawk-alerting/blob/develop/docs/how-to-build-condition.md) on how to work with condition nodes.
 type AlertConditionNodeInput struct {

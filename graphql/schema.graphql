@@ -676,6 +676,11 @@ input AlertConditionNodeEntityFilterInput {
   ids: [ID!]
 
   """
+  Filter by Entity Group IDs
+  """
+  entityGroupIds: [ID!]
+
+  """
   Contextual (smart) search query
   """
   query: String
@@ -684,6 +689,11 @@ input AlertConditionNodeEntityFilterInput {
   Filter by Entity fields - multiple fields are joined by `AND`
   """
   fields: [AlertConditionMatchFieldRuleInput!]
+
+  """
+  No data reset seconds for the attribute conditions
+  """
+  timeRangeSeconds: Int
 }
 
 """
