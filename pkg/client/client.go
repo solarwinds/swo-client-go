@@ -24,6 +24,8 @@ const (
 )
 
 var (
+	ErrUnknown     = errors.New("unknown error")
+	ErrNotFound    = errors.New("not found")
 	ErrEntityIdNil = errors.New("entity id is nil")
 )
 
