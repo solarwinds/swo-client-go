@@ -948,7 +948,6 @@ type UpdateDashboardInput struct {
 	Id          string        `json:"id"`
 	Name        string        `json:"name"`
 	Description *string       `json:"description"`
-	IsPrivate   *bool         `json:"isPrivate"`
 	CategoryId  *string       `json:"categoryId"`
 	Widgets     []WidgetInput `json:"widgets"`
 	Layout      []LayoutInput `json:"layout"`
@@ -963,9 +962,6 @@ func (v *UpdateDashboardInput) GetName() string { return v.Name }
 
 // GetDescription returns UpdateDashboardInput.Description, and is useful for accessing the field via an interface.
 func (v *UpdateDashboardInput) GetDescription() *string { return v.Description }
-
-// GetIsPrivate returns UpdateDashboardInput.IsPrivate, and is useful for accessing the field via an interface.
-func (v *UpdateDashboardInput) GetIsPrivate() *bool { return v.IsPrivate }
 
 // GetCategoryId returns UpdateDashboardInput.CategoryId, and is useful for accessing the field via an interface.
 func (v *UpdateDashboardInput) GetCategoryId() *string { return v.CategoryId }
