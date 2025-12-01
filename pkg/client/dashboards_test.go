@@ -162,7 +162,6 @@ func TestService_UpdateDashboard(t *testing.T) {
 	input := UpdateDashboardInput{
 		Id:         "123",
 		Name:       dashboardsMockData.fieldName,
-		IsPrivate:  Ptr(true),
 		CategoryId: &dashboardsMockData.fieldCategoryId,
 		Layout: []LayoutInput{
 			{Id: "123", X: 0, Y: 0, Height: 2, Width: 2},

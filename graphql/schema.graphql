@@ -30796,7 +30796,6 @@ input UpdateDashboardInput {
   id: ID!
   name: String!
   description: String
-  isPrivate: Boolean
   categoryId: ID
   widgets: [WidgetInput!]!
   layout: [LayoutInput!]!
