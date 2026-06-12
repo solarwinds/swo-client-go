@@ -32,6 +32,7 @@ var (
 // ServiceAccessor defines an interface for talking to via domain-specific service constructs
 type ServiceAccessor interface {
 	AlertsService() AlertsCommunicator
+	CircleCIIntegrationService() CircleCIIntegrationCommunicator
 	DashboardsService() DashboardsCommunicator
 	LogFilterService() LogFilterCommunicator
 	NotificationsService() NotificationsCommunicator
@@ -52,13 +53,14 @@ type Client struct {
 	gql graphql.Client
 
 	// Service accessors
-	alertsService        AlertsCommunicator
-	apiTokenService      ApiTokenCommunicator
-	dashboardsService    DashboardsCommunicator
-	logFilterService     LogFilterCommunicator
-	notificationsService NotificationsCommunicator
-	uriService           UriCommunicator
-	websiteService       WebsiteCommunicator
+	alertsService              AlertsCommunicator
+	apiTokenService            ApiTokenCommunicator
+	circleCIIntegrationService CircleCIIntegrationCommunicator
+	dashboardsService          DashboardsCommunicator
+	logFilterService           LogFilterCommunicator
+	notificationsService       NotificationsCommunicator
+	uriService                 UriCommunicator
+	websiteService             WebsiteCommunicator
 }
 
 // Each service derives from the service type.
@@ -151,6 +153,7 @@ func (c *gqlClient) Do(req *http.Request) (*http.Response, error) {
 func initServices(c *Client) error {
 	c.alertsService = newAlertsService(c)
 	c.apiTokenService = newApiTokenService(c)
+	c.circleCIIntegrationService = newCircleCIIntegrationService(c)
 	c.dashboardsService = newDashboardsService(c)
 	c.logFilterService = newLogFilterService(c)
 	c.notificationsService = newNotificationsService(c)
@@ -169,6 +172,11 @@ func (c *Client) AlertsService() AlertsCommunicator {
 // A subset of the API that deals with ApiTokens.
 func (c *Client) ApiTokenService() ApiTokenCommunicator {
 	return c.apiTokenService
+}
+
+// A subset of the API that deals with CircleCI Integrations.
+func (c *Client) CircleCIIntegrationService() CircleCIIntegrationCommunicator {
+	return c.circleCIIntegrationService
 }
 
 // A subset of the API that deals with Dashboards.

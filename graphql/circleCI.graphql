@@ -1,0 +1,37 @@
+query getCircleCIConnection($id: ID!) {
+  vcs {
+    getCircleCIConnection(id: $id) {
+      id
+      name
+      secretToken
+    }
+  }
+}
+
+mutation createCircleCIConnection($name: String!, $apiToken: String) {
+  vcs {
+    createCircleCIConnection(name: $name, apiToken: $apiToken) {
+      id
+      name
+      secretToken
+    }
+  }
+}
+
+mutation updateCircleCIConnection($id: ID!, $name: String, $apiToken: String) {
+  vcs {
+    updateCircleCIConnection(id: $id, name: $name, apiToken: $apiToken) {
+      id
+      name
+      secretToken
+    }
+  }
+}
+
+mutation deleteCircleCIConnection($id: ID!) {
+  vcs {
+    deleteCircleCIConnection(id: $id) {
+      success
+    }
+  }
+}

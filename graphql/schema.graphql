@@ -22944,6 +22944,7 @@ type Mutation {
   """
   setLogLevel(logLevels: [LogLevelInput!]!): BulkActionResponse!
   agent: AgentMutations!
+  vcs: VcsMutations!
 }
 
 type MutationResponse implements MutationResponseInterface {
@@ -26202,6 +26203,7 @@ type Query {
     pluginInstanceId: String!
   ): PluginInstanceStatusCode!
   agent: AgentQueries!
+  vcs: VcsQueries!
 }
 
 type QueryItem {
@@ -33388,4 +33390,36 @@ type WirelessInterface implements Entity & AlertingEntity {
   clients: [WirelessClient]
   alertEvaluationsV2: [AlertConditionEvaluationV2!]!
   activeAlertCounts: [ActiveAlertCount!]!
+}
+
+type VcsQueries {
+  getCircleCIConnection(id: ID!): VcsCircleCIConnection
+}
+
+type VcsMutations {
+  createCircleCIConnection(name: String!, apiToken: String): VcsCircleCIConnection!
+  updateCircleCIConnection(id: ID!, name: String, apiToken: String): VcsCircleCIConnection!
+  deleteCircleCIConnection(id: ID!): VcsDeleteResponse!
+}
+
+type VcsCircleCIConnection {
+  id: ID!
+  orgID: String!
+  name: String!
+  secretToken: String!
+  createdAt: String!
+  expiresAt: String
+  isExpired: Boolean!
+  projects: [VcsCircleCIProject!]!
+}
+
+type VcsCircleCIProject {
+  slug: String!
+  isDuplicate: Boolean!
+  firstSeenAt: String!
+  lastSeenAt: String!
+}
+
+type VcsDeleteResponse {
+  success: Boolean!
 }
