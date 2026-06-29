@@ -4,6 +4,7 @@ schema: schema.graphql
 operations:
 - alerts.graphql
 - apiTokens.graphql
+- circleCI.graphql
 - dashboards.graphql
 - entities/*.graphql
 - logFilters.graphql

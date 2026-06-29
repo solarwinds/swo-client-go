@@ -1252,6 +1252,18 @@ func (v *__createAlertDefinitionMutationInput) GetDefinition() AlertDefinitionIn
 	return v.Definition
 }
 
+// __createCircleCIConnectionInput is used internally by genqlient
+type __createCircleCIConnectionInput struct {
+	Name     string  `json:"name"`
+	ApiToken *string `json:"apiToken"`
+}
+
+// GetName returns __createCircleCIConnectionInput.Name, and is useful for accessing the field via an interface.
+func (v *__createCircleCIConnectionInput) GetName() string { return v.Name }
+
+// GetApiToken returns __createCircleCIConnectionInput.ApiToken, and is useful for accessing the field via an interface.
+func (v *__createCircleCIConnectionInput) GetApiToken() *string { return v.ApiToken }
+
 // __createDashboardInput is used internally by genqlient
 type __createDashboardInput struct {
 	Input CreateDashboardInput `json:"input"`
@@ -1311,6 +1323,14 @@ type __deleteAlertDefinitionMutationInput struct {
 func (v *__deleteAlertDefinitionMutationInput) GetDeleteAlertDefinitionId() string {
 	return v.DeleteAlertDefinitionId
 }
+
+// __deleteCircleCIConnectionInput is used internally by genqlient
+type __deleteCircleCIConnectionInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns __deleteCircleCIConnectionInput.Id, and is useful for accessing the field via an interface.
+func (v *__deleteCircleCIConnectionInput) GetId() string { return v.Id }
 
 // __deleteDashboardInput is used internally by genqlient
 type __deleteDashboardInput struct {
@@ -1378,6 +1398,14 @@ type __getApiTokenByIdInput struct {
 // GetId returns __getApiTokenByIdInput.Id, and is useful for accessing the field via an interface.
 func (v *__getApiTokenByIdInput) GetId() string { return v.Id }
 
+// __getCircleCIConnectionInput is used internally by genqlient
+type __getCircleCIConnectionInput struct {
+	Id string `json:"id"`
+}
+
+// GetId returns __getCircleCIConnectionInput.Id, and is useful for accessing the field via an interface.
+func (v *__getCircleCIConnectionInput) GetId() string { return v.Id }
+
 // __getDashboardByIdInput is used internally by genqlient
 type __getDashboardByIdInput struct {
 	Id string `json:"id"`
@@ -1437,6 +1465,22 @@ func (v *__updateAlertDefinitionMutationInput) GetDefinition() AlertDefinitionIn
 func (v *__updateAlertDefinitionMutationInput) GetUpdateAlertDefinitionId() string {
 	return v.UpdateAlertDefinitionId
 }
+
+// __updateCircleCIConnectionInput is used internally by genqlient
+type __updateCircleCIConnectionInput struct {
+	Id       string  `json:"id"`
+	Name     *string `json:"name"`
+	ApiToken *string `json:"apiToken"`
+}
+
+// GetId returns __updateCircleCIConnectionInput.Id, and is useful for accessing the field via an interface.
+func (v *__updateCircleCIConnectionInput) GetId() string { return v.Id }
+
+// GetName returns __updateCircleCIConnectionInput.Name, and is useful for accessing the field via an interface.
+func (v *__updateCircleCIConnectionInput) GetName() *string { return v.Name }
+
+// GetApiToken returns __updateCircleCIConnectionInput.ApiToken, and is useful for accessing the field via an interface.
+func (v *__updateCircleCIConnectionInput) GetApiToken() *string { return v.ApiToken }
 
 // __updateDashboardInput is used internally by genqlient
 type __updateDashboardInput struct {
@@ -1677,6 +1721,48 @@ type createAlertDefinitionMutationResponse struct {
 // GetAlertMutations returns createAlertDefinitionMutationResponse.AlertMutations, and is useful for accessing the field via an interface.
 func (v *createAlertDefinitionMutationResponse) GetAlertMutations() createAlertDefinitionMutationAlertMutations {
 	return v.AlertMutations
+}
+
+// createCircleCIConnectionResponse is returned by createCircleCIConnection on success.
+type createCircleCIConnectionResponse struct {
+	Vcs createCircleCIConnectionVcsVcsMutations `json:"vcs"`
+}
+
+// GetVcs returns createCircleCIConnectionResponse.Vcs, and is useful for accessing the field via an interface.
+func (v *createCircleCIConnectionResponse) GetVcs() createCircleCIConnectionVcsVcsMutations {
+	return v.Vcs
+}
+
+// createCircleCIConnectionVcsVcsMutations includes the requested fields of the GraphQL type VcsMutations.
+type createCircleCIConnectionVcsVcsMutations struct {
+	CreateCircleCIConnection createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection `json:"createCircleCIConnection"`
+}
+
+// GetCreateCircleCIConnection returns createCircleCIConnectionVcsVcsMutations.CreateCircleCIConnection, and is useful for accessing the field via an interface.
+func (v *createCircleCIConnectionVcsVcsMutations) GetCreateCircleCIConnection() createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection {
+	return v.CreateCircleCIConnection
+}
+
+// createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection includes the requested fields of the GraphQL type VcsCircleCIConnection.
+type createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection struct {
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	SecretToken string `json:"secretToken"`
+}
+
+// GetId returns createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection.Id, and is useful for accessing the field via an interface.
+func (v *createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection) GetId() string {
+	return v.Id
+}
+
+// GetName returns createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection.Name, and is useful for accessing the field via an interface.
+func (v *createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection) GetName() string {
+	return v.Name
+}
+
+// GetSecretToken returns createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection.SecretToken, and is useful for accessing the field via an interface.
+func (v *createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection) GetSecretToken() string {
+	return v.SecretToken
 }
 
 // createDashboardCreateDashboardCreateDashboardResponse includes the requested fields of the GraphQL type CreateDashboardResponse.
@@ -2205,6 +2291,36 @@ type deleteAlertDefinitionMutationResponse struct {
 // GetAlertMutations returns deleteAlertDefinitionMutationResponse.AlertMutations, and is useful for accessing the field via an interface.
 func (v *deleteAlertDefinitionMutationResponse) GetAlertMutations() deleteAlertDefinitionMutationAlertMutations {
 	return v.AlertMutations
+}
+
+// deleteCircleCIConnectionResponse is returned by deleteCircleCIConnection on success.
+type deleteCircleCIConnectionResponse struct {
+	Vcs deleteCircleCIConnectionVcsVcsMutations `json:"vcs"`
+}
+
+// GetVcs returns deleteCircleCIConnectionResponse.Vcs, and is useful for accessing the field via an interface.
+func (v *deleteCircleCIConnectionResponse) GetVcs() deleteCircleCIConnectionVcsVcsMutations {
+	return v.Vcs
+}
+
+// deleteCircleCIConnectionVcsVcsMutations includes the requested fields of the GraphQL type VcsMutations.
+type deleteCircleCIConnectionVcsVcsMutations struct {
+	DeleteCircleCIConnection deleteCircleCIConnectionVcsVcsMutationsDeleteCircleCIConnectionVcsDeleteResponse `json:"deleteCircleCIConnection"`
+}
+
+// GetDeleteCircleCIConnection returns deleteCircleCIConnectionVcsVcsMutations.DeleteCircleCIConnection, and is useful for accessing the field via an interface.
+func (v *deleteCircleCIConnectionVcsVcsMutations) GetDeleteCircleCIConnection() deleteCircleCIConnectionVcsVcsMutationsDeleteCircleCIConnectionVcsDeleteResponse {
+	return v.DeleteCircleCIConnection
+}
+
+// deleteCircleCIConnectionVcsVcsMutationsDeleteCircleCIConnectionVcsDeleteResponse includes the requested fields of the GraphQL type VcsDeleteResponse.
+type deleteCircleCIConnectionVcsVcsMutationsDeleteCircleCIConnectionVcsDeleteResponse struct {
+	Success bool `json:"success"`
+}
+
+// GetSuccess returns deleteCircleCIConnectionVcsVcsMutationsDeleteCircleCIConnectionVcsDeleteResponse.Success, and is useful for accessing the field via an interface.
+func (v *deleteCircleCIConnectionVcsVcsMutationsDeleteCircleCIConnectionVcsDeleteResponse) GetSuccess() bool {
+	return v.Success
 }
 
 // deleteDashboardDeleteDashboardDeleteDashboardResponse includes the requested fields of the GraphQL type DeleteDashboardResponse.
@@ -3085,6 +3201,46 @@ func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttri
 // GetValue returns getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute.Value, and is useful for accessing the field via an interface.
 func (v *getApiTokenByIdUserAuthenticatedUserCurrentOrganizationTokensTokenAttributesTokenAttribute) GetValue() string {
 	return v.Value
+}
+
+// getCircleCIConnectionResponse is returned by getCircleCIConnection on success.
+type getCircleCIConnectionResponse struct {
+	Vcs getCircleCIConnectionVcsVcsQueries `json:"vcs"`
+}
+
+// GetVcs returns getCircleCIConnectionResponse.Vcs, and is useful for accessing the field via an interface.
+func (v *getCircleCIConnectionResponse) GetVcs() getCircleCIConnectionVcsVcsQueries { return v.Vcs }
+
+// getCircleCIConnectionVcsVcsQueries includes the requested fields of the GraphQL type VcsQueries.
+type getCircleCIConnectionVcsVcsQueries struct {
+	GetCircleCIConnection *getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection `json:"getCircleCIConnection"`
+}
+
+// GetGetCircleCIConnection returns getCircleCIConnectionVcsVcsQueries.GetCircleCIConnection, and is useful for accessing the field via an interface.
+func (v *getCircleCIConnectionVcsVcsQueries) GetGetCircleCIConnection() *getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection {
+	return v.GetCircleCIConnection
+}
+
+// getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection includes the requested fields of the GraphQL type VcsCircleCIConnection.
+type getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection struct {
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	SecretToken string `json:"secretToken"`
+}
+
+// GetId returns getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection.Id, and is useful for accessing the field via an interface.
+func (v *getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection) GetId() string {
+	return v.Id
+}
+
+// GetName returns getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection.Name, and is useful for accessing the field via an interface.
+func (v *getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection) GetName() string {
+	return v.Name
+}
+
+// GetSecretToken returns getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection.SecretToken, and is useful for accessing the field via an interface.
+func (v *getCircleCIConnectionVcsVcsQueriesGetCircleCIConnectionVcsCircleCIConnection) GetSecretToken() string {
+	return v.SecretToken
 }
 
 // getDashboardByIdDashboardsDashboardQueries includes the requested fields of the GraphQL type DashboardQueries.
@@ -10177,6 +10333,48 @@ func (v *updateAlertDefinitionMutationResponse) GetAlertMutations() updateAlertD
 	return v.AlertMutations
 }
 
+// updateCircleCIConnectionResponse is returned by updateCircleCIConnection on success.
+type updateCircleCIConnectionResponse struct {
+	Vcs updateCircleCIConnectionVcsVcsMutations `json:"vcs"`
+}
+
+// GetVcs returns updateCircleCIConnectionResponse.Vcs, and is useful for accessing the field via an interface.
+func (v *updateCircleCIConnectionResponse) GetVcs() updateCircleCIConnectionVcsVcsMutations {
+	return v.Vcs
+}
+
+// updateCircleCIConnectionVcsVcsMutations includes the requested fields of the GraphQL type VcsMutations.
+type updateCircleCIConnectionVcsVcsMutations struct {
+	UpdateCircleCIConnection updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection `json:"updateCircleCIConnection"`
+}
+
+// GetUpdateCircleCIConnection returns updateCircleCIConnectionVcsVcsMutations.UpdateCircleCIConnection, and is useful for accessing the field via an interface.
+func (v *updateCircleCIConnectionVcsVcsMutations) GetUpdateCircleCIConnection() updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection {
+	return v.UpdateCircleCIConnection
+}
+
+// updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection includes the requested fields of the GraphQL type VcsCircleCIConnection.
+type updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection struct {
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	SecretToken string `json:"secretToken"`
+}
+
+// GetId returns updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection.Id, and is useful for accessing the field via an interface.
+func (v *updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection) GetId() string {
+	return v.Id
+}
+
+// GetName returns updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection.Name, and is useful for accessing the field via an interface.
+func (v *updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection) GetName() string {
+	return v.Name
+}
+
+// GetSecretToken returns updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection.SecretToken, and is useful for accessing the field via an interface.
+func (v *updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection) GetSecretToken() string {
+	return v.SecretToken
+}
+
 // updateDashboardResponse is returned by updateDashboard on success.
 type updateDashboardResponse struct {
 	UpdateDashboard updateDashboardUpdateDashboardUpdateDashboardResponse `json:"updateDashboard"`
@@ -10618,6 +10816,46 @@ func createAlertDefinitionMutation(
 	return data_, err_
 }
 
+// The mutation executed by createCircleCIConnection.
+const createCircleCIConnection_Operation = `
+mutation createCircleCIConnection ($name: String!, $apiToken: String) {
+	vcs {
+		createCircleCIConnection(name: $name, apiToken: $apiToken) {
+			id
+			name
+			secretToken
+		}
+	}
+}
+`
+
+func createCircleCIConnection(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	name string,
+	apiToken *string,
+) (data_ *createCircleCIConnectionResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "createCircleCIConnection",
+		Query:  createCircleCIConnection_Operation,
+		Variables: &__createCircleCIConnectionInput{
+			Name:     name,
+			ApiToken: apiToken,
+		},
+	}
+
+	data_ = &createCircleCIConnectionResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
 // The mutation executed by createDashboard.
 const createDashboard_Operation = `
 mutation createDashboard ($input: CreateDashboardInput!) {
@@ -10918,6 +11156,42 @@ func deleteAlertDefinitionMutation(
 	}
 
 	data_ = &deleteAlertDefinitionMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+// The mutation executed by deleteCircleCIConnection.
+const deleteCircleCIConnection_Operation = `
+mutation deleteCircleCIConnection ($id: ID!) {
+	vcs {
+		deleteCircleCIConnection(id: $id) {
+			success
+		}
+	}
+}
+`
+
+func deleteCircleCIConnection(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	id string,
+) (data_ *deleteCircleCIConnectionResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "deleteCircleCIConnection",
+		Query:  deleteCircleCIConnection_Operation,
+		Variables: &__deleteCircleCIConnectionInput{
+			Id: id,
+		},
+	}
+
+	data_ = &deleteCircleCIConnectionResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
@@ -11316,6 +11590,44 @@ func getApiTokenById(
 	return data_, err_
 }
 
+// The query executed by getCircleCIConnection.
+const getCircleCIConnection_Operation = `
+query getCircleCIConnection ($id: ID!) {
+	vcs {
+		getCircleCIConnection(id: $id) {
+			id
+			name
+			secretToken
+		}
+	}
+}
+`
+
+func getCircleCIConnection(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	id string,
+) (data_ *getCircleCIConnectionResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "getCircleCIConnection",
+		Query:  getCircleCIConnection_Operation,
+		Variables: &__getCircleCIConnectionInput{
+			Id: id,
+		},
+	}
+
+	data_ = &getCircleCIConnectionResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
 // The query executed by getDashboardById.
 const getDashboardById_Operation = `
 query getDashboardById ($id: ID!) {
@@ -11687,6 +11999,48 @@ func updateAlertDefinitionMutation(
 	}
 
 	data_ = &updateAlertDefinitionMutationResponse{}
+	resp_ := &graphql.Response{Data: data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return data_, err_
+}
+
+// The mutation executed by updateCircleCIConnection.
+const updateCircleCIConnection_Operation = `
+mutation updateCircleCIConnection ($id: ID!, $name: String, $apiToken: String) {
+	vcs {
+		updateCircleCIConnection(id: $id, name: $name, apiToken: $apiToken) {
+			id
+			name
+			secretToken
+		}
+	}
+}
+`
+
+func updateCircleCIConnection(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	id string,
+	name *string,
+	apiToken *string,
+) (data_ *updateCircleCIConnectionResponse, err_ error) {
+	req_ := &graphql.Request{
+		OpName: "updateCircleCIConnection",
+		Query:  updateCircleCIConnection_Operation,
+		Variables: &__updateCircleCIConnectionInput{
+			Id:       id,
+			Name:     name,
+			ApiToken: apiToken,
+		},
+	}
+
+	data_ = &updateCircleCIConnectionResponse{}
 	resp_ := &graphql.Response{Data: data_}
 
 	err_ = client_.MakeRequest(
