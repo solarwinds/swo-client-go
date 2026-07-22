@@ -458,14 +458,16 @@ var AllConditionType = []ConditionType{
 }
 
 type CreateDashboardInput struct {
-	Version     *int           `json:"version"`
-	Name        string         `json:"name"`
-	Description *string        `json:"description"`
-	IsPrivate   *bool          `json:"isPrivate"`
-	Mode        *DashboardMode `json:"mode"`
-	CategoryId  *string        `json:"categoryId"`
-	Widgets     []WidgetInput  `json:"widgets"`
-	Layout      []LayoutInput  `json:"layout"`
+	Version           *int           `json:"version"`
+	Name              string         `json:"name"`
+	Description       *string        `json:"description"`
+	IsPrivate         *bool          `json:"isPrivate"`
+	Mode              *DashboardMode `json:"mode"`
+	CategoryId        *string        `json:"categoryId"`
+	Widgets           []WidgetInput  `json:"widgets"`
+	Layout            []LayoutInput  `json:"layout"`
+	EnableValidation  *bool          `json:"enableValidation"`
+	ValidationVersion *int           `json:"validationVersion"`
 }
 
 // GetVersion returns CreateDashboardInput.Version, and is useful for accessing the field via an interface.
@@ -491,6 +493,12 @@ func (v *CreateDashboardInput) GetWidgets() []WidgetInput { return v.Widgets }
 
 // GetLayout returns CreateDashboardInput.Layout, and is useful for accessing the field via an interface.
 func (v *CreateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
+
+// GetEnableValidation returns CreateDashboardInput.EnableValidation, and is useful for accessing the field via an interface.
+func (v *CreateDashboardInput) GetEnableValidation() *bool { return v.EnableValidation }
+
+// GetValidationVersion returns CreateDashboardInput.ValidationVersion, and is useful for accessing the field via an interface.
+func (v *CreateDashboardInput) GetValidationVersion() *int { return v.ValidationVersion }
 
 type CreateExclusionFilterExpressionInput struct {
 	Kind       ExclusionFilterExpressionKind `json:"kind"`
@@ -654,6 +662,46 @@ const (
 var AllDashboardMode = []DashboardMode{
 	DashboardModeStandard,
 	DashboardModeAnalysis,
+}
+
+type DashboardValidationErrorCode string
+
+const (
+	DashboardValidationErrorCodeRequired            DashboardValidationErrorCode = "REQUIRED"
+	DashboardValidationErrorCodeMaxLength           DashboardValidationErrorCode = "MAX_LENGTH"
+	DashboardValidationErrorCodeMin                 DashboardValidationErrorCode = "MIN"
+	DashboardValidationErrorCodeMax                 DashboardValidationErrorCode = "MAX"
+	DashboardValidationErrorCodeNonZero             DashboardValidationErrorCode = "NON_ZERO"
+	DashboardValidationErrorCodeInvalidRange        DashboardValidationErrorCode = "INVALID_RANGE"
+	DashboardValidationErrorCodeGreaterThanMin      DashboardValidationErrorCode = "GREATER_THAN_MIN"
+	DashboardValidationErrorCodeInvalidValue        DashboardValidationErrorCode = "INVALID_VALUE"
+	DashboardValidationErrorCodeThresholdConflict   DashboardValidationErrorCode = "THRESHOLD_CONFLICT"
+	DashboardValidationErrorCodeThresholdRange      DashboardValidationErrorCode = "THRESHOLD_RANGE"
+	DashboardValidationErrorCodeUnsupportedDataType DashboardValidationErrorCode = "UNSUPPORTED_DATA_TYPE"
+	DashboardValidationErrorCodeOrphanedLayout      DashboardValidationErrorCode = "ORPHANED_LAYOUT"
+	DashboardValidationErrorCodeOrphanedWidget      DashboardValidationErrorCode = "ORPHANED_WIDGET"
+	DashboardValidationErrorCodeDuplicateEntry      DashboardValidationErrorCode = "DUPLICATE_ENTRY"
+	DashboardValidationErrorCodeNotFound            DashboardValidationErrorCode = "NOT_FOUND"
+	DashboardValidationErrorCodeUnsupportedVersion  DashboardValidationErrorCode = "UNSUPPORTED_VERSION"
+)
+
+var AllDashboardValidationErrorCode = []DashboardValidationErrorCode{
+	DashboardValidationErrorCodeRequired,
+	DashboardValidationErrorCodeMaxLength,
+	DashboardValidationErrorCodeMin,
+	DashboardValidationErrorCodeMax,
+	DashboardValidationErrorCodeNonZero,
+	DashboardValidationErrorCodeInvalidRange,
+	DashboardValidationErrorCodeGreaterThanMin,
+	DashboardValidationErrorCodeInvalidValue,
+	DashboardValidationErrorCodeThresholdConflict,
+	DashboardValidationErrorCodeThresholdRange,
+	DashboardValidationErrorCodeUnsupportedDataType,
+	DashboardValidationErrorCodeOrphanedLayout,
+	DashboardValidationErrorCodeOrphanedWidget,
+	DashboardValidationErrorCodeDuplicateEntry,
+	DashboardValidationErrorCodeNotFound,
+	DashboardValidationErrorCodeUnsupportedVersion,
 }
 
 type DeleteDashboardInput struct {
@@ -945,13 +993,15 @@ func (v *TokenAttributeInput) GetKey() string { return v.Key }
 func (v *TokenAttributeInput) GetValue() string { return v.Value }
 
 type UpdateDashboardInput struct {
-	Id          string        `json:"id"`
-	Name        string        `json:"name"`
-	Description *string       `json:"description"`
-	CategoryId  *string       `json:"categoryId"`
-	Widgets     []WidgetInput `json:"widgets"`
-	Layout      []LayoutInput `json:"layout"`
-	Version     *int          `json:"version"`
+	Id                string        `json:"id"`
+	Name              string        `json:"name"`
+	Description       *string       `json:"description"`
+	CategoryId        *string       `json:"categoryId"`
+	Widgets           []WidgetInput `json:"widgets"`
+	Layout            []LayoutInput `json:"layout"`
+	Version           *int          `json:"version"`
+	EnableValidation  *bool         `json:"enableValidation"`
+	ValidationVersion *int          `json:"validationVersion"`
 }
 
 // GetId returns UpdateDashboardInput.Id, and is useful for accessing the field via an interface.
@@ -974,6 +1024,12 @@ func (v *UpdateDashboardInput) GetLayout() []LayoutInput { return v.Layout }
 
 // GetVersion returns UpdateDashboardInput.Version, and is useful for accessing the field via an interface.
 func (v *UpdateDashboardInput) GetVersion() *int { return v.Version }
+
+// GetEnableValidation returns UpdateDashboardInput.EnableValidation, and is useful for accessing the field via an interface.
+func (v *UpdateDashboardInput) GetEnableValidation() *bool { return v.EnableValidation }
+
+// GetValidationVersion returns UpdateDashboardInput.ValidationVersion, and is useful for accessing the field via an interface.
+func (v *UpdateDashboardInput) GetValidationVersion() *int { return v.ValidationVersion }
 
 type UpdateExclusionFilterExpressionInput struct {
 	Kind       ExclusionFilterExpressionKind `json:"kind"`
@@ -1767,10 +1823,11 @@ func (v *createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircl
 
 // createDashboardCreateDashboardCreateDashboardResponse includes the requested fields of the GraphQL type CreateDashboardResponse.
 type createDashboardCreateDashboardCreateDashboardResponse struct {
-	Code      string                                                          `json:"code"`
-	Success   bool                                                            `json:"success"`
-	Message   string                                                          `json:"message"`
-	Dashboard *createDashboardCreateDashboardCreateDashboardResponseDashboard `json:"dashboard"`
+	Code             string                                                                                          `json:"code"`
+	Success          bool                                                                                            `json:"success"`
+	Message          string                                                                                          `json:"message"`
+	ValidationErrors []createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError `json:"validationErrors"`
+	Dashboard        *createDashboardCreateDashboardCreateDashboardResponseDashboard                                 `json:"dashboard"`
 }
 
 // GetCode returns createDashboardCreateDashboardCreateDashboardResponse.Code, and is useful for accessing the field via an interface.
@@ -1781,6 +1838,11 @@ func (v *createDashboardCreateDashboardCreateDashboardResponse) GetSuccess() boo
 
 // GetMessage returns createDashboardCreateDashboardCreateDashboardResponse.Message, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponse) GetMessage() string { return v.Message }
+
+// GetValidationErrors returns createDashboardCreateDashboardCreateDashboardResponse.ValidationErrors, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponse) GetValidationErrors() []createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError {
+	return v.ValidationErrors
+}
 
 // GetDashboard returns createDashboardCreateDashboardCreateDashboardResponse.Dashboard, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponse) GetDashboard() *createDashboardCreateDashboardCreateDashboardResponseDashboard {
@@ -1939,6 +2001,57 @@ func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardWidgetsWi
 // GetProperties returns createDashboardCreateDashboardCreateDashboardResponseDashboardWidgetsWidget.Properties, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardWidgetsWidget) GetProperties() *any {
 	return v.Properties
+}
+
+// createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError includes the requested fields of the GraphQL type DashboardValidationError.
+// The GraphQL type's documentation follows.
+//
+// Validation error returned by createDashboard/updateDashboard mutations.
+type createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError struct {
+	// JSON path relative to the mutation input (e.g., widgets[0].properties.title)
+	Field string `json:"field"`
+	// Machine-readable error code
+	Code DashboardValidationErrorCode `json:"code"`
+	// Human-readable English message
+	Message string `json:"message"`
+	// Constraint data for the violated rule (e.g., min/max bounds)
+	Constraints *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint `json:"constraints"`
+}
+
+// GetField returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError.Field, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetField() string {
+	return v.Field
+}
+
+// GetCode returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError.Code, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetCode() DashboardValidationErrorCode {
+	return v.Code
+}
+
+// GetMessage returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError.Message, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetMessage() string {
+	return v.Message
+}
+
+// GetConstraints returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError.Constraints, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetConstraints() *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint {
+	return v.Constraints
+}
+
+// createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint includes the requested fields of the GraphQL type NumericRangeConstraint.
+type createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint struct {
+	Min *float64 `json:"min"`
+	Max *float64 `json:"max"`
+}
+
+// GetMin returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint.Min, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint) GetMin() *float64 {
+	return v.Min
+}
+
+// GetMax returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint.Max, and is useful for accessing the field via an interface.
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint) GetMax() *float64 {
+	return v.Max
 }
 
 // createDashboardResponse is returned by createDashboard on success.
@@ -10387,10 +10500,11 @@ func (v *updateDashboardResponse) GetUpdateDashboard() updateDashboardUpdateDash
 
 // updateDashboardUpdateDashboardUpdateDashboardResponse includes the requested fields of the GraphQL type UpdateDashboardResponse.
 type updateDashboardUpdateDashboardUpdateDashboardResponse struct {
-	Code      string                                                          `json:"code"`
-	Success   bool                                                            `json:"success"`
-	Message   string                                                          `json:"message"`
-	Dashboard *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard `json:"dashboard"`
+	Code             string                                                                                          `json:"code"`
+	Success          bool                                                                                            `json:"success"`
+	Message          string                                                                                          `json:"message"`
+	ValidationErrors []updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError `json:"validationErrors"`
+	Dashboard        *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard                                 `json:"dashboard"`
 }
 
 // GetCode returns updateDashboardUpdateDashboardUpdateDashboardResponse.Code, and is useful for accessing the field via an interface.
@@ -10401,6 +10515,11 @@ func (v *updateDashboardUpdateDashboardUpdateDashboardResponse) GetSuccess() boo
 
 // GetMessage returns updateDashboardUpdateDashboardUpdateDashboardResponse.Message, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponse) GetMessage() string { return v.Message }
+
+// GetValidationErrors returns updateDashboardUpdateDashboardUpdateDashboardResponse.ValidationErrors, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponse) GetValidationErrors() []updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError {
+	return v.ValidationErrors
+}
 
 // GetDashboard returns updateDashboardUpdateDashboardUpdateDashboardResponse.Dashboard, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponse) GetDashboard() *updateDashboardUpdateDashboardUpdateDashboardResponseDashboard {
@@ -10495,6 +10614,57 @@ func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardWidgetsWi
 // GetType returns updateDashboardUpdateDashboardUpdateDashboardResponseDashboardWidgetsWidget.Type, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardWidgetsWidget) GetType() string {
 	return v.Type
+}
+
+// updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError includes the requested fields of the GraphQL type DashboardValidationError.
+// The GraphQL type's documentation follows.
+//
+// Validation error returned by createDashboard/updateDashboard mutations.
+type updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError struct {
+	// JSON path relative to the mutation input (e.g., widgets[0].properties.title)
+	Field string `json:"field"`
+	// Machine-readable error code
+	Code DashboardValidationErrorCode `json:"code"`
+	// Human-readable English message
+	Message string `json:"message"`
+	// Constraint data for the violated rule (e.g., min/max bounds)
+	Constraints *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint `json:"constraints"`
+}
+
+// GetField returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError.Field, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetField() string {
+	return v.Field
+}
+
+// GetCode returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError.Code, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetCode() DashboardValidationErrorCode {
+	return v.Code
+}
+
+// GetMessage returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError.Message, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetMessage() string {
+	return v.Message
+}
+
+// GetConstraints returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError.Constraints, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetConstraints() *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint {
+	return v.Constraints
+}
+
+// updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint includes the requested fields of the GraphQL type NumericRangeConstraint.
+type updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint struct {
+	Min *float64 `json:"min"`
+	Max *float64 `json:"max"`
+}
+
+// GetMin returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint.Min, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint) GetMin() *float64 {
+	return v.Min
+}
+
+// GetMax returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint.Max, and is useful for accessing the field via an interface.
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint) GetMax() *float64 {
+	return v.Max
 }
 
 // updateLogFilterResponse is returned by updateLogFilter on success.
@@ -10863,6 +11033,15 @@ mutation createDashboard ($input: CreateDashboardInput!) {
 		code
 		success
 		message
+		validationErrors {
+			field
+			code
+			message
+			constraints {
+				min
+				max
+			}
+		}
 		dashboard {
 			id
 			name
@@ -12059,6 +12238,15 @@ mutation updateDashboard ($input: UpdateDashboardInput!) {
 		code
 		success
 		message
+		validationErrors {
+			field
+			code
+			message
+			constraints {
+				min
+				max
+			}
+		}
 		dashboard {
 			id
 			version

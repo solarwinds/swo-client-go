@@ -2,7 +2,9 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"strings"
 )
 
 type DashboardsService service
@@ -30,6 +32,46 @@ func newDashboardsService(c *Client) *DashboardsService {
 	return &DashboardsService{c}
 }
 
+// dashboardValidationErrorDetail is a flattened, type-agnostic view of a single
+// validation error returned by the createDashboard/updateDashboard mutations.
+type dashboardValidationErrorDetail struct {
+	Field   string
+	Code    DashboardValidationErrorCode
+	Message string
+	Min     *float64
+	Max     *float64
+}
+
+// formatDashboardValidationErrors renders per-field validation errors into a single
+// human-readable string, e.g.
+// " validationErrors: [field=widgets[0].properties.title code=REQUIRED message=... (min=1, max=10)]".
+func formatDashboardValidationErrors(validationErrors []dashboardValidationErrorDetail) string {
+	if len(validationErrors) == 0 {
+		return ""
+	}
+
+	details := make([]string, 0, len(validationErrors))
+	for _, ve := range validationErrors {
+		detail := fmt.Sprintf("field=%s code=%s message=%s", ve.Field, ve.Code, ve.Message)
+		if ve.Min != nil || ve.Max != nil {
+			constraint := ""
+			if ve.Min != nil {
+				constraint += fmt.Sprintf("min=%v", *ve.Min)
+			}
+			if ve.Max != nil {
+				if constraint != "" {
+					constraint += ", "
+				}
+				constraint += fmt.Sprintf("max=%v", *ve.Max)
+			}
+			detail += fmt.Sprintf(" (%s)", constraint)
+		}
+		details = append(details, detail)
+	}
+
+	return fmt.Sprintf(" validationErrors: [%s]", strings.Join(details, "; "))
+}
+
 // Creates a new dashboard.
 func (service *DashboardsService) Create(ctx context.Context, input CreateDashboardInput) (*CreateDashboardResult, error) {
 	log.Printf("create dashboard request. name: %s", input.Name)
@@ -40,9 +82,18 @@ func (service *DashboardsService) Create(ctx context.Context, input CreateDashbo
 		},
 		func(resp *createDashboardResponse) error {
 			if !resp.CreateDashboard.Success {
+				details := make([]dashboardValidationErrorDetail, 0, len(resp.CreateDashboard.ValidationErrors))
+				for _, ve := range resp.CreateDashboard.ValidationErrors {
+					detail := dashboardValidationErrorDetail{Field: ve.Field, Code: ve.Code, Message: ve.Message}
+					if ve.Constraints != nil {
+						detail.Min, detail.Max = ve.Constraints.Min, ve.Constraints.Max
+					}
+					details = append(details, detail)
+				}
+
 				return mutateError("create dashboard failed",
 					resp.CreateDashboard.Code,
-					resp.CreateDashboard.Message)
+					resp.CreateDashboard.Message+formatDashboardValidationErrors(details))
 			}
 			return nil
 		})
@@ -84,9 +135,18 @@ func (service *DashboardsService) Update(ctx context.Context, input UpdateDashbo
 		},
 		func(resp *updateDashboardResponse) error {
 			if !resp.UpdateDashboard.Success {
+				details := make([]dashboardValidationErrorDetail, 0, len(resp.UpdateDashboard.ValidationErrors))
+				for _, ve := range resp.UpdateDashboard.ValidationErrors {
+					detail := dashboardValidationErrorDetail{Field: ve.Field, Code: ve.Code, Message: ve.Message}
+					if ve.Constraints != nil {
+						detail.Min, detail.Max = ve.Constraints.Min, ve.Constraints.Max
+					}
+					details = append(details, detail)
+				}
+
 				return mutateError("update dashboard failed",
 					resp.UpdateDashboard.Code,
-					resp.UpdateDashboard.Message)
+					resp.UpdateDashboard.Message+formatDashboardValidationErrors(details))
 			}
 			return nil
 		})

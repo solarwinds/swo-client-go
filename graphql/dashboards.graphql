@@ -3,6 +3,15 @@ mutation createDashboard($input: CreateDashboardInput!) {
     code
     success
     message
+    validationErrors {
+      field
+      code
+      message
+      constraints {
+        min
+        max
+      }
+    }
     dashboard {
       id
       name
@@ -74,6 +83,15 @@ mutation updateDashboard($input: UpdateDashboardInput!) {
     code
     success
     message
+    validationErrors {
+      field
+      code
+      message
+      constraints {
+        min
+        max
+      }
+    }
     dashboard {
       id
       version
