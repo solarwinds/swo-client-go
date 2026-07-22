@@ -1,16 +1,20 @@
+fragment DashboardValidationError on DashboardValidationError {
+  field
+  code
+  message
+  constraints {
+    min
+    max
+  }
+}
+
 mutation createDashboard($input: CreateDashboardInput!) {
   createDashboard(input: $input) {
     code
     success
     message
     validationErrors {
-      field
-      code
-      message
-      constraints {
-        min
-        max
-      }
+      ...DashboardValidationError
     }
     dashboard {
       id
@@ -84,13 +88,7 @@ mutation updateDashboard($input: UpdateDashboardInput!) {
     success
     message
     validationErrors {
-      field
-      code
-      message
-      constraints {
-        min
-        max
-      }
+      ...DashboardValidationError
     }
     dashboard {
       id

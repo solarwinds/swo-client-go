@@ -1,8 +1,10 @@
 package client
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 	"testing"
 	"time"
 
@@ -252,6 +254,75 @@ func TestService_DashboardsMutateError(t *testing.T) {
 	_, err := client.DashboardsService().Create(ctx, CreateDashboardInput{})
 	if err == nil {
 		t.Error("Swo.DashboardsMutateErrors expected an error response")
+	}
+}
+
+// TestService_DashboardsValidationError verifies that a failed create mutation returns a
+// structured *DashboardMutationError and that its Error() string surfaces the server code,
+// message, and every field-level validation error (including numeric constraints). The
+// Terraform provider formats this error as a string, so dropping any of these details from
+// the message would silently hide validation feedback from users.
+func TestService_DashboardsValidationError(t *testing.T) {
+	ctx, client, server, _, teardown := setup()
+	defer teardown()
+
+	server.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		sendGraphQLResponse(t, w, createDashboardResponse{
+			CreateDashboard: createDashboardCreateDashboardCreateDashboardResponse{
+				Success: false,
+				Code:    "VALIDATION_FAILED",
+				Message: "dashboard validation failed",
+				ValidationErrors: []createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError{
+					{
+						DashboardValidationError: DashboardValidationError{
+							Field:   "name",
+							Code:    DashboardValidationErrorCodeRequired,
+							Message: "name is required",
+						},
+					},
+					{
+						DashboardValidationError: DashboardValidationError{
+							Field:   "layout",
+							Code:    DashboardValidationErrorCodeInvalidRange,
+							Message: "layout out of range",
+							Constraints: &DashboardValidationErrorConstraintsNumericRangeConstraint{
+								Min: Ptr(2.0),
+								Max: Ptr(10.0),
+							},
+						},
+					},
+				},
+			},
+		})
+	})
+
+	_, err := client.DashboardsService().Create(ctx, CreateDashboardInput{})
+	if err == nil {
+		t.Fatal("Swo.DashboardsValidationError expected an error response")
+	}
+
+	var mutationErr *DashboardMutationError
+	if !errors.As(err, &mutationErr) {
+		t.Fatalf("Swo.DashboardsValidationError expected *DashboardMutationError, got %T", err)
+	}
+
+	if mutationErr.Code != "VALIDATION_FAILED" {
+		t.Errorf("Code got = %q, want = %q", mutationErr.Code, "VALIDATION_FAILED")
+	}
+	if len(mutationErr.ValidationErrors) != 2 {
+		t.Fatalf("ValidationErrors length got = %d, want = %d", len(mutationErr.ValidationErrors), 2)
+	}
+
+	msg := err.Error()
+	for _, want := range []string{
+		"code: VALIDATION_FAILED",
+		"message: dashboard validation failed",
+		"field=name code=REQUIRED message=name is required",
+		"field=layout code=INVALID_RANGE message=layout out of range (min=2, max=10)",
+	} {
+		if !strings.Contains(msg, want) {
+			t.Errorf("Error() = %q, want it to contain %q", msg, want)
+		}
 	}
 }
 

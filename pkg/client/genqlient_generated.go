@@ -664,6 +664,28 @@ var AllDashboardMode = []DashboardMode{
 	DashboardModeAnalysis,
 }
 
+// DashboardValidationError includes the GraphQL fields of DashboardValidationError requested by the fragment DashboardValidationError.
+type DashboardValidationError struct {
+	Field       string                                                     `json:"field"`
+	Code        DashboardValidationErrorCode                               `json:"code"`
+	Message     string                                                     `json:"message"`
+	Constraints *DashboardValidationErrorConstraintsNumericRangeConstraint `json:"constraints"`
+}
+
+// GetField returns DashboardValidationError.Field, and is useful for accessing the field via an interface.
+func (v *DashboardValidationError) GetField() string { return v.Field }
+
+// GetCode returns DashboardValidationError.Code, and is useful for accessing the field via an interface.
+func (v *DashboardValidationError) GetCode() DashboardValidationErrorCode { return v.Code }
+
+// GetMessage returns DashboardValidationError.Message, and is useful for accessing the field via an interface.
+func (v *DashboardValidationError) GetMessage() string { return v.Message }
+
+// GetConstraints returns DashboardValidationError.Constraints, and is useful for accessing the field via an interface.
+func (v *DashboardValidationError) GetConstraints() *DashboardValidationErrorConstraintsNumericRangeConstraint {
+	return v.Constraints
+}
+
 type DashboardValidationErrorCode string
 
 const (
@@ -703,6 +725,18 @@ var AllDashboardValidationErrorCode = []DashboardValidationErrorCode{
 	DashboardValidationErrorCodeNotFound,
 	DashboardValidationErrorCodeUnsupportedVersion,
 }
+
+// DashboardValidationErrorConstraintsNumericRangeConstraint includes the requested fields of the GraphQL type NumericRangeConstraint.
+type DashboardValidationErrorConstraintsNumericRangeConstraint struct {
+	Min *float64 `json:"min"`
+	Max *float64 `json:"max"`
+}
+
+// GetMin returns DashboardValidationErrorConstraintsNumericRangeConstraint.Min, and is useful for accessing the field via an interface.
+func (v *DashboardValidationErrorConstraintsNumericRangeConstraint) GetMin() *float64 { return v.Min }
+
+// GetMax returns DashboardValidationErrorConstraintsNumericRangeConstraint.Max, and is useful for accessing the field via an interface.
+func (v *DashboardValidationErrorConstraintsNumericRangeConstraint) GetMax() *float64 { return v.Max }
 
 type DeleteDashboardInput struct {
 	Id string `json:"id"`
@@ -2004,54 +2038,81 @@ func (v *createDashboardCreateDashboardCreateDashboardResponseDashboardWidgetsWi
 }
 
 // createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError includes the requested fields of the GraphQL type DashboardValidationError.
-// The GraphQL type's documentation follows.
-//
-// Validation error returned by createDashboard/updateDashboard mutations.
 type createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError struct {
-	// JSON path relative to the mutation input (e.g., widgets[0].properties.title)
-	Field string `json:"field"`
-	// Machine-readable error code
-	Code DashboardValidationErrorCode `json:"code"`
-	// Human-readable English message
-	Message string `json:"message"`
-	// Constraint data for the violated rule (e.g., min/max bounds)
-	Constraints *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint `json:"constraints"`
+	DashboardValidationError `json:"-"`
 }
 
 // GetField returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError.Field, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetField() string {
-	return v.Field
+	return v.DashboardValidationError.Field
 }
 
 // GetCode returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError.Code, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetCode() DashboardValidationErrorCode {
-	return v.Code
+	return v.DashboardValidationError.Code
 }
 
 // GetMessage returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError.Message, and is useful for accessing the field via an interface.
 func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetMessage() string {
-	return v.Message
+	return v.DashboardValidationError.Message
 }
 
 // GetConstraints returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError.Constraints, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetConstraints() *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint {
-	return v.Constraints
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) GetConstraints() *DashboardValidationErrorConstraintsNumericRangeConstraint {
+	return v.DashboardValidationError.Constraints
 }
 
-// createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint includes the requested fields of the GraphQL type NumericRangeConstraint.
-type createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint struct {
-	Min *float64 `json:"min"`
-	Max *float64 `json:"max"`
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DashboardValidationError)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-// GetMin returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint.Min, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint) GetMin() *float64 {
-	return v.Min
+type __premarshalcreateDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError struct {
+	Field string `json:"field"`
+
+	Code DashboardValidationErrorCode `json:"code"`
+
+	Message string `json:"message"`
+
+	Constraints *DashboardValidationErrorConstraintsNumericRangeConstraint `json:"constraints"`
 }
 
-// GetMax returns createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint.Max, and is useful for accessing the field via an interface.
-func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint) GetMax() *float64 {
-	return v.Max
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError) __premarshalJSON() (*__premarshalcreateDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError, error) {
+	var retval __premarshalcreateDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError
+
+	retval.Field = v.DashboardValidationError.Field
+	retval.Code = v.DashboardValidationError.Code
+	retval.Message = v.DashboardValidationError.Message
+	retval.Constraints = v.DashboardValidationError.Constraints
+	return &retval, nil
 }
 
 // createDashboardResponse is returned by createDashboard on success.
@@ -10617,54 +10678,81 @@ func (v *updateDashboardUpdateDashboardUpdateDashboardResponseDashboardWidgetsWi
 }
 
 // updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError includes the requested fields of the GraphQL type DashboardValidationError.
-// The GraphQL type's documentation follows.
-//
-// Validation error returned by createDashboard/updateDashboard mutations.
 type updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError struct {
-	// JSON path relative to the mutation input (e.g., widgets[0].properties.title)
-	Field string `json:"field"`
-	// Machine-readable error code
-	Code DashboardValidationErrorCode `json:"code"`
-	// Human-readable English message
-	Message string `json:"message"`
-	// Constraint data for the violated rule (e.g., min/max bounds)
-	Constraints *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint `json:"constraints"`
+	DashboardValidationError `json:"-"`
 }
 
 // GetField returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError.Field, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetField() string {
-	return v.Field
+	return v.DashboardValidationError.Field
 }
 
 // GetCode returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError.Code, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetCode() DashboardValidationErrorCode {
-	return v.Code
+	return v.DashboardValidationError.Code
 }
 
 // GetMessage returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError.Message, and is useful for accessing the field via an interface.
 func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetMessage() string {
-	return v.Message
+	return v.DashboardValidationError.Message
 }
 
 // GetConstraints returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError.Constraints, and is useful for accessing the field via an interface.
-func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetConstraints() *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint {
-	return v.Constraints
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) GetConstraints() *DashboardValidationErrorConstraintsNumericRangeConstraint {
+	return v.DashboardValidationError.Constraints
 }
 
-// updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint includes the requested fields of the GraphQL type NumericRangeConstraint.
-type updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint struct {
-	Min *float64 `json:"min"`
-	Max *float64 `json:"max"`
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DashboardValidationError)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-// GetMin returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint.Min, and is useful for accessing the field via an interface.
-func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint) GetMin() *float64 {
-	return v.Min
+type __premarshalupdateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError struct {
+	Field string `json:"field"`
+
+	Code DashboardValidationErrorCode `json:"code"`
+
+	Message string `json:"message"`
+
+	Constraints *DashboardValidationErrorConstraintsNumericRangeConstraint `json:"constraints"`
 }
 
-// GetMax returns updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint.Max, and is useful for accessing the field via an interface.
-func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationErrorConstraintsNumericRangeConstraint) GetMax() *float64 {
-	return v.Max
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError) __premarshalJSON() (*__premarshalupdateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError, error) {
+	var retval __premarshalupdateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError
+
+	retval.Field = v.DashboardValidationError.Field
+	retval.Code = v.DashboardValidationError.Code
+	retval.Message = v.DashboardValidationError.Message
+	retval.Constraints = v.DashboardValidationError.Constraints
+	return &retval, nil
 }
 
 // updateLogFilterResponse is returned by updateLogFilter on success.
@@ -11034,13 +11122,7 @@ mutation createDashboard ($input: CreateDashboardInput!) {
 		success
 		message
 		validationErrors {
-			field
-			code
-			message
-			constraints {
-				min
-				max
-			}
+			... DashboardValidationError
 		}
 		dashboard {
 			id
@@ -11071,6 +11153,15 @@ mutation createDashboard ($input: CreateDashboardInput!) {
 				width
 			}
 		}
+	}
+}
+fragment DashboardValidationError on DashboardValidationError {
+	field
+	code
+	message
+	constraints {
+		min
+		max
 	}
 }
 `
@@ -12239,13 +12330,7 @@ mutation updateDashboard ($input: UpdateDashboardInput!) {
 		success
 		message
 		validationErrors {
-			field
-			code
-			message
-			constraints {
-				min
-				max
-			}
+			... DashboardValidationError
 		}
 		dashboard {
 			id
@@ -12265,6 +12350,15 @@ mutation updateDashboard ($input: UpdateDashboardInput!) {
 			createdAt
 			updatedAt
 		}
+	}
+}
+fragment DashboardValidationError on DashboardValidationError {
+	field
+	code
+	message
+	constraints {
+		min
+		max
 	}
 }
 `

@@ -7,6 +7,57 @@ import (
 	"strings"
 )
 
+// Error implements the error interface for the genqlient-generated DashboardValidationError
+// type (see the DashboardValidationError fragment in graphql/dashboards.graphql), so it can
+// be used directly wherever a single field-level validation failure needs to be reported.
+func (e DashboardValidationError) Error() string {
+	msg := fmt.Sprintf("field=%s code=%s message=%s", e.Field, e.Code, e.Message)
+	if e.Constraints == nil || (e.Constraints.Min == nil && e.Constraints.Max == nil) {
+		return msg
+	}
+
+	constraint := ""
+	if e.Constraints.Min != nil {
+		constraint += fmt.Sprintf("min=%v", *e.Constraints.Min)
+	}
+	if e.Constraints.Max != nil {
+		if constraint != "" {
+			constraint += ", "
+		}
+		constraint += fmt.Sprintf("max=%v", *e.Constraints.Max)
+	}
+	return fmt.Sprintf("%s (%s)", msg, constraint)
+}
+
+// DashboardMutationError is returned when a create/update/delete dashboard mutation
+// fails. It implements the error interface, so existing callers keep working, but also
+// exposes the structured code, message and per-field validation errors so callers that
+// need them can access them programmatically (e.g. via errors.As) instead of parsing
+// the error string.
+type DashboardMutationError struct {
+	// Op describes the failed operation, e.g. "create dashboard".
+	Op string
+	// Code is the machine-readable, server-provided error code.
+	Code string
+	// Message is the human-readable, server-provided error message.
+	Message string
+	// ValidationErrors holds any field-level validation failures, if the server reported them.
+	ValidationErrors []DashboardValidationError
+}
+
+func (e *DashboardMutationError) Error() string {
+	msg := fmt.Sprintf("%s failed. code: %s message: %s", e.Op, e.Code, e.Message)
+	if len(e.ValidationErrors) == 0 {
+		return msg
+	}
+
+	details := make([]string, len(e.ValidationErrors))
+	for i, ve := range e.ValidationErrors {
+		details[i] = ve.Error()
+	}
+	return fmt.Sprintf("%s validationErrors: [%s]", msg, strings.Join(details, "; "))
+}
+
 type DashboardsService service
 
 type CreateDashboardResult = createDashboardCreateDashboardCreateDashboardResponseDashboard
@@ -32,49 +83,42 @@ func newDashboardsService(c *Client) *DashboardsService {
 	return &DashboardsService{c}
 }
 
-// dashboardValidationErrorDetail is a flattened, type-agnostic view of a single
-// validation error returned by the createDashboard/updateDashboard mutations.
-type dashboardValidationErrorDetail struct {
-	Field   string
-	Code    DashboardValidationErrorCode
-	Message string
-	Min     *float64
-	Max     *float64
+// newCreateDashboardValidationErrors unwraps the genqlient createDashboard response items
+// down to the shared, genqlient-generated DashboardValidationError type.
+func newCreateDashboardValidationErrors(
+	errs []createDashboardCreateDashboardCreateDashboardResponseValidationErrorsDashboardValidationError,
+) []DashboardValidationError {
+	if len(errs) == 0 {
+		return nil
+	}
+
+	out := make([]DashboardValidationError, len(errs))
+	for i, ve := range errs {
+		out[i] = ve.DashboardValidationError
+	}
+	return out
 }
 
-// formatDashboardValidationErrors renders per-field validation errors into a single
-// human-readable string, e.g.
-// " validationErrors: [field=widgets[0].properties.title code=REQUIRED message=... (min=1, max=10)]".
-func formatDashboardValidationErrors(validationErrors []dashboardValidationErrorDetail) string {
-	if len(validationErrors) == 0 {
-		return ""
+// newUpdateDashboardValidationErrors unwraps the genqlient updateDashboard response items
+// down to the shared, genqlient-generated DashboardValidationError type.
+func newUpdateDashboardValidationErrors(
+	errs []updateDashboardUpdateDashboardUpdateDashboardResponseValidationErrorsDashboardValidationError,
+) []DashboardValidationError {
+	if len(errs) == 0 {
+		return nil
 	}
 
-	details := make([]string, 0, len(validationErrors))
-	for _, ve := range validationErrors {
-		detail := fmt.Sprintf("field=%s code=%s message=%s", ve.Field, ve.Code, ve.Message)
-		if ve.Min != nil || ve.Max != nil {
-			constraint := ""
-			if ve.Min != nil {
-				constraint += fmt.Sprintf("min=%v", *ve.Min)
-			}
-			if ve.Max != nil {
-				if constraint != "" {
-					constraint += ", "
-				}
-				constraint += fmt.Sprintf("max=%v", *ve.Max)
-			}
-			detail += fmt.Sprintf(" (%s)", constraint)
-		}
-		details = append(details, detail)
+	out := make([]DashboardValidationError, len(errs))
+	for i, ve := range errs {
+		out[i] = ve.DashboardValidationError
 	}
-
-	return fmt.Sprintf(" validationErrors: [%s]", strings.Join(details, "; "))
+	return out
 }
 
 // Creates a new dashboard.
 func (service *DashboardsService) Create(ctx context.Context, input CreateDashboardInput) (*CreateDashboardResult, error) {
 	log.Printf("create dashboard request. name: %s", input.Name)
+
 
 	resp, err := doMutate(
 		func() (*createDashboardResponse, error) {
@@ -82,18 +126,12 @@ func (service *DashboardsService) Create(ctx context.Context, input CreateDashbo
 		},
 		func(resp *createDashboardResponse) error {
 			if !resp.CreateDashboard.Success {
-				details := make([]dashboardValidationErrorDetail, 0, len(resp.CreateDashboard.ValidationErrors))
-				for _, ve := range resp.CreateDashboard.ValidationErrors {
-					detail := dashboardValidationErrorDetail{Field: ve.Field, Code: ve.Code, Message: ve.Message}
-					if ve.Constraints != nil {
-						detail.Min, detail.Max = ve.Constraints.Min, ve.Constraints.Max
-					}
-					details = append(details, detail)
+				return &DashboardMutationError{
+					Op:               "create dashboard",
+					Code:             resp.CreateDashboard.Code,
+					Message:          resp.CreateDashboard.Message,
+					ValidationErrors: newCreateDashboardValidationErrors(resp.CreateDashboard.ValidationErrors),
 				}
-
-				return mutateError("create dashboard failed",
-					resp.CreateDashboard.Code,
-					resp.CreateDashboard.Message+formatDashboardValidationErrors(details))
 			}
 			return nil
 		})
@@ -135,18 +173,12 @@ func (service *DashboardsService) Update(ctx context.Context, input UpdateDashbo
 		},
 		func(resp *updateDashboardResponse) error {
 			if !resp.UpdateDashboard.Success {
-				details := make([]dashboardValidationErrorDetail, 0, len(resp.UpdateDashboard.ValidationErrors))
-				for _, ve := range resp.UpdateDashboard.ValidationErrors {
-					detail := dashboardValidationErrorDetail{Field: ve.Field, Code: ve.Code, Message: ve.Message}
-					if ve.Constraints != nil {
-						detail.Min, detail.Max = ve.Constraints.Min, ve.Constraints.Max
-					}
-					details = append(details, detail)
+				return &DashboardMutationError{
+					Op:               "update dashboard",
+					Code:             resp.UpdateDashboard.Code,
+					Message:          resp.UpdateDashboard.Message,
+					ValidationErrors: newUpdateDashboardValidationErrors(resp.UpdateDashboard.ValidationErrors),
 				}
-
-				return mutateError("update dashboard failed",
-					resp.UpdateDashboard.Code,
-					resp.UpdateDashboard.Message+formatDashboardValidationErrors(details))
 			}
 			return nil
 		})
