@@ -119,7 +119,6 @@ func newUpdateDashboardValidationErrors(
 func (service *DashboardsService) Create(ctx context.Context, input CreateDashboardInput) (*CreateDashboardResult, error) {
 	log.Printf("create dashboard request. name: %s", input.Name)
 
-
 	resp, err := doMutate(
 		func() (*createDashboardResponse, error) {
 			return createDashboard(ctx, service.client.gql, input)
