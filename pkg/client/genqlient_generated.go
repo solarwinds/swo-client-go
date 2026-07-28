@@ -703,7 +703,6 @@ const (
 	DashboardValidationErrorCodeOrphanedLayout      DashboardValidationErrorCode = "ORPHANED_LAYOUT"
 	DashboardValidationErrorCodeOrphanedWidget      DashboardValidationErrorCode = "ORPHANED_WIDGET"
 	DashboardValidationErrorCodeDuplicateEntry      DashboardValidationErrorCode = "DUPLICATE_ENTRY"
-	DashboardValidationErrorCodeNotFound            DashboardValidationErrorCode = "NOT_FOUND"
 	DashboardValidationErrorCodeUnsupportedVersion  DashboardValidationErrorCode = "UNSUPPORTED_VERSION"
 )
 
@@ -722,7 +721,6 @@ var AllDashboardValidationErrorCode = []DashboardValidationErrorCode{
 	DashboardValidationErrorCodeOrphanedLayout,
 	DashboardValidationErrorCodeOrphanedWidget,
 	DashboardValidationErrorCodeDuplicateEntry,
-	DashboardValidationErrorCodeNotFound,
 	DashboardValidationErrorCodeUnsupportedVersion,
 }
 
