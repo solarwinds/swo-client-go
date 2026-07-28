@@ -101,6 +101,7 @@ func TestSwoService_UpdateCircleCIConnection(t *testing.T) {
 	inputId := uuid.NewString()
 	inputName := "updated-name"
 	inputToken := "new-token"
+	inputTokenName := "CI reader"
 	output := &updateCircleCIConnectionResponse{
 		Vcs: updateCircleCIConnectionVcsVcsMutations{
 			UpdateCircleCIConnection: updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection{
@@ -126,11 +127,14 @@ func TestSwoService_UpdateCircleCIConnection(t *testing.T) {
 		if *gqlInput.ApiToken != inputToken {
 			t.Errorf("Request apiToken got = %+v, want = %+v", *gqlInput.ApiToken, inputToken)
 		}
+		if *gqlInput.ApiTokenName != inputTokenName {
+			t.Errorf("Request apiTokenName got = %+v, want = %+v", *gqlInput.ApiTokenName, inputTokenName)
+		}
 
 		sendGraphQLResponse(t, w, output)
 	})
 
-	got, err := client.CircleCIIntegrationService().Update(ctx, inputId, &inputName, &inputToken)
+	got, err := client.CircleCIIntegrationService().Update(ctx, inputId, &inputName, &inputToken, &inputTokenName)
 	if err != nil {
 		t.Errorf("Swo.UpdateCircleCIConnection returned error: %v", err)
 	}

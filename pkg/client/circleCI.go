@@ -15,7 +15,7 @@ type UpdateCircleCIConnectionResult = updateCircleCIConnectionVcsVcsMutationsUpd
 type CircleCIIntegrationCommunicator interface {
 	Create(ctx context.Context, name string, apiToken *string) (*CreateCircleCIConnectionResult, error)
 	Read(ctx context.Context, id string) (*ReadCircleCIConnectionResult, error)
-	Update(ctx context.Context, id string, name *string, apiToken *string) (*UpdateCircleCIConnectionResult, error)
+	Update(ctx context.Context, id string, name *string, apiToken *string, apiTokenName *string) (*UpdateCircleCIConnectionResult, error)
 	Delete(ctx context.Context, id string) error
 }
 
@@ -55,10 +55,10 @@ func (s *CircleCIIntegrationService) Read(ctx context.Context, id string) (*Read
 }
 
 // Updates the CircleCI connection with the given id.
-func (s *CircleCIIntegrationService) Update(ctx context.Context, id string, name *string, apiToken *string) (*UpdateCircleCIConnectionResult, error) {
+func (s *CircleCIIntegrationService) Update(ctx context.Context, id string, name *string, apiToken *string, apiTokenName *string) (*UpdateCircleCIConnectionResult, error) {
 	log.Printf("update CircleCI connection request. id=%s", id)
 
-	resp, err := updateCircleCIConnection(ctx, s.client.gql, id, name, apiToken)
+	resp, err := updateCircleCIConnection(ctx, s.client.gql, id, name, apiToken, apiTokenName)
 	if err != nil {
 		return nil, err
 	}

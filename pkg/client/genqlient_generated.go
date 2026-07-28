@@ -1468,9 +1468,10 @@ func (v *__updateAlertDefinitionMutationInput) GetUpdateAlertDefinitionId() stri
 
 // __updateCircleCIConnectionInput is used internally by genqlient
 type __updateCircleCIConnectionInput struct {
-	Id       string  `json:"id"`
-	Name     *string `json:"name"`
-	ApiToken *string `json:"apiToken"`
+	Id           string  `json:"id"`
+	Name         *string `json:"name"`
+	ApiToken     *string `json:"apiToken"`
+	ApiTokenName *string `json:"apiTokenName"`
 }
 
 // GetId returns __updateCircleCIConnectionInput.Id, and is useful for accessing the field via an interface.
@@ -1481,6 +1482,9 @@ func (v *__updateCircleCIConnectionInput) GetName() *string { return v.Name }
 
 // GetApiToken returns __updateCircleCIConnectionInput.ApiToken, and is useful for accessing the field via an interface.
 func (v *__updateCircleCIConnectionInput) GetApiToken() *string { return v.ApiToken }
+
+// GetApiTokenName returns __updateCircleCIConnectionInput.ApiTokenName, and is useful for accessing the field via an interface.
+func (v *__updateCircleCIConnectionInput) GetApiTokenName() *string { return v.ApiTokenName }
 
 // __updateDashboardInput is used internally by genqlient
 type __updateDashboardInput struct {
@@ -12012,9 +12016,9 @@ func updateAlertDefinitionMutation(
 
 // The mutation executed by updateCircleCIConnection.
 const updateCircleCIConnection_Operation = `
-mutation updateCircleCIConnection ($id: ID!, $name: String, $apiToken: String) {
+mutation updateCircleCIConnection ($id: ID!, $name: String, $apiToken: String, $apiTokenName: String) {
 	vcs {
-		updateCircleCIConnection(id: $id, name: $name, apiToken: $apiToken) {
+		updateCircleCIConnection(id: $id, name: $name, apiToken: $apiToken, apiTokenName: $apiTokenName) {
 			id
 			name
 			secretToken
@@ -12029,14 +12033,16 @@ func updateCircleCIConnection(
 	id string,
 	name *string,
 	apiToken *string,
+	apiTokenName *string,
 ) (data_ *updateCircleCIConnectionResponse, err_ error) {
 	req_ := &graphql.Request{
 		OpName: "updateCircleCIConnection",
 		Query:  updateCircleCIConnection_Operation,
 		Variables: &__updateCircleCIConnectionInput{
-			Id:       id,
-			Name:     name,
-			ApiToken: apiToken,
+			Id:           id,
+			Name:         name,
+			ApiToken:     apiToken,
+			ApiTokenName: apiTokenName,
 		},
 	}
 

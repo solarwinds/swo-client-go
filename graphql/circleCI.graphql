@@ -18,9 +18,19 @@ mutation createCircleCIConnection($name: String!, $apiToken: String) {
   }
 }
 
-mutation updateCircleCIConnection($id: ID!, $name: String, $apiToken: String) {
+mutation updateCircleCIConnection(
+  $id: ID!
+  $name: String
+  $apiToken: String
+  $apiTokenName: String
+) {
   vcs {
-    updateCircleCIConnection(id: $id, name: $name, apiToken: $apiToken) {
+    updateCircleCIConnection(
+      id: $id
+      name: $name
+      apiToken: $apiToken
+      apiTokenName: $apiTokenName
+    ) {
       id
       name
       secretToken
