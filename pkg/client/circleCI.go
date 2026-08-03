@@ -13,7 +13,7 @@ type ReadCircleCIConnectionResult = getCircleCIConnectionVcsVcsQueriesGetCircleC
 type UpdateCircleCIConnectionResult = updateCircleCIConnectionVcsVcsMutationsUpdateCircleCIConnectionVcsCircleCIConnection
 
 type CircleCIIntegrationCommunicator interface {
-	Create(ctx context.Context, name string, apiToken *string) (*CreateCircleCIConnectionResult, error)
+	Create(ctx context.Context, name string, apiToken *string, apiTokenName *string) (*CreateCircleCIConnectionResult, error)
 	Read(ctx context.Context, id string) (*ReadCircleCIConnectionResult, error)
 	Update(ctx context.Context, id string, name *string, apiToken *string, apiTokenName *string) (*UpdateCircleCIConnectionResult, error)
 	Delete(ctx context.Context, id string) error
@@ -24,10 +24,10 @@ func newCircleCIIntegrationService(c *Client) *CircleCIIntegrationService {
 }
 
 // Creates a new CircleCI connection with the given name and optional API token.
-func (s *CircleCIIntegrationService) Create(ctx context.Context, name string, apiToken *string) (*CreateCircleCIConnectionResult, error) {
+func (s *CircleCIIntegrationService) Create(ctx context.Context, name string, apiToken *string, apiTokenName *string) (*CreateCircleCIConnectionResult, error) {
 	log.Printf("create CircleCI connection request. name=%s", name)
 
-	resp, err := createCircleCIConnection(ctx, s.client.gql, name, apiToken)
+	resp, err := createCircleCIConnection(ctx, s.client.gql, name, apiToken, apiTokenName)
 	if err != nil {
 		return nil, err
 	}

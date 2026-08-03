@@ -56,6 +56,7 @@ func TestSwoService_CreateCircleCIConnection(t *testing.T) {
 
 	inputName := "my-circleci"
 	inputToken := "cci-token-123"
+	inputTokenName := "CI reader"
 	output := &createCircleCIConnectionResponse{
 		Vcs: createCircleCIConnectionVcsVcsMutations{
 			CreateCircleCIConnection: createCircleCIConnectionVcsVcsMutationsCreateCircleCIConnectionVcsCircleCIConnection{
@@ -78,11 +79,14 @@ func TestSwoService_CreateCircleCIConnection(t *testing.T) {
 		if *gqlInput.ApiToken != inputToken {
 			t.Errorf("Request apiToken got = %+v, want = %+v", *gqlInput.ApiToken, inputToken)
 		}
+		if *gqlInput.ApiTokenName != inputTokenName {
+			t.Errorf("Request apiTokenName got = %+v, want = %+v", *gqlInput.ApiTokenName, inputTokenName)
+		}
 
 		sendGraphQLResponse(t, w, output)
 	})
 
-	got, err := client.CircleCIIntegrationService().Create(ctx, inputName, &inputToken)
+	got, err := client.CircleCIIntegrationService().Create(ctx, inputName, &inputToken, &inputTokenName)
 	if err != nil {
 		t.Errorf("Swo.CreateCircleCIConnection returned error: %v", err)
 	}
