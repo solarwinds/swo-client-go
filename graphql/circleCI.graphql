@@ -8,9 +8,17 @@ query getCircleCIConnection($id: ID!) {
   }
 }
 
-mutation createCircleCIConnection($name: String!, $apiToken: String) {
+mutation createCircleCIConnection(
+  $name: String!
+  $apiToken: String
+  $apiTokenName: String
+) {
   vcs {
-    createCircleCIConnection(name: $name, apiToken: $apiToken) {
+    createCircleCIConnection(
+      name: $name
+      apiToken: $apiToken
+      apiTokenName: $apiTokenName
+    ) {
       id
       name
       secretToken
@@ -18,9 +26,19 @@ mutation createCircleCIConnection($name: String!, $apiToken: String) {
   }
 }
 
-mutation updateCircleCIConnection($id: ID!, $name: String, $apiToken: String) {
+mutation updateCircleCIConnection(
+  $id: ID!
+  $name: String
+  $apiToken: String
+  $apiTokenName: String
+) {
   vcs {
-    updateCircleCIConnection(id: $id, name: $name, apiToken: $apiToken) {
+    updateCircleCIConnection(
+      id: $id
+      name: $name
+      apiToken: $apiToken
+      apiTokenName: $apiTokenName
+    ) {
       id
       name
       secretToken

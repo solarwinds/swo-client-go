@@ -33433,8 +33433,8 @@ type VcsQueries {
 }
 
 type VcsMutations {
-  createCircleCIConnection(name: String!, apiToken: String): VcsCircleCIConnection!
-  updateCircleCIConnection(id: ID!, name: String, apiToken: String): VcsCircleCIConnection!
+  createCircleCIConnection(name: String!, apiToken: String, apiTokenName: String): VcsCircleCIConnection!
+  updateCircleCIConnection(id: ID!, name: String, apiToken: String, apiTokenName: String): VcsCircleCIConnection!
   deleteCircleCIConnection(id: ID!): VcsDeleteResponse!
 }
 
@@ -33446,6 +33446,7 @@ type VcsCircleCIConnection {
   createdAt: String!
   expiresAt: String
   isExpired: Boolean!
+  apiTokenName: String
   projects: [VcsCircleCIProject!]!
 }
 
