@@ -12847,6 +12847,36 @@ type CreateCategoryResponse {
   category: DashboardCategory
 }
 
+enum DashboardValidationErrorCode {
+  REQUIRED
+  MAX_LENGTH
+  MIN
+  MAX
+  NON_ZERO
+  INVALID_RANGE
+  GREATER_THAN_MIN
+  INVALID_VALUE
+  THRESHOLD_CONFLICT
+  THRESHOLD_RANGE
+  UNSUPPORTED_DATA_TYPE
+  ORPHANED_LAYOUT
+  ORPHANED_WIDGET
+  DUPLICATE_ENTRY
+  UNSUPPORTED_VERSION
+}
+
+type NumericRangeConstraint {
+  min: Float
+  max: Float
+}
+
+type DashboardValidationError {
+  field: String!
+  code: DashboardValidationErrorCode!
+  message: String!
+  constraints: NumericRangeConstraint
+}
+
 input CreateDashboardInput {
   version: Int
   name: String!
@@ -12856,6 +12886,8 @@ input CreateDashboardInput {
   categoryId: ID
   widgets: [WidgetInput!]!
   layout: [LayoutInput!]!
+  enableValidation: Boolean
+  validationVersion: Int
 }
 
 type CreateDashboardResponse {
@@ -12863,6 +12895,7 @@ type CreateDashboardResponse {
   success: Boolean!
   message: String!
   dashboard: Dashboard
+  validationErrors: [DashboardValidationError!]
 }
 
 union CreateEntityGroupResult =
@@ -30802,6 +30835,8 @@ input UpdateDashboardInput {
   widgets: [WidgetInput!]!
   layout: [LayoutInput!]!
   version: Int
+  enableValidation: Boolean
+  validationVersion: Int
 }
 
 type UpdateDashboardResponse {
@@ -30809,6 +30844,7 @@ type UpdateDashboardResponse {
   success: Boolean!
   message: String!
   dashboard: Dashboard
+  validationErrors: [DashboardValidationError!]
 }
 
 input UpdateDatabaseRequest {
